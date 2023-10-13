@@ -9,9 +9,11 @@ import java.util.Scanner;
 
 public class Login {
     private static final String USERS_FILE = "src/resources/json/users.json";
+    private static final String EARRINGS_FILE = "src/resources/json/Earringsproducts.json";
+    private static final String RINGS_FILE = "src/resources/json/Ringsproducts.json";
     private static final int MAX_ATTEMPTS = 5;
 
-    public static void main(String[] args) {
+    public static void login() {
         JSONArray jsonArray = loadUsersData();
         Scanner scanner = new Scanner(System.in);
         String loggedInEmpID = null;
@@ -27,16 +29,12 @@ public class Login {
             Product p1 = new Product();
             Rings r1 = new Rings();
             Earring e1 = new Earring();
-            // แสดงรหัสผ่านปกติ
-            // System.out.print("Enter Password: ");
-            // String inputPassword = scanner.next();
-            // แสดงรหัสผ่านปกติ
+            Manager m1 = new Manager(inputUsername, inputUsername, loggedInUser, loggedInEmpName, inputUsername,
+                    attempts);
 
-            // ไม่แสดงรหัสผ่าน
             System.out.print("Enter Password: ");
             char[] passwordChars = System.console().readPassword();
             String inputPassword = new String(passwordChars);
-            // ไม่แสดงรหัสผ่าน
 
             isAuthenticated = authenticate(jsonArray, inputUsername, inputPassword);
 
@@ -55,16 +53,112 @@ public class Login {
                         System.out.println("Employee ID: " + loggedInEmpID);
 
                         String role = loggedInEmpID.substring(0, 1);
+                        int option = 0;
+
                         if (role.equals("M")) {
                             System.out.println("Role: Manager");
-                            p1.viewMenu();
-                            // เพิ่มโค้ดที่คุณต้องการทำเมื่อเป็น Manager
+                            option = 1;
                         } else if (role.equals("C")) {
                             System.out.println("Role: Cashier");
-                            // เพิ่มโค้ดที่คุณต้องการทำเมื่อเป็น Cashier
+                            option = 2;
                         }
 
-                        break; // หลุดจากลูปหลักเมื่อตรวจสอบผู้ใช้สำเร็จ
+                        if (option == 1) {
+                            // Manager options
+                            System.out.println("กรุณาเลือกรายการ:");
+                            System.out.println("1. View Menu");
+                            System.out.println("2. Add Menu");
+                            System.out.println("3. Delete Menu");
+                            System.out.println("4. Edit Menu");
+                            System.out.println("5. Receipt");
+
+                            int choice = scanner.nextInt();
+
+                            switch (choice) {
+                                case 1:
+                                    p1.viewMenu();
+                                    break;
+                                case 2:
+                                    System.out.println("Choose product type:");
+                                    System.out.println("1. Earrings");
+                                    System.out.println("2. Rings");
+
+                                    int productTypeChoice = scanner.nextInt();
+
+                                    if (productTypeChoice == 1) {
+                                        m1.addEarring();
+                                    } else if (productTypeChoice == 2) {
+                                        m1.addRing();
+                                    } else {
+                                        System.out.println("Invalid product type choice!");
+                                    }
+                                    break;
+                                case 3:
+                                    System.out.println("Choose product type:");
+                                    System.out.println("1. Earrings");
+                                    System.out.println("2. Rings");
+
+                                    int productTypeChoice2 = scanner.nextInt();
+
+                                    if (productTypeChoice2 == 1) {
+                                        m1.deleteEarring();
+                                    } else if (productTypeChoice2 == 2) {
+                                        m1.deleteRing();
+                                    } else {
+                                        System.out.println("Invalid product type choice!");
+                                    }
+                                    break;
+                                case 4:
+                                    System.out.println("Select product category:");
+                                    System.out.println("1. Earrings");
+                                    System.out.println("2. Rings");
+
+                                    int categoryChoice = scanner.nextInt();
+
+                                    switch (categoryChoice) {
+                                        case 1:
+                                            m1.displayAllProducts(EARRINGS_FILE);
+                                            m1.editProduct(EARRINGS_FILE);
+                                            break;
+                                        case 2:
+                                            m1.displayAllProducts(RINGS_FILE);
+                                            m1.editProduct(RINGS_FILE);
+                                            break;
+                                        default:
+                                            System.out.println("Invalid choice. Exiting...");
+                                    }
+                                    break;
+                                case 5:
+                                    System.out.println("Not implemented yet");
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice");
+                            }
+                        } else if (option == 2) {
+                            // Cashier options
+                            System.out.println("กรุณาเลือกรายการ:");
+                            System.out.println("1. View Menu");
+                            System.out.println("2. Order");
+                            System.out.println("3. Receipt");
+
+                            int choice = scanner.nextInt();
+
+                            switch (choice) {
+                                case 1:
+                                    p1.viewMenu();
+                                    break;
+                                case 2:
+                                    System.out.println("สั่งสินค้า");
+                                    break;
+                                case 3:
+                                    System.out.println("Not implemented yet");
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice");
+                            }
+                        }
+
+                        break; // Exit the main loop when the user is authenticated
                     }
                 }
             } else {
@@ -93,9 +187,9 @@ public class Login {
             String storedPassword = (String) user.get("Password");
 
             if (username.equals(storedUsername) && password.equals(storedPassword)) {
-                return true; // พบข้อมูลที่ตรงกัน
+                return true; // Matching credentials found
             }
         }
-        return false; // ไม่พบข้อมูลที่ตรงกัน
+        return false; // No matching credentials found
     }
 }
