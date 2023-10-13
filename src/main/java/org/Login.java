@@ -5,9 +5,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Login {
+    private static final String LOGIN_MOVEMENT_FILE = "src/resources/json/Login_movement.json";
     private static final String USERS_FILE = "src/resources/json/users.json";
     private static final String EARRINGS_FILE = "src/resources/json/Earringsproducts.json";
     private static final String RINGS_FILE = "src/resources/json/Ringsproducts.json";
@@ -64,7 +68,6 @@ public class Login {
                         }
 
                         if (option == 1) {
-                            // Manager options
                             System.out.println("กรุณาเลือกรายการ:");
                             System.out.println("1. View Menu");
                             System.out.println("2. Add Menu");
@@ -135,7 +138,6 @@ public class Login {
                                     System.out.println("Invalid choice");
                             }
                         } else if (option == 2) {
-                            // Cashier options
                             System.out.println("กรุณาเลือกรายการ:");
                             System.out.println("1. View Menu");
                             System.out.println("2. Order");
@@ -157,6 +159,8 @@ public class Login {
                                     System.out.println("Invalid choice");
                             }
                         }
+
+                        updateLoginMovement(loggedInUser, loggedInEmpID, loggedInEmpName, "YourPhone");
 
                         break; // Exit the main loop when the user is authenticated
                     }
@@ -191,5 +195,59 @@ public class Login {
             }
         }
         return false; // No matching credentials found
+    }
+
+    private static void updateLoginMovement(String username, String empID, String empName, String phone) {
+        try {
+            JSONArray loginMovementArray;
+            try (FileReader fileReader = new FileReader(LOGIN_MOVEMENT_FILE)) {
+                if (fileReader.read() == -1) {
+                    loginMovementArray = new JSONArray();
+                } else {
+                    loginMovementArray = (JSONArray) new JSONParser().parse(new FileReader(LOGIN_MOVEMENT_FILE));
+                }
+            }
+
+            JSONObject loginMovementData = new JSONObject();
+            loginMovementData.put("EmpID", empID);
+            loginMovementData.put("Username", username);
+            loginMovementData.put("EmpName", empName);
+            loginMovementData.put("Phone", phone);
+            loginMovementData.put("LoginSequence", getNextLoginSequence());
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedTime = sdf.format(new Date());
+
+            loginMovementData.put("LoginTime", formattedTime);
+
+            loginMovementArray.add(0, loginMovementData);
+
+            try (FileWriter fileWriter = new FileWriter(LOGIN_MOVEMENT_FILE)) {
+                fileWriter.write(loginMovementArray.toJSONString() + "\n");
+                System.out.println("Login movement data updated.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error updating login movement data: " + e.getMessage());
+        }
+    }
+
+    private static long getNextLoginSequence() {
+        try {
+            JSONArray loginMovementArray;
+            try (FileReader fileReader = new FileReader(LOGIN_MOVEMENT_FILE)) {
+                if (fileReader.read() == -1) {
+                    loginMovementArray = new JSONArray();
+                } else {
+                    loginMovementArray = (JSONArray) new JSONParser().parse(new FileReader(LOGIN_MOVEMENT_FILE));
+                }
+            }
+
+            long maxSequence = loginMovementArray.size();
+
+            return maxSequence + 1;
+        } catch (Exception e) {
+            System.out.println("Error getting next login sequence: " + e.getMessage());
+            return 1;
+        }
     }
 }
