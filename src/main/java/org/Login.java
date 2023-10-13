@@ -48,17 +48,15 @@ public class Login {
                         loggedInUser = storedUsername;
                         loggedInEmpID = (String) user.get("EmpID");
                         loggedInEmpName = (String) user.get("EmpName");
-
+                        System.out.println();
                         System.out.println("Access Granted! Welcome, " + loggedInUser + "!");
                         System.out.println("Employee ID: " + loggedInEmpID);
 
                         String role = loggedInEmpID.substring(0, 1);
                         if (role.equals("M")) {
-                            System.out.println("Employee Name: " + loggedInEmpName);
                             System.out.println("Role: Manager");
                             // เพิ่มโค้ดที่คุณต้องการทำเมื่อเป็น Manager
                         } else if (role.equals("C")) {
-                            System.out.println("Employee Name: " + loggedInEmpName);
                             System.out.println("Role: Cashier");
                             // เพิ่มโค้ดที่คุณต้องการทำเมื่อเป็น Cashier
                         }
@@ -70,12 +68,6 @@ public class Login {
                 attempts++;
                 System.out.println("Authentication failed! Remaining attempts: " + (MAX_ATTEMPTS - attempts));
             }
-        }
-
-        if (isAuthenticated) {
-            System.out.println("Welcome!");
-        } else {
-            System.out.println("Authentication failed! Maximum attempts reached.");
         }
 
         scanner.close();

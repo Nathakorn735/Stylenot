@@ -3,7 +3,7 @@
     "EmpID": "M721",
     "EmpName": "Kongkeart Narakulmongkol",
     "Username": "Kaen",
-    "Password": "1234",
+    "Password": "1",
     "Salary": 300000.0,
     "Phone": "0873961801",
     "Age": 20
@@ -19,9 +19,9 @@
   },
   {
     "EmpID": "C749",
-    "EmpName": "Peter Parker",
+    "EmpName": "Yada",
     "Username": "Peter",
-    "Password": "123456789",
+    "Password": "1",
     "Salary": 15000.0,
     "Phone": "0987654321",
     "Age": 22
@@ -30,7 +30,7 @@
     "EmpID": "C428",
     "EmpName": "Juthatip aekchusit",
     "Username": "Mei",
-    "Password": "654321",
+    "Password": "1",
     "Salary": 12000.0,
     "Phone": "0981234567",
     "Age": 20
