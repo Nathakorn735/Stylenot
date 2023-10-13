@@ -1,54 +1,57 @@
 package main.java.org;
 
-import java.io.FileReader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.io.FileReader;
+import java.util.Scanner;
+
 public class Login {
-    private static final String USERS_FILE = "resources/json/users.json";
+    private static final String USERS_FILE = "src/resources/json/users.json";
 
-    private String username;
-    private String password;
+    public static void main(String[] args) {
+        JSONArray jsonArray = loadUsersData();
+        Scanner scanner = new Scanner(System.in);
 
-    public Login(String username, String password) {
-        this.username = username;
-        this.password = password;
+        System.out.print("Enter Username: ");
+        String inputUsername = scanner.next();
+
+        System.out.print("Enter Password: ");
+        String inputPassword = scanner.next();
+
+        boolean isAuthenticated = authenticate(jsonArray, inputUsername, inputPassword);
+
+        if (isAuthenticated) {
+            System.out.println("Welcome!");
+        } else {
+            System.out.println("Authentication failed!");
+        }
+
+        scanner.close();
     }
 
-    public void authenticate() {
+    private static JSONArray loadUsersData() {
         try {
-            JSONParser jsonParser = new JSONParser();
-            JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader(USERS_FILE));
-
-            boolean isAuthenticated = false;
-
-            for (Object obj : jsonArray) {
-                JSONObject jsonObject = (JSONObject) obj;
-
-                String storedUsername = (String) jsonObject.get("Username");
-                String storedPassword = (String) jsonObject.get("Password");
-
-                if (username.equals(storedUsername) && password.equals(storedPassword)) {
-                    isAuthenticated = true;
-                    break;
-                }
-            }
-
-            if (isAuthenticated) {
-                System.out.println("Authentication successful. Welcome, " + username + "!");
-            } else {
-                System.out.println("Invalid credentials. Authentication failed.");
-            }
-
+            JSONParser parser = new JSONParser();
+            return (JSONArray) parser.parse(new FileReader(USERS_FILE));
         } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
+            System.out.println("An error occurred while loading user data: " + e.getMessage());
+            return new JSONArray();
         }
     }
 
-    public static void main(String[] args) {
-        // Example usage
-        Login login = new Login("Peter", "123456789");
-        login.authenticate();
+    private static boolean authenticate(JSONArray jsonArray, String username, String password) {
+        for (Object obj : jsonArray) {
+            JSONObject user = (JSONObject) obj;
+
+            String storedUsername = (String) user.get("Username");
+            String storedPassword = (String) user.get("Password");
+
+            if (username.equals(storedUsername) && password.equals(storedPassword)) {
+                return true; // พบข้อมูลที่ตรงกัน
+            }
+        }
+        return false; // ไม่พบข้อมูลที่ตรงกัน
     }
 }

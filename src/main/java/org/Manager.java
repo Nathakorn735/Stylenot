@@ -1,6 +1,6 @@
 package main.java.org;
 
-public class Manager extends User{
+public class Manager extends Users{
 
     public Manager(String userId, String usernam, String password, String firstName, String lastName,
 double salary ){
