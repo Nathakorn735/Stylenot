@@ -5,15 +5,16 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-public class Rings extends Product {
-    public void viewMenuRings() {
+public class Product {
+    public void viewMenu() {
         try {
-
+            JSONArray earringsArray = (JSONArray) new JSONParser()
+                    .parse(new FileReader("src/resources/json/Earringsproducts.json"));
             JSONArray ringsArray = (JSONArray) new JSONParser()
                     .parse(new FileReader("src/resources/json/Ringsproducts.json"));
 
             JSONArray combinedArray = new JSONArray();
-
+            combinedArray.addAll(earringsArray);
             combinedArray.addAll(ringsArray);
 
             System.out.println(

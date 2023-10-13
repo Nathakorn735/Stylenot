@@ -24,7 +24,9 @@ public class Login {
         while (!isAuthenticated && attempts < MAX_ATTEMPTS) {
             System.out.print("Enter Username: ");
             String inputUsername = scanner.next();
-
+            Product p1 = new Product();
+            Rings r1 = new Rings();
+            Earring e1 = new Earring();
             // แสดงรหัสผ่านปกติ
             // System.out.print("Enter Password: ");
             // String inputPassword = scanner.next();
@@ -55,6 +57,7 @@ public class Login {
                         String role = loggedInEmpID.substring(0, 1);
                         if (role.equals("M")) {
                             System.out.println("Role: Manager");
+                            p1.viewMenu();
                             // เพิ่มโค้ดที่คุณต้องการทำเมื่อเป็น Manager
                         } else if (role.equals("C")) {
                             System.out.println("Role: Cashier");
