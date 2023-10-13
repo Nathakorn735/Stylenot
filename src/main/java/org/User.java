@@ -1,6 +1,6 @@
 package main.java.org;
 
-public class Users {
+public class User {
     protected String userId;
     protected String username;
     protected String password;
@@ -10,7 +10,7 @@ public class Users {
 
 
     
-    public Users(String userId, String username, String password, String firstName, String lastName, double salary) {
+    public User(String userId, String username, String password, String firstName, String lastName, double salary) {
         this.userId = userId;
         this.username = username;
         this.password = password;
