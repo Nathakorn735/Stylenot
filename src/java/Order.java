@@ -1,3 +1,5 @@
+package java;
+
 public class Order {
     protected int stock;
     protected String color;

@@ -1,3 +1,5 @@
+package java;
+
 public class User {
     protected String userId;
     protected String username;

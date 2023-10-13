@@ -1,3 +1,5 @@
+package java;
+
 public class Manager extends User{
 
     public Manager(String userId, String usernam, String password, String firstName, String lastName,
