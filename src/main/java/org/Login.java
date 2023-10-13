@@ -25,8 +25,8 @@ public class Login {
             System.out.print("Enter Username: ");
             String inputUsername = scanner.next();
 
-            System.out.print("Enter Password: ");
             // แสดงรหัสผ่านปกติ
+            // System.out.print("Enter Password: ");
             // String inputPassword = scanner.next();
             // แสดงรหัสผ่านปกติ
 
