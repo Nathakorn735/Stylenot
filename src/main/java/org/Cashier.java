@@ -1,4 +1,4 @@
-package java;
+package main.java.org;
 
 public class Cashier extends User {
     
