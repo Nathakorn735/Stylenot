@@ -1,10 +1,9 @@
 package main.java.org;
 
 public class Cashier extends User {
-    
-    public Cashier (String userId, String usernam, String password, String firstName, String lastName,
-    double salary ){
-        super(userId, usernam, password, firstName, lastName, salary);
+    public Cashier(String userId, String username, String password, String firstName, String lastName) {
+        super(userId, username, password, firstName, lastName);
     }
 
+    // เพิ่มเมธอดหรือโค้ดที่คุณต้องการทำเมื่อเป็น Cashier
 }

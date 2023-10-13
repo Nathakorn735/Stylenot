@@ -1,20 +1,14 @@
 package main.java.org;
 
-import java.io.FileReader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+
+import java.io.FileReader;
 
 public class Rings extends Product {
     public void viewMenuRings() {
         try {
-
-            JSONArray ringsArray = (JSONArray) new JSONParser()
-                    .parse(new FileReader("src/resources/json/Ringsproducts.json"));
-
-            JSONArray combinedArray = new JSONArray();
-
-            combinedArray.addAll(ringsArray);
+            JSONArray combinedArray = getCombinedProductArray("src/resources/json/Ringsproducts.json");
 
             System.out.println(
                     "========================================================================================================================");
@@ -64,4 +58,15 @@ public class Rings extends Product {
         }
     }
 
+    private JSONArray getCombinedProductArray(String filePath) throws Exception {
+        JSONArray earringsArray = (JSONArray) new JSONParser()
+                .parse(new FileReader("src/resources/json/Earringsproducts.json"));
+        JSONArray ringsArray = (JSONArray) new JSONParser().parse(new FileReader(filePath));
+
+        JSONArray combinedArray = new JSONArray();
+        combinedArray.addAll(earringsArray);
+        combinedArray.addAll(ringsArray);
+
+        return combinedArray;
+    }
 }
