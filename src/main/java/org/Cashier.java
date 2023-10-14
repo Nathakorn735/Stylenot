@@ -79,7 +79,7 @@ public class Cashier extends User {
     private static void orderProduct(JSONArray selectedProducts, String productType, String productFile) {
         try {
             boolean continueOrdering = true;
-
+    
             do {
                 JSONArray productsArray = readJSONArrayFromFile(productFile);
                 System.out.println(
@@ -93,7 +93,7 @@ public class Cashier extends User {
                     System.out.println("No " + productType + " found.");
                     return;
                 }
-
+    
                 displayProductList(productsArray);
                 System.out.println(
                         "======================================================================================================");
@@ -102,13 +102,13 @@ public class Cashier extends User {
                 String productIDToOrder = scanner.next();
                 System.out.print("Enter the quantity to Order: ");
                 int quantityToOrder = scanner.nextInt();
-
+    
                 if (!removeStoredItemByID(productsArray, productIDToOrder, quantityToOrder)) {
                     System.out.println("ProductID not found or insufficient quantity.");
                 } else {
                     int receiptId = generateReceiptId();
                     JSONObject orderedProduct = createProduct(productIDToOrder, quantityToOrder, receiptId);
-
+    
                     // Check if the product already exists in selectedProducts
                     boolean productExists = false;
                     for (Object obj : selectedProducts) {
@@ -120,19 +120,15 @@ public class Cashier extends User {
                             break;
                         }
                     }
-
+    
                     if (!productExists) {
                         selectedProducts.add(orderedProduct);
                     }
-
-                    // Add the selectedProducts to the existing productsArray
-                    productsArray.addAll(selectedProducts);
-
-                    saveJSONArrayToFile(productsArray, productFile);
-                    saveReceiptToFile(orderedProduct, RECEIPT_FILE);
+    
+                    saveReceiptToFile(orderedProduct, RECEIPT_FILE); // บันทึกลงในไฟล์ RECEIPT_FILE เท่านั้น
                     System.out.println(productType + " Order successfully!");
                 }
-
+    
                 System.out.print(
                         "Do you want to order another " + productType + "? (Type 'N' to exit, 'Y' to continue): ");
                 String userInput = scanner.next();
@@ -140,13 +136,14 @@ public class Cashier extends User {
                     continueOrdering = false;
                 }
             } while (continueOrdering);
-
-            displaySelectedProducts(selectedProducts, "Selected " + productType);
-
+    
+            displaySelectedProducts(selectedProducts, "Selected " + productType, productFile);
+    
         } catch (Exception e) {
             System.out.println("Error ordering " + productType + ": " + e.getMessage());
         }
     }
+    
 
     private static void saveReceiptToFile(JSONObject receipt, String filename) throws IOException {
         JSONArray receipts;
@@ -155,30 +152,32 @@ public class Cashier extends User {
         } catch (Exception e) {
             receipts = new JSONArray();
         }
-
+    
         receipts.add(receipt);
-
+    
         try (FileWriter fileWriter = new FileWriter(filename)) {
             fileWriter.write(receipts.toJSONString());
         }
     }
+    
 
     private static void createReceipt(JSONArray selectedProducts) {
         try {
             int receiptId = generateReceiptId();
-
+    
             JSONObject receipt = new JSONObject();
             receipt.put("receiptId", receiptId);
             receipt.put("date", new Date().toString());
             receipt.put("products", selectedProducts);
-
-            saveReceiptToFile(receipt);
-
+    
+            saveReceiptToFile(receipt, RECEIPT_FILE);
+    
             System.out.println("Receipt created successfully. Receipt ID: " + receiptId);
         } catch (Exception e) {
             System.out.println("Error creating receipt: " + e.getMessage());
         }
     }
+    
 
     public static void orderEarring() {
         JSONArray selectedEarrings = new JSONArray();
@@ -190,11 +189,12 @@ public class Cashier extends User {
         orderProduct(selectedRings, "Rings", RINGS_FILE);
     }
 
-    private static void displaySelectedProducts(JSONArray selectedProducts, String category) {
+    private static void displaySelectedProducts(JSONArray selectedProducts, String category, String productFile) {
         System.out.println(
                 "======================================================================================================");
         System.out.println("Selected " + category + ":");
-        System.out.format("| %-10s | %-10s |\n", "Product ID", "Quantity");
+        System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", "Product ID", "Product Name",
+                "Color", "Price", "Quantity");
         System.out.println(
                 "======================================================================================================");
 
@@ -202,7 +202,24 @@ public class Cashier extends User {
             JSONObject selectedProduct = (JSONObject) obj;
             String productID = selectedProduct.get("productID").toString();
             String quantity = selectedProduct.get("quantity").toString();
-            System.out.printf("| %-10s | %-10s |\n", productID, quantity);
+
+            // Fetch additional details from the productFile based on the productID
+            try {
+                JSONArray productsArray = readJSONArrayFromFile(productFile);
+                for (Object productObj : productsArray) {
+                    JSONObject product = (JSONObject) productObj;
+                    if (product.get("productID").equals(productID)) {
+                        String productName = product.get("productName").toString();
+                        String color = product.get("color").toString();
+                        String price = product.get("price").toString();
+                        System.out.printf("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", productID, productName,
+                                color, price, quantity);
+                        break; // Break after finding the matching productID
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Error fetching product details: " + e.getMessage());
+            }
         }
 
         System.out.println(

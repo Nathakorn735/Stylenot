@@ -1,4 +1,11 @@
 [
   { "quantity": 100, "productID": "R08", "receiptId": 1 },
-  { "quantity": 2, "productID": "R08", "receiptId": 2 }
+  { "quantity": 2, "productID": "R08", "receiptId": 2 },
+  { "quantity": 1, "productID": "R07", "receiptId": 3 },
+  { "quantity": 10, "productID": "R08", "receiptId": 4 },
+  { "quantity": 1, "productID": "K14", "receiptId": 5 },
+  { "quantity": 12, "productID": "R08", "receiptId": 6 },
+  { "quantity": 10, "productID": "R08", "receiptId": 7 },
+  { "quantity": 10, "productID": "R08", "receiptId": 8 },
+  { "quantity": 2, "productID": "K05", "receiptId": 9 }
 ]
