@@ -26,6 +26,7 @@ public class Cashier extends User {
         product.put("productID", productID);
         product.put("quantity", quantity);
         product.put("receiptId", receiptId);
+        product.put("datetime", new Date().toString()); // เพิ่ม datetime ในสินค้าที่สั่งซื้อ
         return product;
     }
 
@@ -66,6 +67,13 @@ public class Cashier extends User {
                 int storedItem = Integer.parseInt(product.get("storedItem").toString());
                 if (storedItem >= quantity) {
                     product.put("storedItem", storedItem - quantity);
+                    
+                    try {
+                        saveJSONArrayToFile(jsonArray, getProductFile(productID));
+                    } catch (Exception e) {
+                        System.out.println("Error saving product details: " + e.getMessage());
+                    }
+    
                     return true;
                 } else {
                     System.out.println("Insufficient quantity to order for ProductID " + productID);
@@ -75,6 +83,18 @@ public class Cashier extends User {
         }
         return false;
     }
+    
+    private static String getProductFile(String productID) {
+        // Add logic to determine the product file based on productID
+        // For example, if productID starts with "E", return EARRINGS_FILE, else return RINGS_FILE
+        // Modify this logic based on your actual file naming convention.
+        if (productID.startsWith("E")) {
+            return EARRINGS_FILE;
+        } else {
+            return RINGS_FILE;
+        }
+    }
+    
 
     private static void orderProduct(JSONArray selectedProducts, String productType, String productFile) {
         try {
@@ -126,6 +146,7 @@ public class Cashier extends User {
                     }
     
                     saveReceiptToFile(orderedProduct, RECEIPT_FILE); // บันทึกลงในไฟล์ RECEIPT_FILE เท่านั้น
+                    saveJSONArrayToFile(productsArray, productFile); // บันทึกลงไฟล์ที่มีรายละเอียดของทุกสินค้า
                     System.out.println(productType + " Order successfully!");
                 }
     
@@ -143,6 +164,7 @@ public class Cashier extends User {
             System.out.println("Error ordering " + productType + ": " + e.getMessage());
         }
     }
+    
     
 
     private static void saveReceiptToFile(JSONObject receipt, String filename) throws IOException {
@@ -193,16 +215,17 @@ public class Cashier extends User {
         System.out.println(
                 "======================================================================================================");
         System.out.println("Selected " + category + ":");
-        System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", "Product ID", "Product Name",
-                "Color", "Price", "Quantity");
+        System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s | %-20s |\n", "Product ID", "Product Name",
+                "Color", "Price", "Quantity", "Datetime"); // เพิ่มคอลัมน์ Datetime
         System.out.println(
                 "======================================================================================================");
-
+    
         for (Object obj : selectedProducts) {
             JSONObject selectedProduct = (JSONObject) obj;
             String productID = selectedProduct.get("productID").toString();
             String quantity = selectedProduct.get("quantity").toString();
-
+            String datetime = selectedProduct.get("datetime").toString(); // เพิ่ม datetime
+    
             // Fetch additional details from the productFile based on the productID
             try {
                 JSONArray productsArray = readJSONArrayFromFile(productFile);
@@ -212,8 +235,8 @@ public class Cashier extends User {
                         String productName = product.get("productName").toString();
                         String color = product.get("color").toString();
                         String price = product.get("price").toString();
-                        System.out.printf("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", productID, productName,
-                                color, price, quantity);
+                        System.out.printf("| %-10s | %-40s | %-10s | %-15s | %-10s | %-20s |\n", productID, productName,
+                                color, price, quantity, datetime);
                         break; // Break after finding the matching productID
                     }
                 }
@@ -221,10 +244,11 @@ public class Cashier extends User {
                 System.out.println("Error fetching product details: " + e.getMessage());
             }
         }
-
+    
         System.out.println(
                 "======================================================================================================");
     }
+    
 
     private static void displayAllProducts(String fileName) {
         try {
@@ -263,11 +287,12 @@ public class Cashier extends User {
         String productName = product.get("productName").toString();
         String color = product.get("color").toString();
         String price = product.get("price").toString();
-        String storedItem = product.get("storedItem").toString();
-
-        System.out.printf("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", productID, productName,
-                color, price, storedItem);
+        int storedItem = Integer.parseInt(product.get("storedItem").toString()); // เปลี่ยนเป็น int
+    
+        System.out.printf("| %-10s | %-40s | %-10s | %-15s | %-10d |\n", productID, productName,
+                color, price, storedItem); // ปรับปรุงการแสดงผล
     }
+    
 
     private static JSONArray readProducts(String fileName) throws IOException, ParseException {
         JSONParser jsonParser = new JSONParser();
