@@ -1,66 +1,58 @@
 [
   {
-    "storedItem": 4,
-    "priceperPair": 149,
+    "storedItem": 2,
     "productID": "R01",
     "color": "Silver",
-    "priceperSide": 75,
+    "price": 75,
     "productName": "Beryl Whispering Heart Rings"
   },
   {
-    "storedItem": 4,
-    "priceperPair": 149,
+    "storedItem": 2,
     "productID": "R02",
     "color": "Silver",
-    "priceperSide": 75,
+    "price": 75,
     "productName": "Silver Dewdrop Pixie Rings"
   },
   {
     "storedItem": 4,
-    "priceperPair": 149,
     "productID": "R03",
     "color": "Silver",
-    "priceperSide": 75,
+    "price": 75,
     "productName": "Silver Myosotis Rings"
   },
   {
     "storedItem": 4,
-    "priceperPair": 149,
     "productID": "R04",
     "color": "Silver",
-    "priceperSide": 75,
+    "price": 75,
     "productName": "Silver Twinkle Starlight Rings"
   },
   {
     "storedItem": 4,
-    "priceperPair": 139,
     "productID": "R05",
     "color": "Silver",
-    "priceperSide": 70,
+    "price": 70,
     "productName": "Tinkle Butterfly Huggie Hoop Rings"
   },
   {
     "storedItem": 4,
-    "priceperPair": 139,
     "productID": "R06",
     "color": "Silver",
-    "priceperSide": 70,
+    "price": 70,
     "productName": "Clover Huggie Hoop Rings"
   },
   {
     "storedItem": 5,
-    "priceperPair": 30.0,
     "productID": "R07",
     "color": "red",
-    "priceperSide": 15.0,
+    "price": 15.0,
     "productName": "KKK"
   },
   {
     "storedItem": 999,
-    "priceperPair": 999.0,
     "productID": "R08",
     "color": "fsafas",
-    "priceperSide": 333.0,
+    "price": 333.0,
     "productName": "kdlsa;kdl;sa"
   }
 ]

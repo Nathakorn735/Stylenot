@@ -3,6 +3,7 @@ package main.java.org;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Scanner;
 
 import org.json.simple.JSONArray;
@@ -13,10 +14,68 @@ import org.json.simple.parser.ParseException;
 public class Cashier extends User {
     private static final String EARRINGS_FILE = "src/resources/json/Earringsproducts.json";
     private static final String RINGS_FILE = "src/resources/json/Ringsproducts.json";
+    private static final String RECEIPT_FILE = "src/resources/json/receipt.json";
     private static final int COLUMNS = 3;
 
     public Cashier(String userId, String username, String password, String firstName, String lastName) {
         super(userId, username, password, firstName, lastName);
+    }
+
+    private static JSONObject createProduct(String productID, int quantity, int receiptId) {
+        JSONObject product = new JSONObject();
+        product.put("productID", productID);
+        product.put("quantity", quantity);
+        product.put("receiptId", receiptId);
+        return product;
+    }
+
+    private static void saveReceiptToFile(JSONObject receipt) throws IOException {
+        JSONArray receipts;
+        try {
+            receipts = readJSONArrayFromFile(RECEIPT_FILE);
+        } catch (Exception e) {
+            receipts = new JSONArray();
+        }
+
+        receipts.add(receipt);
+
+        try (FileWriter fileWriter = new FileWriter(RECEIPT_FILE)) {
+            fileWriter.write(receipts.toJSONString());
+        }
+    }
+
+    private static int generateReceiptId() {
+        try {
+            JSONArray receipts = readJSONArrayFromFile(RECEIPT_FILE);
+            int maxId = 0;
+            for (Object obj : receipts) {
+                JSONObject receipt = (JSONObject) obj;
+                int receiptId = Integer.parseInt(receipt.get("receiptId").toString());
+                if (receiptId > maxId) {
+                    maxId = receiptId;
+                }
+            }
+            return maxId + 1;
+        } catch (Exception e) {
+            return 1;
+        }
+    }
+
+    private static void createReceipt(JSONArray selectedProducts) {
+        try {
+            int receiptId = generateReceiptId();
+
+            JSONObject receipt = new JSONObject();
+            receipt.put("receiptId", receiptId);
+            receipt.put("date", new Date().toString());
+            receipt.put("products", selectedProducts);
+
+            saveReceiptToFile(receipt);
+
+            System.out.println("Receipt created successfully. Receipt ID: " + receiptId);
+        } catch (Exception e) {
+            System.out.println("Error creating receipt: " + e.getMessage());
+        }
     }
 
     private static boolean removeStoredItemByID(JSONArray jsonArray, String productID, int quantity) {
@@ -36,111 +95,84 @@ public class Cashier extends User {
         return false;
     }
 
-    private static boolean removeProductByID(JSONArray jsonArray, String productID) {
-        for (int i = 0; i < jsonArray.size(); i++) {
-            JSONObject product = (JSONObject) jsonArray.get(i);
-            if (product.get("productID").equals(productID)) {
-                jsonArray.remove(i);
-                return true;
-            }
+    private static void orderProduct(JSONArray selectedProducts, String productType, String productFile) {
+        try {
+            boolean continueOrdering = true;
+
+            do {
+                JSONArray productsArray = readJSONArrayFromFile(productFile);
+                System.out.println(
+                        "======================================================================================================");
+                System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", "Product ID", "Product Name",
+                        "Color",
+                        "Price", "Stored Item");
+                System.out.println(
+                        "======================================================================================================");
+                if (productsArray.isEmpty()) {
+                    System.out.println("No " + productType + " found.");
+                    return;
+                }
+
+                displayProductList(productsArray);
+                System.out.println(
+                        "======================================================================================================");
+                Scanner scanner = new Scanner(System.in);
+                System.out.print("Enter the productID to Order: ");
+                String productIDToOrder = scanner.next();
+                System.out.print("Enter the quantity to Order: ");
+                int quantityToOrder = scanner.nextInt();
+
+                if (!removeStoredItemByID(productsArray, productIDToOrder, quantityToOrder)) {
+                    System.out.println("ProductID not found or insufficient quantity.");
+                } else {
+                    selectedProducts.add(createProduct(productIDToOrder, quantityToOrder, 0)); // 0 for receiptId
+                    saveJSONArrayToFile(selectedProducts, RECEIPT_FILE); // Save selectedProducts to receipt.json
+                    saveJSONArrayToFile(productsArray, productFile);
+                    System.out.println(productType + " Order successfully!");
+                }
+
+                System.out.print(
+                        "Do you want to order another " + productType + "? (Type 'N' to exit, 'Y' to continue): ");
+                String userInput = scanner.next();
+                if (userInput.equalsIgnoreCase("N")) {
+                    continueOrdering = false;
+                }
+            } while (continueOrdering);
+
+            displaySelectedProducts(selectedProducts, "Selected " + productType);
+
+        } catch (Exception e) {
+            System.out.println("Error ordering " + productType + ": " + e.getMessage());
         }
-        return false;
     }
 
     public static void orderEarring() {
-        try {
-            boolean continueOrdering = true;
-
-            do {
-                JSONArray earringsArray = readJSONArrayFromFile(EARRINGS_FILE);
-                System.out.println(
-                        "========================================================================================================================");
-                System.out.format("| %-10s | %-40s | %-10s | %-15s | %-15s | %-10s |\n", "Product ID", "Product Name",
-                        "Color",
-                        "Priceper Pair",
-                        "Priceper Side", "Stored Item");
-                System.out.println(
-                        "========================================================================================================================");
-                if (earringsArray.isEmpty()) {
-                    System.out.println("No Earrings found.");
-                    return;
-                }
-
-                displayProductList(earringsArray);
-                System.out.println(
-                        "========================================================================================================================");
-
-                Scanner scanner = new Scanner(System.in);
-                System.out.print("Enter the productID to Order: ");
-                String productIDToOrder = scanner.next();
-                System.out.print("Enter the quantity to Order: ");
-                int quantityToOrder = scanner.nextInt();
-
-                if (!removeStoredItemByID(earringsArray, productIDToOrder, quantityToOrder)) {
-                    System.out.println("ProductID not found or insufficient quantity.");
-                } else {
-                    saveJSONArrayToFile(earringsArray, EARRINGS_FILE);
-                    System.out.println("Earring Order successfully!");
-                }
-
-                System.out.print("Do you want to order another earring? (Type 'N' to exit, 'Y' to continue): ");
-                String userInput = scanner.next();
-                if (userInput.equalsIgnoreCase("N")) {
-                    continueOrdering = false;
-                }
-            } while (continueOrdering);
-
-        } catch (Exception e) {
-            System.out.println("Error ordering Earring: " + e.getMessage());
-        }
+        JSONArray selectedEarrings = new JSONArray();
+        orderProduct(selectedEarrings, "Earrings", EARRINGS_FILE);
     }
 
     public static void orderRing() {
-        try {
-            boolean continueOrdering = true;
+        JSONArray selectedRings = new JSONArray();
+        orderProduct(selectedRings, "Rings", RINGS_FILE);
+    }
 
-            do {
-                JSONArray ringsArray = readJSONArrayFromFile(RINGS_FILE);
-                System.out.println(
-                        "========================================================================================================================");
-                System.out.format("| %-10s | %-40s | %-10s | %-15s | %-15s | %-10s |\n", "Product ID", "Product Name",
-                        "Color",
-                        "Priceper Pair",
-                        "Priceper Side", "Stored Item");
-                System.out.println(
-                        "========================================================================================================================");
-                if (ringsArray.isEmpty()) {
-                    System.out.println("No Rings found.");
-                    return;
-                }
+    private static void displaySelectedProducts(JSONArray selectedProducts, String category) {
+        System.out.println(
+                "======================================================================================================");
+        System.out.println("Selected " + category + ":");
+        System.out.format("| %-10s | %-10s |\n", "Product ID", "Quantity");
+        System.out.println(
+                "======================================================================================================");
 
-                displayProductList(ringsArray);
-                System.out.println(
-                        "========================================================================================================================");
-
-                Scanner scanner = new Scanner(System.in);
-                System.out.print("Enter the productID to Order: ");
-                String productIDToOrder = scanner.next();
-                System.out.print("Enter the quantity to Order: ");
-                int quantityToOrder = scanner.nextInt();
-
-                if (!removeStoredItemByID(ringsArray, productIDToOrder, quantityToOrder)) {
-                    System.out.println("ProductID not found or insufficient quantity.");
-                } else {
-                    saveJSONArrayToFile(ringsArray, RINGS_FILE);
-                    System.out.println("Ring Order successfully!");
-                }
-
-                System.out.print("Do you want to order another ring? (Type 'N' to exit, 'Y' to continue): ");
-                String userInput = scanner.next();
-                if (userInput.equalsIgnoreCase("N")) {
-                    continueOrdering = false;
-                }
-            } while (continueOrdering);
-
-        } catch (Exception e) {
-            System.out.println("Error ordering Ring: " + e.getMessage());
+        for (Object obj : selectedProducts) {
+            JSONObject selectedProduct = (JSONObject) obj;
+            String productID = selectedProduct.get("productID").toString();
+            String quantity = selectedProduct.get("quantity").toString();
+            System.out.printf("| %-10s | %-10s |\n", productID, quantity);
         }
+
+        System.out.println(
+                "======================================================================================================");
     }
 
     private static void displayAllProducts(String fileName) {
@@ -150,13 +182,12 @@ public class Cashier extends User {
             System.out.println("Current products details:");
 
             System.out.println(
-                    "========================================================================================================================");
-            System.out.format("| %-10s | %-40s | %-10s | %-15s | %-15s | %-10s |\n", "Product ID", "Product Name",
+                    "======================================================================================================");
+            System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", "Product ID", "Product Name",
                     "Color",
-                    "Priceper Pair",
-                    "Priceper Side", "Stored Item");
+                    "Price", "Stored Item");
             System.out.println(
-                    "========================================================================================================================");
+                    "======================================================================================================");
 
             int count = 0;
             for (Object obj : productsArray) {
@@ -169,7 +200,7 @@ public class Cashier extends User {
                 }
             }
             System.out.println(
-                    "========================================================================================================================");
+                    "======================================================================================================");
 
         } catch (IOException | ParseException e) {
             System.out.println("An error occurred: " + e.getMessage());
@@ -180,12 +211,11 @@ public class Cashier extends User {
         String productID = product.get("productID").toString();
         String productName = product.get("productName").toString();
         String color = product.get("color").toString();
-        String priceperPair = product.get("priceperPair").toString();
-        String priceperSide = product.get("priceperSide").toString();
+        String price = product.get("price").toString();
         String storedItem = product.get("storedItem").toString();
 
-        System.out.printf("| %-10s | %-40s | %-10s | %-15s | %-15s | %-10s |\n", productID, productName,
-                color, priceperPair, priceperSide, storedItem);
+        System.out.printf("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", productID, productName,
+                color, price, storedItem);
     }
 
     private static JSONArray readProducts(String fileName) throws IOException, ParseException {
@@ -224,9 +254,9 @@ public class Cashier extends User {
     private static void displayProductList(JSONArray jsonArray) {
         for (Object obj : jsonArray) {
             JSONObject product = (JSONObject) obj;
-            System.out.printf("| %-10s | %-40s | %-10s | %-15s | %-15s | %-12s|%n", product.get("productID"),
+            System.out.printf("| %-10s | %-40s | %-10s | %-15s| %-12s|%n", product.get("productID"),
                     product.get("productName"),
-                    product.get("color"), product.get("priceperPair"), product.get("priceperSide"),
+                    product.get("color"), product.get("price"),
                     product.get("storedItem"));
         }
     }
