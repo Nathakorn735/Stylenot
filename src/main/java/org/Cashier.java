@@ -47,34 +47,15 @@ public class Cashier extends User {
     private static int generateReceiptId() {
         try {
             JSONArray receipts = readJSONArrayFromFile(RECEIPT_FILE);
-            int maxId = 0;
-            for (Object obj : receipts) {
-                JSONObject receipt = (JSONObject) obj;
-                int receiptId = Integer.parseInt(receipt.get("receiptId").toString());
-                if (receiptId > maxId) {
-                    maxId = receiptId;
-                }
+            if (!receipts.isEmpty()) {
+                JSONObject lastReceipt = (JSONObject) receipts.get(receipts.size() - 1);
+                int lastReceiptId = Integer.parseInt(lastReceipt.get("receiptId").toString());
+                return lastReceiptId + 1;
+            } else {
+                return 1;
             }
-            return maxId + 1;
         } catch (Exception e) {
             return 1;
-        }
-    }
-
-    private static void createReceipt(JSONArray selectedProducts) {
-        try {
-            int receiptId = generateReceiptId();
-
-            JSONObject receipt = new JSONObject();
-            receipt.put("receiptId", receiptId);
-            receipt.put("date", new Date().toString());
-            receipt.put("products", selectedProducts);
-
-            saveReceiptToFile(receipt);
-
-            System.out.println("Receipt created successfully. Receipt ID: " + receiptId);
-        } catch (Exception e) {
-            System.out.println("Error creating receipt: " + e.getMessage());
         }
     }
 
@@ -125,9 +106,30 @@ public class Cashier extends User {
                 if (!removeStoredItemByID(productsArray, productIDToOrder, quantityToOrder)) {
                     System.out.println("ProductID not found or insufficient quantity.");
                 } else {
-                    selectedProducts.add(createProduct(productIDToOrder, quantityToOrder, 0)); // 0 for receiptId
-                    saveJSONArrayToFile(selectedProducts, RECEIPT_FILE); // Save selectedProducts to receipt.json
+                    int receiptId = generateReceiptId();
+                    JSONObject orderedProduct = createProduct(productIDToOrder, quantityToOrder, receiptId);
+
+                    // Check if the product already exists in selectedProducts
+                    boolean productExists = false;
+                    for (Object obj : selectedProducts) {
+                        JSONObject existingProduct = (JSONObject) obj;
+                        if (existingProduct.get("productID").equals(productIDToOrder)) {
+                            int existingQuantity = Integer.parseInt(existingProduct.get("quantity").toString());
+                            existingProduct.put("quantity", existingQuantity + quantityToOrder);
+                            productExists = true;
+                            break;
+                        }
+                    }
+
+                    if (!productExists) {
+                        selectedProducts.add(orderedProduct);
+                    }
+
+                    // Add the selectedProducts to the existing productsArray
+                    productsArray.addAll(selectedProducts);
+
                     saveJSONArrayToFile(productsArray, productFile);
+                    saveReceiptToFile(orderedProduct, RECEIPT_FILE);
                     System.out.println(productType + " Order successfully!");
                 }
 
@@ -143,6 +145,38 @@ public class Cashier extends User {
 
         } catch (Exception e) {
             System.out.println("Error ordering " + productType + ": " + e.getMessage());
+        }
+    }
+
+    private static void saveReceiptToFile(JSONObject receipt, String filename) throws IOException {
+        JSONArray receipts;
+        try {
+            receipts = readJSONArrayFromFile(filename);
+        } catch (Exception e) {
+            receipts = new JSONArray();
+        }
+
+        receipts.add(receipt);
+
+        try (FileWriter fileWriter = new FileWriter(filename)) {
+            fileWriter.write(receipts.toJSONString());
+        }
+    }
+
+    private static void createReceipt(JSONArray selectedProducts) {
+        try {
+            int receiptId = generateReceiptId();
+
+            JSONObject receipt = new JSONObject();
+            receipt.put("receiptId", receiptId);
+            receipt.put("date", new Date().toString());
+            receipt.put("products", selectedProducts);
+
+            saveReceiptToFile(receipt);
+
+            System.out.println("Receipt created successfully. Receipt ID: " + receiptId);
+        } catch (Exception e) {
+            System.out.println("Error creating receipt: " + e.getMessage());
         }
     }
 
