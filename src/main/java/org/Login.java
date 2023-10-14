@@ -35,6 +35,7 @@ public class Login {
             Earring e1 = new Earring();
             Manager m1 = new Manager(inputUsername, inputUsername, loggedInUser, loggedInEmpName, inputUsername,
                     attempts);
+            Cashier c1 = new Cashier(inputUsername, inputUsername, loggedInUser, loggedInEmpName, inputUsername);
 
             System.out.print("Enter Password: ");
             char[] passwordChars = System.console().readPassword();
@@ -151,6 +152,19 @@ public class Login {
                                     break;
                                 case 2:
                                     System.out.println("สั่งสินค้า");
+                                    System.out.println("Choose product type:");
+                                    System.out.println("1. Earrings");
+                                    System.out.println("2. Rings");
+
+                                    int productTypeChoice2 = scanner.nextInt();
+
+                                    if (productTypeChoice2 == 1) {
+                                        c1.orderEarring();
+                                    } else if (productTypeChoice2 == 2) {
+                                        c1.orderRing();
+                                    } else {
+                                        System.out.println("Invalid product type choice!");
+                                    }
                                     break;
                                 case 3:
                                     System.out.println("Not implemented yet");
