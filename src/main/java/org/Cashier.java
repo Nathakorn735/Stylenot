@@ -3,13 +3,13 @@ package main.java.org;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class Cashier extends User {
     private static final String EARRINGS_FILE = "src/resources/json/Earringsproducts.json";
@@ -21,10 +21,14 @@ public class Cashier extends User {
         super(userId, username, password, firstName, lastName);
     }
 
-    private static JSONObject createProduct(String productID, int quantity) {
+    private static JSONObject createProduct(String productID, int quantity, String color, String price,
+            String productName) {
         JSONObject product = new JSONObject();
         product.put("productID", productID);
         product.put("quantity", quantity);
+        product.put("color", color);
+        product.put("price", price);
+        product.put("productName", productName);
         return product;
     }
 
@@ -58,11 +62,16 @@ public class Cashier extends User {
         }
     }
 
-    private static boolean removeStoredItemByID(JSONArray jsonArray, String productID, int quantity) {
+    private static boolean removeStoredItemByID(JSONArray jsonArray, String productID, int quantity,
+            String productType) {
         for (Object obj : jsonArray) {
             JSONObject product = (JSONObject) obj;
             if (product.get("productID").equals(productID)) {
                 int storedItem = Integer.parseInt(product.get("storedItem").toString());
+                String color = product.get("color").toString();
+                String price = product.get("price").toString();
+                String productName = product.get("productName").toString();
+
                 if (storedItem >= quantity) {
                     product.put("storedItem", storedItem - quantity);
 
@@ -71,6 +80,9 @@ public class Cashier extends User {
                     } catch (Exception e) {
                         System.out.println("Error saving product details: " + e.getMessage());
                     }
+
+                    JSONObject orderedProduct = createProduct(productID, quantity, color, price, productName);
+                    jsonArray.add(orderedProduct);
 
                     return true;
                 } else {
@@ -116,11 +128,14 @@ public class Cashier extends User {
                 System.out.print("Enter the quantity to Order: ");
                 int quantityToOrder = scanner.nextInt();
 
-                if (!removeStoredItemByID(productsArray, productIDToOrder, quantityToOrder)) {
+                if (!removeStoredItemByID(productsArray, productIDToOrder, quantityToOrder, productType)) {
                     System.out.println("ProductID not found or insufficient quantity.");
                 } else {
                     int receiptId = generateReceiptId();
-                    JSONObject orderedProduct = createProduct(productIDToOrder, quantityToOrder);
+                    JSONObject orderedProduct = createProduct(productIDToOrder, quantityToOrder,
+                            getSelectedProductColor(productsArray, productIDToOrder),
+                            getSelectedProductPrice(productsArray, productIDToOrder),
+                            getSelectedProductName(productsArray, productIDToOrder));
 
                     boolean productExists = false;
                     for (Object obj : selectedProducts) {
@@ -156,185 +171,190 @@ public class Cashier extends User {
         }
     }
 
-    private static void saveReceiptToFile(JSONObject receipt, String filename) throws IOException {
-        JSONArray receipts;
-        try {
-            receipts = readJSONArrayFromFile(filename);
-        } catch (Exception e) {
-            receipts = new JSONArray();
-        }
-
-        receipts.add(receipt);
-
-        try (FileWriter fileWriter = new FileWriter(filename)) {
-            fileWriter.write(receipts.toJSONString());
-        }
-    }
-
     private static void createReceipt(JSONArray selectedProducts) {
         try {
             int receiptId = generateReceiptId();
-
             JSONObject receipt = new JSONObject();
             receipt.put("receiptId", receiptId);
-            receipt.put("datetime", new Date().toString());
+            receipt.put("date", getCurrentDate());
+            receipt.put("time", getCurrentTime());
             receipt.put("products", selectedProducts);
 
-            saveReceiptToFile(receipt, RECEIPT_FILE);
+            saveReceiptToFile(receipt);
+            System.out.println("Receipt created successfully!");
 
-            System.out.println("Receipt created successfully. Receipt ID: " + receiptId);
         } catch (Exception e) {
             System.out.println("Error creating receipt: " + e.getMessage());
         }
     }
 
-    public static void orderEarring() {
-        JSONArray selectedEarrings = new JSONArray();
-        orderProduct(selectedEarrings, "Earrings", EARRINGS_FILE);
-    }
-
-    public static void orderRing() {
-        JSONArray selectedRings = new JSONArray();
-        orderProduct(selectedRings, "Rings", RINGS_FILE);
-    }
-
-    private static void displaySelectedProducts(JSONArray selectedProducts, String category, String productFile) {
+    private static void displaySelectedProducts(JSONArray selectedProducts, String title, String productFile) {
         System.out.println(
                 "======================================================================================================");
-        System.out.println("Selected " + category + ":");
-        System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s | %-20s |\n", "Product ID", "Product Name",
-                "Color", "Price", "Quantity", "Datetime");
+        System.out.println("                    " + title);
+        System.out.println(
+                "======================================================================================================");
+        System.out.format("| %-40s | %-10s | %-15s | %-10s |\n", "Product Name", "Color", "Price", "Quantity");
+        System.out.println(
+                "======================================================================================================");
+        if (selectedProducts.isEmpty()) {
+            System.out.println("No " + title + " found.");
+            return;
+        }
+
+        for (Object obj : selectedProducts) {
+            JSONObject product = (JSONObject) obj;
+            System.out.format("| %-40s | %-10s | %-15s | %-10s |\n", product.get("productName"), product.get("color"),
+                    product.get("price"), product.get("quantity"));
+        }
+        System.out.println(
+                "======================================================================================================");
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Do you want to print the receipt? (Type 'Y' to print, 'N' to skip): ");
+        String userInput = scanner.next();
+        if (userInput.equalsIgnoreCase("Y")) {
+            printReceipt(selectedProducts, title, productFile);
+        }
+    }
+
+    private static void printReceipt(JSONArray selectedProducts, String title, String productFile) {
+        System.out.println(
+                "======================================================================================================");
+        System.out.println("                           RECEIPT");
+        System.out.println(
+                "======================================================================================================");
+        System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", "Product ID", "Product Name",
+                "Color", "Price", "Quantity");
         System.out.println(
                 "======================================================================================================");
 
         for (Object obj : selectedProducts) {
-            JSONObject selectedProduct = (JSONObject) obj;
-            String productID = selectedProduct.get("productID").toString();
-            String quantity = selectedProduct.get("quantity").toString();
-
-            try {
-                JSONArray productsArray = readJSONArrayFromFile(productFile);
-                for (Object productObj : productsArray) {
-                    JSONObject product = (JSONObject) productObj;
-                    if (product.get("productID").equals(productID)) {
-                        String productName = product.get("productName").toString();
-                        String color = product.get("color").toString();
-                        double price = Double.parseDouble(product.get("price").toString());
-                        double totalPrice = price * Double.parseDouble(quantity);
-                        String datetime = new Date().toString();
-                        System.out.printf("| %-10s | %-40s | %-10s | %-15s | %-10s | %-20s |\n", productID, productName,
-                                color, totalPrice, quantity, datetime);
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println("Error fetching product details: " + e.getMessage());
-            }
+            JSONObject product = (JSONObject) obj;
+            System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", product.get("productID"),
+                    product.get("productName"), product.get("color"), product.get("price"),
+                    product.get("quantity"));
         }
-
         System.out.println(
                 "======================================================================================================");
-    }
+        System.out.println("Receipt generated for " + title);
 
-    private static void displayAllProducts(String fileName) {
-        try {
-            JSONArray productsArray = readProducts(fileName);
+        // ครอบยอดรวมและแสดงยอดรวม
+        double totalPrice = calculateTotalPrice(selectedProducts);
+        System.out.println("Total Price: " + totalPrice);
 
-            System.out.println("Current products details:");
+        // เคลียร์รายการที่ถูกเลือก
+        selectedProducts.clear();
 
-            System.out.println(
-                    "======================================================================================================");
-            System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", "Product ID", "Product Name",
-                    "Color", "Price", "Stored Item");
-            System.out.println(
-                    "======================================================================================================");
-
-            int count = 0;
-            for (Object obj : productsArray) {
-                JSONObject product = (JSONObject) obj;
-                displayProductDetails(product);
-                count++;
-
-                if (count % COLUMNS == 0) {
-                    System.out.println();
-                }
-            }
-            System.out.println(
-                    "======================================================================================================");
-
-        } catch (IOException | ParseException e) {
-            System.out.println("An error occurred: " + e.getMessage());
+        // ตรวจสอบการเลือกรับชำระ
+        Scanner scanner = new Scanner(System.in);
+        System.out.print(
+                "Do you want to receive payment for the " + title + "? (Type 'Y' to receive payment, 'N' to skip): ");
+        String userInput = scanner.next();
+        if (userInput.equalsIgnoreCase("Y")) {
+            receivePayment(totalPrice);
         }
     }
 
-    private static void displayProductDetails(JSONObject product) {
-        String productID = product.get("productID").toString();
-        String productName = product.get("productName").toString();
-        String color = product.get("color").toString();
-        String price = product.get("price").toString();
-        int storedItem = Integer.parseInt(product.get("storedItem").toString());
+    private static void receivePayment(double totalPrice) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the amount received from the customer: ");
+        double amountReceived = scanner.nextDouble();
 
-        System.out.printf("| %-10s | %-40s | %-10s | %-15s | %-10d |\n", productID, productName,
-                color, price, storedItem);
-    }
-
-    private static JSONArray readProducts(String fileName) throws IOException, ParseException {
-        JSONParser jsonParser = new JSONParser();
-        try (FileReader fileReader = new FileReader(fileName)) {
-            Object obj = jsonParser.parse(fileReader);
-            return (JSONArray) obj;
+        if (amountReceived >= totalPrice) {
+            double change = amountReceived - totalPrice;
+            System.out.println("Payment received successfully!");
+            System.out.println("Change: " + change);
+        } else {
+            System.out.println("Insufficient payment. Please try again.");
+            receivePayment(totalPrice);
         }
     }
 
-    private static void writeProducts(String fileName, JSONArray productsArray) throws IOException {
-        try (FileWriter fileWriter = new FileWriter(fileName)) {
-            fileWriter.write(productsArray.toJSONString());
+    private static double calculateTotalPrice(JSONArray selectedProducts) {
+        double totalPrice = 0.0;
+        for (Object obj : selectedProducts) {
+            JSONObject product = (JSONObject) obj;
+            double price = Double.parseDouble(product.get("price").toString());
+            int quantity = Integer.parseInt(product.get("quantity").toString());
+            totalPrice += price * quantity;
         }
+        return totalPrice;
     }
 
-    private static JSONArray readJSONArrayFromFile(String filename) throws Exception {
-        JSONArray jsonArray;
-        try (FileReader fileReader = new FileReader(filename)) {
-            int data;
-            StringBuilder content = new StringBuilder();
-
-            while ((data = fileReader.read()) != -1) {
-                content.append((char) data);
-            }
-
-            if (content.length() == 0) {
-                jsonArray = new JSONArray();
-            } else {
-                jsonArray = (JSONArray) new JSONParser().parse(content.toString());
+    private static String getSelectedProductColor(JSONArray jsonArray, String productID) {
+        for (Object obj : jsonArray) {
+            JSONObject product = (JSONObject) obj;
+            if (product.get("productID").equals(productID)) {
+                return product.get("color").toString();
             }
         }
-        return jsonArray;
+        return "";
+    }
+
+    private static String getSelectedProductPrice(JSONArray jsonArray, String productID) {
+        for (Object obj : jsonArray) {
+            JSONObject product = (JSONObject) obj;
+            if (product.get("productID").equals(productID)) {
+                return product.get("price").toString();
+            }
+        }
+        return "";
+    }
+
+    private static String getSelectedProductName(JSONArray jsonArray, String productID) {
+        for (Object obj : jsonArray) {
+            JSONObject product = (JSONObject) obj;
+            if (product.get("productID").equals(productID)) {
+                return product.get("productName").toString();
+            }
+        }
+        return "";
+    }
+
+    public void orderEarring() {
+        JSONArray selectedProducts = new JSONArray();
+        orderProduct(selectedProducts, "Earrings", EARRINGS_FILE);
+    }
+
+    public void orderRing() {
+        JSONArray selectedProducts = new JSONArray();
+        orderProduct(selectedProducts, "Rings", RINGS_FILE);
+    }
+
+    public void viewMenu() {
+        System.out.println("Viewing menu...");
     }
 
     private static void displayProductList(JSONArray jsonArray) {
         for (Object obj : jsonArray) {
             JSONObject product = (JSONObject) obj;
-            System.out.printf("| %-10s | %-40s | %-10s | %-15s| %-12s|%n", product.get("productID"),
-                    product.get("productName"),
-                    product.get("color"), product.get("price"),
+            System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", product.get("productID"),
+                    product.get("productName"), product.get("color"), product.get("price"),
                     product.get("storedItem"));
         }
     }
 
-    private static boolean removeProductByID(JSONArray jsonArray, String productID) {
-        for (Object obj : jsonArray) {
-            JSONObject product = (JSONObject) obj;
-            if (product.get("productID").equals(productID)) {
-                jsonArray.remove(obj);
-                return true;
-            }
+    private static JSONArray readJSONArrayFromFile(String filePath) throws Exception {
+        JSONParser jsonParser = new JSONParser();
+        try (FileReader reader = new FileReader(filePath)) {
+            return (JSONArray) jsonParser.parse(reader);
         }
-        return false;
     }
 
-    private static void saveJSONArrayToFile(JSONArray jsonArray, String filename) throws Exception {
-        try (FileWriter fileWriter = new FileWriter(filename)) {
+    private static void saveJSONArrayToFile(JSONArray jsonArray, String filePath) throws IOException {
+        try (FileWriter fileWriter = new FileWriter(filePath)) {
             fileWriter.write(jsonArray.toJSONString());
         }
+    }
+
+    private static String getCurrentDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(new Date());
+    }
+
+    private static String getCurrentTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        return sdf.format(new Date());
     }
 }
