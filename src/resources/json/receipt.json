@@ -77,5 +77,26 @@
     "datetime": "Sun Oct 15 15:41:27 ICT 2023",
     "receiptId": 19,
     "products": [{ "quantity": 10, "productID": "E01" }]
+  },
+  {
+    "date": "2566-10-15",
+    "time": "18:14:33",
+    "receiptId": 20,
+    "products": [
+      {
+        "quantity": 10,
+        "productID": "E01",
+        "color": "1",
+        "price": "1.0",
+        "productName": "1"
+      },
+      {
+        "quantity": 10,
+        "productID": "E02",
+        "color": "1",
+        "price": "1.0",
+        "productName": "2"
+      }
+    ]
   }
 ]
