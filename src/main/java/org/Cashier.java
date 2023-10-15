@@ -16,19 +16,21 @@ public class Cashier extends User {
     private static final String RINGS_FILE = "src/resources/json/Ringsproducts.json";
     private static final String RECEIPT_FILE = "src/resources/json/receipt.json";
     private static final String PAYMENT_AMOUNT = "paymentAmount";
+    private static Scanner scanner = new Scanner(System.in);
 
     public Cashier(String userId, String username, String password, String firstName, String lastName) {
         super(userId, username, password, firstName, lastName);
     }
 
     private static JSONObject createProduct(String productID, int quantity, String color, double price,
-            String productName) {
+            String productName, int storedItem) {
         JSONObject product = new JSONObject();
         product.put("productID", productID);
         product.put("quantity", quantity);
         product.put("color", color);
         product.put("price", price);
         product.put("productName", productName);
+        product.put("storedItem", storedItem);
         return product;
     }
 
@@ -40,9 +42,7 @@ public class Cashier extends User {
             receipts = new JSONArray();
         }
 
-        if (RECEIPT_FILE.equals("src/resources/json/receipt.json")) {
-            receipts.add(receipt);
-        }
+        receipts.add(receipt);
 
         try (FileWriter fileWriter = new FileWriter(RECEIPT_FILE)) {
             fileWriter.write(receipts.toJSONString());
@@ -77,7 +77,7 @@ public class Cashier extends User {
                 if (storedItem >= quantity) {
                     product.put("storedItem", storedItem - quantity);
 
-                    JSONObject orderedProduct = createProduct(productID, quantity, color, price, productName);
+                    JSONObject orderedProduct = createProduct(productID, quantity, color, price, productName, quantity);
                     selectedProducts.add(orderedProduct);
 
                     return true;
@@ -88,14 +88,6 @@ public class Cashier extends User {
             }
         }
         return false;
-    }
-
-    private static String getProductFile(String productID) {
-        if (productID.startsWith("E")) {
-            return EARRINGS_FILE;
-        } else {
-            return RINGS_FILE;
-        }
     }
 
     private static JSONObject getProductDetails(String productID) {
@@ -110,6 +102,7 @@ public class Cashier extends User {
                     productDetails.put("color", product.get("color"));
                     productDetails.put("price", Double.parseDouble(product.get("price").toString()));
                     productDetails.put("productName", product.get("productName"));
+                    productDetails.put("storedItem", Integer.parseInt(product.get("storedItem").toString()));
                     return productDetails;
                 }
             }
@@ -121,6 +114,7 @@ public class Cashier extends User {
                     productDetails.put("color", product.get("color"));
                     productDetails.put("price", Double.parseDouble(product.get("price").toString()));
                     productDetails.put("productName", product.get("productName"));
+                    productDetails.put("storedItem", Integer.parseInt(product.get("storedItem").toString()));
                     return productDetails;
                 }
             }
@@ -133,14 +127,11 @@ public class Cashier extends User {
     private static void orderProduct(JSONArray selectedProducts, String productType, String productFile) {
         try {
             boolean continueOrdering = true;
-            JSONArray productsArray = readJSONArrayFromFile(productFile);
-            Scanner scanner = new Scanner(System.in);
+            JSONArray productsArray;
 
             do {
-                System.out.println(
-                        "======================================================================================================");
-                System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", "Product ID", "Product Name",
-                        "Color", "Price", "Stored Item");
+                productsArray = readJSONArrayFromFile(productFile);
+
                 System.out.println(
                         "======================================================================================================");
 
@@ -169,7 +160,7 @@ public class Cashier extends User {
                     JSONObject orderedProduct = createProduct(productIDToOrder, quantityToOrder,
                             productDetails.get("color").toString(),
                             Double.parseDouble(productDetails.get("price").toString()),
-                            productDetails.get("productName").toString());
+                            productDetails.get("productName").toString(), 0);
 
                     boolean productExists = false;
                     for (Object obj : selectedProducts) {
@@ -201,7 +192,7 @@ public class Cashier extends User {
             } while (continueOrdering);
 
             displaySelectedProducts(selectedProducts, "Selected " + productType, productFile);
-            double amountReceived = getAmountReceived();
+            double amountReceived = getAmountReceived(calculateTotalPrice(selectedProducts));
             createReceipt(selectedProducts, amountReceived);
 
         } catch (Exception e) {
@@ -284,7 +275,6 @@ public class Cashier extends User {
         System.out.println(
                 "======================================================================================================");
 
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Do you want to print the receipt? (Type 'Y' to print, 'N' to skip): ");
         String userInput = scanner.next();
         if (userInput.equalsIgnoreCase("Y")) {
@@ -315,21 +305,26 @@ public class Cashier extends User {
 
         double totalPrice = calculateTotalPrice(selectedProducts);
         System.out.println("Total Price: " + totalPrice);
-
     }
 
-    private static double getAmountReceived() {
-        Scanner scanner = new Scanner(System.in);
+    private static double getAmountReceived(double totalPrice) {
         double amountReceived;
-        while (true) {
+        do {
             try {
                 System.out.print("Enter the amount received from the customer: ");
                 amountReceived = Double.parseDouble(scanner.next());
-                break;
+
+                if (amountReceived < totalPrice) {
+                    System.out.println(
+                            "กรุณาจ่ายให้ครบทุกบาททุกสตางค์ครับ");
+                } else {
+                    break;
+                }
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid number.");
+                System.out.println("จำนวนเงินเป็นเลขฮะ");
             }
-        }
+        } while (true);
+
         return amountReceived;
     }
 
@@ -359,6 +354,11 @@ public class Cashier extends User {
     }
 
     private static void displayProductList(JSONArray jsonArray) {
+        System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", "Product ID", "Product Name",
+                "Color", "Price", "Stored Item");
+        System.out.println(
+                "======================================================================================================");
+
         for (Object obj : jsonArray) {
             JSONObject product = (JSONObject) obj;
             System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", product.get("productID"),
