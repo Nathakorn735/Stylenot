@@ -228,5 +228,22 @@
     "receiptId": 34,
     "paymentAmount": 1000.0,
     "products": []
-  }
+  },
+  { "date": "2566-10-15", "time": "22:10:03", "receiptId": 35, "products": [] },
+  {
+    "date": "2566-10-15",
+    "time": "22:10:03",
+    "receiptId": 35,
+    "paymentAmount": 1000.0,
+    "products": []
+  },
+  { "date": "2566-10-15", "time": "22:18:47", "receiptId": 36, "products": [] },
+  {
+    "date": "2566-10-15",
+    "time": "22:18:47",
+    "receiptId": 36,
+    "paymentAmount": 1000.0,
+    "products": []
+  },
+  { "date": "2566-10-15", "time": "22:19:45", "receiptId": 37, "products": [] }
 ]
