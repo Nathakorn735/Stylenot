@@ -33,6 +33,7 @@ public class Login {
             Product p1 = new Product();
             Rings r1 = new Rings();
             Earring e1 = new Earring();
+            ProductSearch ps1 = new ProductSearch();
             Manager m1 = new Manager(inputUsername, inputUsername, loggedInUser, loggedInEmpName, inputUsername,
                     attempts);
             Cashier c1 = new Cashier(inputUsername, inputUsername, loggedInUser, loggedInEmpName, inputUsername);
@@ -77,6 +78,7 @@ public class Login {
                                 System.out.println("4. Delete Menu");
                                 System.out.println("5. Edit Menu");
                                 System.out.println("6. Receipt");
+                                System.out.println("7. เรียงราคาสินค้าจากน้อยไปมาก");
 
                                 int choice = scanner.nextInt();
 
@@ -147,6 +149,10 @@ public class Login {
                                         break;
                                     case 6:
                                         System.out.println("Not implemented yet");
+                                        break;
+                                    case 7:
+                                        ps1.displaySortedPrices(EARRINGS_FILE);
+                                        ps1.displaySortedPrices(RINGS_FILE);
                                         break;
                                     default:
                                         System.out.println("Invalid choice");
