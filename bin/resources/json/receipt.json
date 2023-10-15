@@ -1,203 +1,232 @@
 [
-    {
+  {
+    "datetime": "Sun Oct 15 15:19:36 ICT 2023",
+    "quantity": 10,
+    "productID": "R01",
+    "receiptId": 13
+  },
+  {
+    "datetime": "Sun Oct 15 15:19:43 ICT 2023",
+    "quantity": 10,
+    "productID": "R02",
+    "receiptId": 14
+  },
+  {
+    "date": "Sun Oct 15 15:19:44 ICT 2023",
+    "receiptId": 15,
+    "products": [
+      {
         "datetime": "Sun Oct 15 15:19:36 ICT 2023",
         "quantity": 10,
         "productID": "R01",
         "receiptId": 13
-    },
-    {
+      },
+      {
         "datetime": "Sun Oct 15 15:19:43 ICT 2023",
         "quantity": 10,
         "productID": "R02",
         "receiptId": 14
-    },
-    {
-        "date": "Sun Oct 15 15:19:44 ICT 2023",
-        "receiptId": 15,
-        "products": [
-            {
-                "datetime": "Sun Oct 15 15:19:36 ICT 2023",
-                "quantity": 10,
-                "productID": "R01",
-                "receiptId": 13
-            },
-            {
-                "datetime": "Sun Oct 15 15:19:43 ICT 2023",
-                "quantity": 10,
-                "productID": "R02",
-                "receiptId": 14
-            }
-        ]
-    },
-    {
-        "date": "Sun Oct 15 15:24:05 ICT 2023",
-        "receiptId": 16,
-        "products": [
-            {
-                "datetime": "Sun Oct 15 15:23:55 ICT 2023",
-                "quantity": 2,
-                "productID": "E01",
-                "receiptId": 16
-            },
-            {
-                "datetime": "Sun Oct 15 15:24:03 ICT 2023",
-                "quantity": 1,
-                "productID": "E02",
-                "receiptId": 16
-            }
-        ]
-    },
-    {
-        "datetime": "Sun Oct 15 15:28:05 ICT 2023",
-        "receiptId": 17,
-        "products": [
-            {
-                "datetime": "Sun Oct 15 15:27:51 ICT 2023",
-                "quantity": 2,
-                "productID": "E01",
-                "receiptId": 17
-            },
-            {
-                "datetime": "Sun Oct 15 15:28:04 ICT 2023",
-                "quantity": 2,
-                "productID": "E02",
-                "receiptId": 17
-            }
-        ]
-    },
-    {
-        "datetime": "Sun Oct 15 15:31:06 ICT 2023",
-        "receiptId": 18,
-        "products": [
-            {
-                "quantity": 10,
-                "productID": "R03"
-            },
-            {
-                "quantity": 10,
-                "productID": "R01"
-            }
-        ]
-    },
-    {
-        "datetime": "Sun Oct 15 15:41:27 ICT 2023",
-        "receiptId": 19,
-        "products": [
-            {
-                "quantity": 10,
-                "productID": "E01"
-            }
-        ]
-    },
-    {
-        "datetime": "Sun Oct 15 20:14:00 ICT 2023",
-        "receiptId": 20,
-        "products": [
-            {
-                "quantity": 10,
-                "productID": "E01"
-            },
-            {
-                "quantity": 10,
-                "productID": "E02"
-            }
-        ]
-    },
-    {
-        "date": "2566-10-15",
-        "time": "21:15:21",
-        "receiptId": 21,
-        "products": [
-            {
-                "quantity": 20,
-                "productID": "E01",
-                "color": "red",
-                "price": "1.0",
-                "productName": "K"
-            },
-            {
-                "quantity": 20,
-                "productID": "E02",
-                "color": "red",
-                "price": "1.0",
-                "productName": "A"
-            }
-        ]
-    },
-    {
-        "date": "2566-10-15",
-        "time": "21:17:11",
-        "receiptId": 22,
-        "products": []
-    },
-    {
-        "date": "2566-10-15",
-        "time": "21:18:12",
-        "receiptId": 23,
-        "products": [
-            {
-                "quantity": 2,
-                "productID": "E03",
-                "color": "red",
-                "price": "3.0",
-                "productName": "E"
-            },
-            {
-                "quantity": 2,
-                "productID": "E02",
-                "color": "red",
-                "price": "1.0",
-                "productName": "A"
-            }
-        ]
-    },
-    {
-        "date": "2566-10-15",
-        "time": "21:18:45",
-        "receiptId": 24,
-        "products": [
-            {
-                "quantity": 2,
-                "productID": "R01",
-                "color": "Red",
-                "price": "2.0",
-                "productName": "N"
-            },
-            {
-                "quantity": 2,
-                "productID": "R02",
-                "color": "Red",
-                "price": "1.0",
-                "productName": "O"
-            }
-        ]
-    },
-    {
-        "date": "2566-10-15",
-        "time": "21:19:16",
-        "receiptId": 25,
-        "products": [
-            {
-                "quantity": 2,
-                "productID": "E01",
-                "color": "red",
-                "price": "2.0",
-                "productName": "K"
-            },
-            {
-                "quantity": 2,
-                "productID": "E02",
-                "color": "red",
-                "price": "1.0",
-                "productName": "A"
-            },
-            {
-                "quantity": 2,
-                "productID": "E03",
-                "color": "red",
-                "price": "3.0",
-                "productName": "E"
-            }
-        ]
-    }
+      }
+    ]
+  },
+  {
+    "date": "Sun Oct 15 15:24:05 ICT 2023",
+    "receiptId": 16,
+    "products": [
+      {
+        "datetime": "Sun Oct 15 15:23:55 ICT 2023",
+        "quantity": 2,
+        "productID": "E01",
+        "receiptId": 16
+      },
+      {
+        "datetime": "Sun Oct 15 15:24:03 ICT 2023",
+        "quantity": 1,
+        "productID": "E02",
+        "receiptId": 16
+      }
+    ]
+  },
+  {
+    "datetime": "Sun Oct 15 15:28:05 ICT 2023",
+    "receiptId": 17,
+    "products": [
+      {
+        "datetime": "Sun Oct 15 15:27:51 ICT 2023",
+        "quantity": 2,
+        "productID": "E01",
+        "receiptId": 17
+      },
+      {
+        "datetime": "Sun Oct 15 15:28:04 ICT 2023",
+        "quantity": 2,
+        "productID": "E02",
+        "receiptId": 17
+      }
+    ]
+  },
+  {
+    "datetime": "Sun Oct 15 15:31:06 ICT 2023",
+    "receiptId": 18,
+    "products": [
+      { "quantity": 10, "productID": "R03" },
+      { "quantity": 10, "productID": "R01" }
+    ]
+  },
+  {
+    "datetime": "Sun Oct 15 15:41:27 ICT 2023",
+    "receiptId": 19,
+    "products": [{ "quantity": 10, "productID": "E01" }]
+  },
+  {
+    "datetime": "Sun Oct 15 20:14:00 ICT 2023",
+    "receiptId": 20,
+    "products": [
+      { "quantity": 10, "productID": "E01" },
+      { "quantity": 10, "productID": "E02" }
+    ]
+  },
+  {
+    "date": "2566-10-15",
+    "time": "21:15:21",
+    "receiptId": 21,
+    "products": [
+      {
+        "quantity": 20,
+        "productID": "E01",
+        "color": "red",
+        "price": "1.0",
+        "productName": "K"
+      },
+      {
+        "quantity": 20,
+        "productID": "E02",
+        "color": "red",
+        "price": "1.0",
+        "productName": "A"
+      }
+    ]
+  },
+  { "date": "2566-10-15", "time": "21:17:11", "receiptId": 22, "products": [] },
+  {
+    "date": "2566-10-15",
+    "time": "21:18:12",
+    "receiptId": 23,
+    "products": [
+      {
+        "quantity": 2,
+        "productID": "E03",
+        "color": "red",
+        "price": "3.0",
+        "productName": "E"
+      },
+      {
+        "quantity": 2,
+        "productID": "E02",
+        "color": "red",
+        "price": "1.0",
+        "productName": "A"
+      }
+    ]
+  },
+  {
+    "date": "2566-10-15",
+    "time": "21:18:45",
+    "receiptId": 24,
+    "products": [
+      {
+        "quantity": 2,
+        "productID": "R01",
+        "color": "Red",
+        "price": "2.0",
+        "productName": "N"
+      },
+      {
+        "quantity": 2,
+        "productID": "R02",
+        "color": "Red",
+        "price": "1.0",
+        "productName": "O"
+      }
+    ]
+  },
+  {
+    "date": "2566-10-15",
+    "time": "21:19:16",
+    "receiptId": 25,
+    "products": [
+      {
+        "quantity": 2,
+        "productID": "E01",
+        "color": "red",
+        "price": "2.0",
+        "productName": "K"
+      },
+      {
+        "quantity": 2,
+        "productID": "E02",
+        "color": "red",
+        "price": "1.0",
+        "productName": "A"
+      },
+      {
+        "quantity": 2,
+        "productID": "E03",
+        "color": "red",
+        "price": "3.0",
+        "productName": "E"
+      }
+    ]
+  },
+  {
+    "date": "2566-10-15",
+    "time": "21:35:50",
+    "receiptId": 26,
+    "paymentAmount": 1000.0,
+    "products": []
+  },
+  {
+    "date": "2566-10-15",
+    "time": "21:37:51",
+    "receiptId": 27,
+    "paymentAmount": 100.0,
+    "products": []
+  },
+  {
+    "date": "2566-10-15",
+    "time": "21:40:40",
+    "receiptId": 28,
+    "paymentAmount": 1999.0,
+    "products": []
+  },
+  { "date": "2566-10-15", "time": "21:41:53", "receiptId": 29, "products": [] },
+  { "date": "2566-10-15", "time": "21:42:54", "receiptId": 30, "products": [] },
+  {
+    "date": "2566-10-15",
+    "time": "21:44:44",
+    "receiptId": 31,
+    "paymentAmount": 1000.0,
+    "products": []
+  },
+  {
+    "date": "2566-10-15",
+    "time": "21:45:56",
+    "receiptId": 32,
+    "paymentAmount": 1000.0,
+    "products": []
+  },
+  {
+    "date": "2566-10-15",
+    "time": "21:55:53",
+    "receiptId": 33,
+    "paymentAmount": 1000.0,
+    "products": []
+  },
+  {
+    "date": "2566-10-15",
+    "time": "21:56:58",
+    "receiptId": 34,
+    "paymentAmount": 1000.0,
+    "products": []
+  }
 ]

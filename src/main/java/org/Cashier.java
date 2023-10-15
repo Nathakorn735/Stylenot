@@ -15,6 +15,7 @@ public class Cashier extends User {
     private static final String EARRINGS_FILE = "src/resources/json/Earringsproducts.json";
     private static final String RINGS_FILE = "src/resources/json/Ringsproducts.json";
     private static final String RECEIPT_FILE = "src/resources/json/receipt.json";
+    private static final String PAYMENT_AMOUNT = "paymentAmount";
     private static final int COLUMNS = 3;
 
     public Cashier(String userId, String username, String password, String firstName, String lastName) {
@@ -175,7 +176,6 @@ public class Cashier extends User {
                         JSONObject existingProduct = (JSONObject) obj;
                         if (existingProduct.get("productID").equals(productIDToOrder)) {
                             int existingQuantity = Integer.parseInt(existingProduct.get("quantity").toString());
-                            existingProduct.put("quantity", existingQuantity + quantityToOrder);
                             productExists = true;
                             break;
                         }
@@ -208,9 +208,42 @@ public class Cashier extends User {
             receipt.put("receiptId", receiptId);
             receipt.put("date", getCurrentDate());
             receipt.put("time", getCurrentTime());
-            receipt.put("products", selectedProducts);
 
-            saveReceiptToFile(receipt); // เรียกใช้เมทอด saveReceiptToFile แทนที่จะเรียก saveJSONArrayToFile
+            JSONArray productsArray = new JSONArray();
+            double totalPrice = 0.0;
+
+            for (Object obj : selectedProducts) {
+                JSONObject product = (JSONObject) obj;
+
+                double price = Double.parseDouble(product.get("price").toString());
+                int quantity = Integer.parseInt(product.get("quantity").toString());
+                double totalProductPrice = price * quantity;
+
+                // เพิ่มข้อมูลสินค้าที่ลูกค้าซื้อลงใน JSONArray
+                JSONObject productDetails = new JSONObject();
+                productDetails.put("productID", product.get("productID"));
+                productDetails.put("productName", product.get("productName"));
+                productDetails.put("color", product.get("color"));
+                productDetails.put("price", price);
+                productDetails.put("quantity", quantity);
+                productDetails.put("totalPrice", totalProductPrice);
+
+                productsArray.add(productDetails);
+
+                // คำนวณรวมยอดเงินทั้งหมด
+                totalPrice += totalProductPrice;
+            }
+
+            // เพิ่มข้อมูลจำนวนเงินที่ลูกค้าจ่าย
+            System.out.println("Total Price: " + totalPrice);
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter the amount received from the customer: ");
+            double amountReceived = scanner.nextDouble();
+
+            receipt.put(PAYMENT_AMOUNT, amountReceived);
+            receipt.put("products", productsArray);
+
+            saveReceiptToFile(receipt);
 
             System.out.println("Receipt created successfully!");
 
@@ -225,7 +258,8 @@ public class Cashier extends User {
         System.out.println("                    " + title);
         System.out.println(
                 "======================================================================================================");
-        System.out.format("| %-40s | %-10s | %-15s | %-10s |\n", "Product Name", "Color", "Price", "Quantity");
+        System.out.format("| %-40s | %-10s | %-15s | %-10s | %-10s |\n", "Product Name", "Color", "Price", "Quantity",
+                "Total Price");
         System.out.println(
                 "======================================================================================================");
         if (selectedProducts.isEmpty()) {
@@ -235,8 +269,13 @@ public class Cashier extends User {
 
         for (Object obj : selectedProducts) {
             JSONObject product = (JSONObject) obj;
-            System.out.format("| %-40s | %-10s | %-15s | %-10s |\n", product.get("productName"), product.get("color"),
-                    product.get("price"), product.get("quantity"));
+            double price = Double.parseDouble(product.get("price").toString());
+            int quantity = Integer.parseInt(product.get("quantity").toString());
+            double totalPrice = price * quantity;
+
+            System.out.format("| %-40s | %-10s | %-15s | %-10s | %-10s |\n", product.get("productName"),
+                    product.get("color"),
+                    product.get("price"), quantity, totalPrice);
         }
         System.out.println(
                 "======================================================================================================");
@@ -273,6 +312,14 @@ public class Cashier extends User {
         // ครอบยอดรวมและแสดงยอดรวม
         double totalPrice = calculateTotalPrice(selectedProducts);
         System.out.println("Total Price: " + totalPrice);
+
+        // ตรวจสอบว่ามีข้อมูลการชำระเงินหรือไม่
+        if (selectedProducts.size() > 0 && ((JSONObject) selectedProducts.get(0)).containsKey(PAYMENT_AMOUNT)) {
+            double amountReceived = (Double) ((JSONObject) selectedProducts.get(0)).get(PAYMENT_AMOUNT);
+            System.out.println("Amount Received: " + amountReceived);
+        } else {
+            System.out.println("Amount Received: Not available");
+        }
 
         // เคลียร์รายการที่ถูกเลือก
         selectedProducts.clear();
