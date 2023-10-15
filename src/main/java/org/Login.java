@@ -156,7 +156,8 @@ public class Login {
                                         ps1.displaySortedPrices(RINGS_FILE);
                                         break;
                                     case 8:
-                                        System.out.println("SalesReport");
+                                        SalesReport salesReport = new SalesReport();
+                                        salesReport.showReceiptData();
                                         break;
                                     default:
                                         System.out.println("Invalid choice");
