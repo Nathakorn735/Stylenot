@@ -219,10 +219,11 @@ public class Cashier extends User {
                     if (product.get("productID").equals(productID)) {
                         String productName = product.get("productName").toString();
                         String color = product.get("color").toString();
-                        String price = product.get("price").toString();
+                        double price = Double.parseDouble(product.get("price").toString());
+                        double totalPrice = price * Double.parseDouble(quantity);
                         String datetime = new Date().toString();
                         System.out.printf("| %-10s | %-40s | %-10s | %-15s | %-10s | %-20s |\n", productID, productName,
-                                color, price, quantity, datetime);
+                                color, totalPrice, quantity, datetime);
                         break;
                     }
                 }
@@ -337,6 +338,3 @@ public class Cashier extends User {
         }
     }
 }
-
-
-
