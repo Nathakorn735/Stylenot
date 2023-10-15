@@ -40,8 +40,8 @@ public class Cashier extends User {
             receipts = new JSONArray();
         }
 
-        // ตรวจสอบว่าไม่ใช่ไฟล์ EARRINGS_FILE หรือ RINGS_FILE ก่อนที่จะทำการเขียน
-        if (!RECEIPT_FILE.equals(EARRINGS_FILE) && !RECEIPT_FILE.equals(RINGS_FILE)) {
+        // ตรวจสอบว่าไฟล์ที่จะเขียนเป็นไฟล์ RECEIPT_FILE เท่านั้น
+        if (RECEIPT_FILE.equals("src/resources/json/receipt.json")) {
             receipts.add(receipt);
         }
 
@@ -66,7 +66,7 @@ public class Cashier extends User {
     }
 
     private static boolean removeStoredItemByID(JSONArray jsonArray, String productID, int quantity,
-            String productType) {
+            String productType, JSONArray selectedProducts) {
         for (Object obj : jsonArray) {
             JSONObject product = (JSONObject) obj;
             if (product.get("productID").equals(productID)) {
@@ -79,7 +79,7 @@ public class Cashier extends User {
                     product.put("storedItem", storedItem - quantity);
 
                     JSONObject orderedProduct = createProduct(productID, quantity, color, price, productName);
-                    jsonArray.add(orderedProduct);
+                    selectedProducts.add(orderedProduct);
 
                     return true;
                 } else {
@@ -160,7 +160,8 @@ public class Cashier extends User {
                 JSONObject productDetails = getProductDetails(productIDToOrder);
 
                 if (productDetails == null
-                        || !removeStoredItemByID(productsArray, productIDToOrder, quantityToOrder, productType)) {
+                        || !removeStoredItemByID(productsArray, productIDToOrder, quantityToOrder, productType,
+                                selectedProducts)) {
                     System.out.println("ProductID not found or insufficient quantity.");
                 } else {
                     int receiptId = generateReceiptId();
@@ -183,9 +184,6 @@ public class Cashier extends User {
                     if (!productExists) {
                         selectedProducts.add(orderedProduct);
                     }
-
-                    saveJSONArrayToFile(productsArray, productFile);
-                    System.out.println(productType + " Order successfully!");
                 }
                 System.out.print(
                         "Do you want to order another " + productType + "? (Type 'N' to exit, 'Y' to continue): ");
@@ -212,7 +210,8 @@ public class Cashier extends User {
             receipt.put("time", getCurrentTime());
             receipt.put("products", selectedProducts);
 
-            saveReceiptToFile(receipt);
+            saveReceiptToFile(receipt); // เรียกใช้เมทอด saveReceiptToFile แทนที่จะเรียก saveJSONArrayToFile
+
             System.out.println("Receipt created successfully!");
 
         } catch (Exception e) {
