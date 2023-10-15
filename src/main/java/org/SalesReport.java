@@ -5,8 +5,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SalesReport {
     private static final String RECEIPT_FILE = "src/resources/json/receipt.json";
@@ -37,9 +35,6 @@ public class SalesReport {
     private void displayReceiptData(JSONArray receipts) {
         double totalSales = 0;
 
-        // Map เพื่อเก็บยอด Quantity ของ Product ID แต่ละชิ้น
-        Map<String, Integer> productQuantityMap = new HashMap<>();
-
         // แสดงข้อมูลทั้งหมดจาก receipts
         for (Object receiptObj : receipts) {
             JSONObject receipt = (JSONObject) receiptObj;
@@ -58,16 +53,9 @@ public class SalesReport {
 
             for (Object productObj : products) {
                 JSONObject product = (JSONObject) productObj;
-                String productID = (String) product.get("productID");
-                String productName = (String) product.get("productName");
-                int quantity = Integer.parseInt(product.get("quantity").toString());
-
-                // บันทึกหรือเพิ่ม Quantity ใน Map
-                productQuantityMap.put(productID, productQuantityMap.getOrDefault(productID, 0) + quantity);
-
-                System.out.println("  Product ID: " + productID);
-                System.out.println("  Product Name: " + productName);
-                System.out.println("  Quantity: " + quantity);
+                System.out.println("  Product ID: " + product.get("productID"));
+                System.out.println("  Product Name: " + product.get("productName"));
+                System.out.println("  Quantity: " + product.get("quantity"));
                 System.out.println("  Color: " + product.get("color"));
                 System.out.println("  Price: " + product.get("price"));
                 System.out.println("  Total Price: " + product.get("totalPrice"));
@@ -77,13 +65,8 @@ public class SalesReport {
             System.out.println("------------------------------");
         }
 
-        // แสดงยอด Quantity ของ Product ID ทั้งหมด
-        System.out.println("Product ID Summary:");
-        for (Map.Entry<String, Integer> entry : productQuantityMap.entrySet()) {
-            System.out.println("  Product ID: " + entry.getKey() + ", Quantity: " + entry.getValue());
-        }
-
         System.out.println("Total Sales: " + totalSales);
         System.out.println("End of Receipt Data");
     }
+
 }
