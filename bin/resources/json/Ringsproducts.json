@@ -2,22 +2,22 @@
   {
     "storedItem": 979,
     "productID": "R01",
-    "color": "1",
-    "price": 1.0,
-    "productName": "1"
+    "color": "Red",
+    "price": 2.0,
+    "productName": "N"
   },
   {
     "storedItem": 989,
     "productID": "R02",
-    "color": "1",
+    "color": "Red",
     "price": 1.0,
-    "productName": "2"
+    "productName": "O"
   },
   {
     "storedItem": 989,
     "productID": "R03",
-    "color": "1",
-    "price": 1.0,
-    "productName": "3"
+    "color": "Red",
+    "price": 3.0,
+    "productName": "T"
   }
 ]

@@ -102,5 +102,102 @@
                 "productID": "E02"
             }
         ]
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:15:21",
+        "receiptId": 21,
+        "products": [
+            {
+                "quantity": 20,
+                "productID": "E01",
+                "color": "red",
+                "price": "1.0",
+                "productName": "K"
+            },
+            {
+                "quantity": 20,
+                "productID": "E02",
+                "color": "red",
+                "price": "1.0",
+                "productName": "A"
+            }
+        ]
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:17:11",
+        "receiptId": 22,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:18:12",
+        "receiptId": 23,
+        "products": [
+            {
+                "quantity": 2,
+                "productID": "E03",
+                "color": "red",
+                "price": "3.0",
+                "productName": "E"
+            },
+            {
+                "quantity": 2,
+                "productID": "E02",
+                "color": "red",
+                "price": "1.0",
+                "productName": "A"
+            }
+        ]
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:18:45",
+        "receiptId": 24,
+        "products": [
+            {
+                "quantity": 2,
+                "productID": "R01",
+                "color": "Red",
+                "price": "2.0",
+                "productName": "N"
+            },
+            {
+                "quantity": 2,
+                "productID": "R02",
+                "color": "Red",
+                "price": "1.0",
+                "productName": "O"
+            }
+        ]
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:19:16",
+        "receiptId": 25,
+        "products": [
+            {
+                "quantity": 2,
+                "productID": "E01",
+                "color": "red",
+                "price": "2.0",
+                "productName": "K"
+            },
+            {
+                "quantity": 2,
+                "productID": "E02",
+                "color": "red",
+                "price": "1.0",
+                "productName": "A"
+            },
+            {
+                "quantity": 2,
+                "productID": "E03",
+                "color": "red",
+                "price": "3.0",
+                "productName": "E"
+            }
+        ]
     }
 ]
