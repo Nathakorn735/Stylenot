@@ -72,5 +72,10 @@
       { "quantity": 10, "productID": "R03" },
       { "quantity": 10, "productID": "R01" }
     ]
+  },
+  {
+    "datetime": "Sun Oct 15 15:41:27 ICT 2023",
+    "receiptId": 19,
+    "products": [{ "quantity": 10, "productID": "E01" }]
   }
 ]
