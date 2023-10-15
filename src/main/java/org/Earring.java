@@ -14,11 +14,6 @@ public class Earring extends Product {
             JSONArray earringsArray = readJSONArrayFromFile("src/resources/json/Earringsproducts.json");
 
             System.out.println("Earrings Products Menu:");
-            System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", "Product ID", "Product Name",
-                    "Color",
-                    "Price", "Stored Item");
-            System.out.println(
-                    "======================================================================================================");
 
             displayProductList(earringsArray);
 

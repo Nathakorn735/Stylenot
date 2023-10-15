@@ -81,6 +81,8 @@ public class Login {
                             switch (choice) {
                                 case 1:
                                     p1.viewMenu();
+                                    e1.viewMenuEarrings();
+                                    r1.viewMenuRings();
                                     break;
                                 case 2:
                                     System.out.println("Choose product type:");
@@ -149,6 +151,8 @@ public class Login {
                             switch (choice) {
                                 case 1:
                                     p1.viewMenu();
+                                    e1.viewMenuEarrings();
+                                    r1.viewMenuRings();
                                     break;
                                 case 2:
                                     System.out.println("สั่งสินค้า");

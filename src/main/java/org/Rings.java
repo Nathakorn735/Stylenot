@@ -14,11 +14,6 @@ public class Rings extends Product {
             JSONArray ringsArray = readJSONArrayFromFile("src/resources/json/Ringsproducts.json");
 
             System.out.println("Rings Products Menu:");
-            System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", "Product ID", "Product Name",
-                    "Color",
-                    "Price", "Stored Item");
-            System.out.println(
-                    "======================================================================================================");
 
             displayProductList(ringsArray);
 
