@@ -40,7 +40,6 @@ public class Cashier extends User {
             receipts = new JSONArray();
         }
 
-        // ตรวจสอบว่าไฟล์ที่จะเขียนเป็นไฟล์ RECEIPT_FILE เท่านั้น
         if (RECEIPT_FILE.equals("src/resources/json/receipt.json")) {
             receipts.add(receipt);
         }
@@ -135,6 +134,7 @@ public class Cashier extends User {
         try {
             boolean continueOrdering = true;
             JSONArray productsArray = readJSONArrayFromFile(productFile);
+            Scanner scanner = new Scanner(System.in);
 
             do {
                 System.out.println(
@@ -143,15 +143,16 @@ public class Cashier extends User {
                         "Color", "Price", "Stored Item");
                 System.out.println(
                         "======================================================================================================");
+
                 if (productsArray.isEmpty()) {
                     System.out.println("No " + productType + " found.");
                     return;
                 }
 
                 displayProductList(productsArray);
+
                 System.out.println(
                         "======================================================================================================");
-                Scanner scanner = new Scanner(System.in);
                 System.out.print("Enter the productID to Order: ");
                 String productIDToOrder = scanner.next();
                 System.out.print("Enter the quantity to Order: ");
@@ -174,7 +175,8 @@ public class Cashier extends User {
                     for (Object obj : selectedProducts) {
                         JSONObject existingProduct = (JSONObject) obj;
                         if (existingProduct.get("productID").equals(productIDToOrder)) {
-                            int existingQuantity = Integer.parseInt(existingProduct.get("quantity").toString());
+                            existingProduct.put("quantity",
+                                    Integer.parseInt(existingProduct.get("quantity").toString()));
                             productExists = true;
                             break;
                         }
@@ -183,24 +185,31 @@ public class Cashier extends User {
                     if (!productExists) {
                         selectedProducts.add(orderedProduct);
                     }
-                }
-                System.out.print(
-                        "Do you want to order another " + productType + "? (Type 'N' to exit, 'Y' to continue): ");
-                String userInput = scanner.next();
-                if (userInput.equalsIgnoreCase("N")) {
-                    continueOrdering = false;
+
+                    System.out.println("Product added to the order.");
+
+                    // Create the receipt with a placeholder amountReceived (0.0 for now)
+                    createReceipt(selectedProducts, 0.0);
+
+                    System.out.print("Do you want to order another " + productType
+                            + "? (Type 'N' to exit, 'Y' to continue): ");
+                    String userInput = scanner.next();
+                    if (userInput.equalsIgnoreCase("N")) {
+                        continueOrdering = false;
+                    }
                 }
             } while (continueOrdering);
 
             displaySelectedProducts(selectedProducts, "Selected " + productType, productFile);
-            createReceipt(selectedProducts);
+            double amountReceived = getAmountReceived();
+            createReceipt(selectedProducts, amountReceived);
 
         } catch (Exception e) {
             System.out.println("Error ordering " + productType + ": " + e.getMessage());
         }
     }
 
-    private static void createReceipt(JSONArray selectedProducts) {
+    private static void createReceipt(JSONArray selectedProducts, double amountReceived) {
         try {
             int receiptId = generateReceiptId();
             JSONObject receipt = new JSONObject();
@@ -218,7 +227,6 @@ public class Cashier extends User {
                 int quantity = Integer.parseInt(product.get("quantity").toString());
                 double totalProductPrice = price * quantity;
 
-                // เพิ่มข้อมูลสินค้าที่ลูกค้าซื้อลงใน JSONArray
                 JSONObject productDetails = new JSONObject();
                 productDetails.put("productID", product.get("productID"));
                 productDetails.put("productName", product.get("productName"));
@@ -229,11 +237,15 @@ public class Cashier extends User {
 
                 productsArray.add(productDetails);
 
-                // คำนวณรวมยอดเงินทั้งหมด
                 totalPrice += totalProductPrice;
             }
 
             receipt.put("products", productsArray);
+            receipt.put("totalPrice", totalPrice);
+            receipt.put("amountReceived", amountReceived);
+
+            double change = amountReceived - totalPrice;
+            receipt.put("change", change);
 
             saveReceiptToFile(receipt);
 
@@ -276,11 +288,11 @@ public class Cashier extends User {
         System.out.print("Do you want to print the receipt? (Type 'Y' to print, 'N' to skip): ");
         String userInput = scanner.next();
         if (userInput.equalsIgnoreCase("Y")) {
-            printReceipt(selectedProducts, title, productFile);
+            printReceipt(selectedProducts);
         }
     }
 
-    private static void printReceipt(JSONArray selectedProducts, String title, String productFile) {
+    private static void printReceipt(JSONArray selectedProducts) {
         System.out.println(
                 "======================================================================================================");
         System.out.println("                           RECEIPT");
@@ -299,19 +311,13 @@ public class Cashier extends User {
         }
         System.out.println(
                 "======================================================================================================");
-        System.out.println("Receipt generated for " + title);
+        System.out.println("Receipt generated");
 
-        // ครอบยอดรวมและแสดงยอดรวม
         double totalPrice = calculateTotalPrice(selectedProducts);
         System.out.println("Total Price: " + totalPrice);
 
-        // เคลียร์รายการที่ถูกเลือก
-        selectedProducts.clear();
-
-        // ตรวจสอบการเลือกรับชำระ
         Scanner scanner = new Scanner(System.in);
-        System.out.print(
-                "Do you want to receive payment for the " + title + "? (Type 'Y' to receive payment, 'N' to skip): ");
+        System.out.print("Do you want to receive payment? (Type 'Y' to receive payment, 'N' to skip): ");
         String userInput = scanner.next();
         if (userInput.equalsIgnoreCase("Y")) {
             receivePayment(totalPrice);
@@ -326,7 +332,6 @@ public class Cashier extends User {
             System.out.println("Payment received successfully!");
             System.out.println("Change: " + change);
 
-            // เพิ่มข้อมูลจำนวนเงินที่ลูกค้าจ่ายลงใน JSONObject และบันทึกลงในไฟล์
             try {
                 JSONObject receipt = readLatestReceipt();
                 receipt.put(PAYMENT_AMOUNT, amountReceived);
