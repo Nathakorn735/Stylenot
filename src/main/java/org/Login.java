@@ -71,10 +71,11 @@ public class Login {
                         if (option == 1) {
                             System.out.println("กรุณาเลือกรายการ:");
                             System.out.println("1. View Menu");
-                            System.out.println("2. Add Menu");
-                            System.out.println("3. Delete Menu");
-                            System.out.println("4. Edit Menu");
-                            System.out.println("5. Receipt");
+                            System.out.println("2. Search Product");
+                            System.out.println("3. Add Menu");
+                            System.out.println("4. Delete Menu");
+                            System.out.println("5. Edit Menu");
+                            System.out.println("6. Receipt");
 
                             int choice = scanner.nextInt();
 
@@ -85,6 +86,15 @@ public class Login {
                                     r1.viewMenuRings();
                                     break;
                                 case 2:
+                                    System.out.println("Enter productID to search:");
+                                    String productIDToSearch = scanner.next();
+
+                                    ProductSearch productSearch = new ProductSearch();
+                                    productSearch.searchProductByID(productIDToSearch, EARRINGS_FILE);
+                                    productSearch.searchProductByID(productIDToSearch, RINGS_FILE);
+                                    break;
+
+                                case 3:
                                     System.out.println("Choose product type:");
                                     System.out.println("1. Earrings");
                                     System.out.println("2. Rings");
@@ -99,7 +109,7 @@ public class Login {
                                         System.out.println("Invalid product type choice!");
                                     }
                                     break;
-                                case 3:
+                                case 4:
                                     System.out.println("Choose product type:");
                                     System.out.println("1. Earrings");
                                     System.out.println("2. Rings");
@@ -114,7 +124,7 @@ public class Login {
                                         System.out.println("Invalid product type choice!");
                                     }
                                     break;
-                                case 4:
+                                case 5:
                                     System.out.println("Select product category:");
                                     System.out.println("1. Earrings");
                                     System.out.println("2. Rings");
@@ -134,7 +144,7 @@ public class Login {
                                             System.out.println("Invalid choice. Exiting...");
                                     }
                                     break;
-                                case 5:
+                                case 6:
                                     System.out.println("Not implemented yet");
                                     break;
                                 default:
