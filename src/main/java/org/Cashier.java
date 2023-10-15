@@ -40,7 +40,10 @@ public class Cashier extends User {
             receipts = new JSONArray();
         }
 
-        receipts.add(receipt);
+        // ตรวจสอบว่าไม่ใช่ไฟล์ EARRINGS_FILE หรือ RINGS_FILE ก่อนที่จะทำการเขียน
+        if (!RECEIPT_FILE.equals(EARRINGS_FILE) && !RECEIPT_FILE.equals(RINGS_FILE)) {
+            receipts.add(receipt);
+        }
 
         try (FileWriter fileWriter = new FileWriter(RECEIPT_FILE)) {
             fileWriter.write(receipts.toJSONString());
@@ -75,12 +78,6 @@ public class Cashier extends User {
                 if (storedItem >= quantity) {
                     product.put("storedItem", storedItem - quantity);
 
-                    try {
-                        saveJSONArrayToFile(jsonArray, getProductFile(productID));
-                    } catch (Exception e) {
-                        System.out.println("Error saving product details: " + e.getMessage());
-                    }
-
                     JSONObject orderedProduct = createProduct(productID, quantity, color, price, productName);
                     jsonArray.add(orderedProduct);
 
@@ -100,6 +97,38 @@ public class Cashier extends User {
         } else {
             return RINGS_FILE;
         }
+    }
+
+    private static JSONObject getProductDetails(String productID) {
+        try {
+            JSONArray earringsArray = readJSONArrayFromFile(EARRINGS_FILE);
+            JSONArray ringsArray = readJSONArrayFromFile(RINGS_FILE);
+
+            for (Object obj : earringsArray) {
+                JSONObject product = (JSONObject) obj;
+                if (product.get("productID").equals(productID)) {
+                    JSONObject productDetails = new JSONObject();
+                    productDetails.put("color", product.get("color"));
+                    productDetails.put("price", product.get("price"));
+                    productDetails.put("productName", product.get("productName"));
+                    return productDetails;
+                }
+            }
+
+            for (Object obj : ringsArray) {
+                JSONObject product = (JSONObject) obj;
+                if (product.get("productID").equals(productID)) {
+                    JSONObject productDetails = new JSONObject();
+                    productDetails.put("color", product.get("color"));
+                    productDetails.put("price", product.get("price"));
+                    productDetails.put("productName", product.get("productName"));
+                    return productDetails;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error getting product details: " + e.getMessage());
+        }
+        return null;
     }
 
     private static void orderProduct(JSONArray selectedProducts, String productType, String productFile) {
@@ -128,14 +157,17 @@ public class Cashier extends User {
                 System.out.print("Enter the quantity to Order: ");
                 int quantityToOrder = scanner.nextInt();
 
-                if (!removeStoredItemByID(productsArray, productIDToOrder, quantityToOrder, productType)) {
+                JSONObject productDetails = getProductDetails(productIDToOrder);
+
+                if (productDetails == null
+                        || !removeStoredItemByID(productsArray, productIDToOrder, quantityToOrder, productType)) {
                     System.out.println("ProductID not found or insufficient quantity.");
                 } else {
                     int receiptId = generateReceiptId();
                     JSONObject orderedProduct = createProduct(productIDToOrder, quantityToOrder,
-                            getSelectedProductColor(productsArray, productIDToOrder),
-                            getSelectedProductPrice(productsArray, productIDToOrder),
-                            getSelectedProductName(productsArray, productIDToOrder));
+                            productDetails.get("color").toString(),
+                            productDetails.get("price").toString(),
+                            productDetails.get("productName").toString());
 
                     boolean productExists = false;
                     for (Object obj : selectedProducts) {
@@ -280,36 +312,6 @@ public class Cashier extends User {
             totalPrice += price * quantity;
         }
         return totalPrice;
-    }
-
-    private static String getSelectedProductColor(JSONArray jsonArray, String productID) {
-        for (Object obj : jsonArray) {
-            JSONObject product = (JSONObject) obj;
-            if (product.get("productID").equals(productID)) {
-                return product.get("color").toString();
-            }
-        }
-        return "";
-    }
-
-    private static String getSelectedProductPrice(JSONArray jsonArray, String productID) {
-        for (Object obj : jsonArray) {
-            JSONObject product = (JSONObject) obj;
-            if (product.get("productID").equals(productID)) {
-                return product.get("price").toString();
-            }
-        }
-        return "";
-    }
-
-    private static String getSelectedProductName(JSONArray jsonArray, String productID) {
-        for (Object obj : jsonArray) {
-            JSONObject product = (JSONObject) obj;
-            if (product.get("productID").equals(productID)) {
-                return product.get("productName").toString();
-            }
-        }
-        return "";
     }
 
     public void orderEarring() {
