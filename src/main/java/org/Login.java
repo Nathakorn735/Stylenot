@@ -68,128 +68,137 @@ public class Login {
                             option = 2;
                         }
 
+                        do {
+                            if (option == 1) {
+                                System.out.println("กรุณาเลือกรายการ:");
+                                System.out.println("1. View Menu");
+                                System.out.println("2. Search Product");
+                                System.out.println("3. Add Menu");
+                                System.out.println("4. Delete Menu");
+                                System.out.println("5. Edit Menu");
+                                System.out.println("6. Receipt");
+
+                                int choice = scanner.nextInt();
+
+                                switch (choice) {
+                                    case 1:
+                                        p1.viewMenu();
+                                        e1.viewMenuEarrings();
+                                        r1.viewMenuRings();
+                                        break;
+                                    case 2:
+                                        System.out.println("Enter productID to search:");
+                                        String productIDToSearch = scanner.next();
+
+                                        ProductSearch productSearch = new ProductSearch();
+                                        productSearch.searchProductByID(productIDToSearch, EARRINGS_FILE);
+                                        productSearch.searchProductByID(productIDToSearch, RINGS_FILE);
+                                        break;
+
+                                    case 3:
+                                        System.out.println("Choose product type:");
+                                        System.out.println("1. Earrings");
+                                        System.out.println("2. Rings");
+
+                                        int productTypeChoice = scanner.nextInt();
+
+                                        if (productTypeChoice == 1) {
+                                            m1.addEarring();
+                                        } else if (productTypeChoice == 2) {
+                                            m1.addRing();
+                                        } else {
+                                            System.out.println("Invalid product type choice!");
+                                        }
+                                        break;
+                                    case 4:
+                                        System.out.println("Choose product type:");
+                                        System.out.println("1. Earrings");
+                                        System.out.println("2. Rings");
+
+                                        int productTypeChoice2 = scanner.nextInt();
+
+                                        if (productTypeChoice2 == 1) {
+                                            m1.deleteEarring();
+                                        } else if (productTypeChoice2 == 2) {
+                                            m1.deleteRing();
+                                        } else {
+                                            System.out.println("Invalid product type choice!");
+                                        }
+                                        break;
+                                    case 5:
+                                        System.out.println("Select product category:");
+                                        System.out.println("1. Earrings");
+                                        System.out.println("2. Rings");
+
+                                        int categoryChoice = scanner.nextInt();
+
+                                        switch (categoryChoice) {
+                                            case 1:
+                                                m1.displayAllProducts(EARRINGS_FILE);
+                                                m1.editProduct(EARRINGS_FILE);
+                                                break;
+                                            case 2:
+                                                m1.displayAllProducts(RINGS_FILE);
+                                                m1.editProduct(RINGS_FILE);
+                                                break;
+                                            default:
+                                                System.out.println("Invalid choice. Exiting...");
+                                        }
+                                        break;
+                                    case 6:
+                                        System.out.println("Not implemented yet");
+                                        break;
+                                    default:
+                                        System.out.println("Invalid choice");
+                                }
+                            } else if (option == 2) {
+                                System.out.println("กรุณาเลือกรายการ:");
+                                System.out.println("1. View Menu");
+                                System.out.println("2. Order");
+                                System.out.println("3. Receipt");
+
+                                int choice = scanner.nextInt();
+
+                                switch (choice) {
+                                    case 1:
+                                        p1.viewMenu();
+                                        e1.viewMenuEarrings();
+                                        r1.viewMenuRings();
+                                        break;
+                                    case 2:
+                                        System.out.println("สั่งสินค้า");
+                                        System.out.println("Choose product type:");
+                                        System.out.println("1. Earrings");
+                                        System.out.println("2. Rings");
+
+                                        int productTypeChoice2 = scanner.nextInt();
+
+                                        if (productTypeChoice2 == 1) {
+                                            c1.orderEarring();
+                                        } else if (productTypeChoice2 == 2) {
+                                            c1.orderRing();
+                                        } else {
+                                            System.out.println("Invalid product type choice!");
+                                        }
+                                        break;
+                                    case 3:
+                                        System.out.println("Not implemented yet");
+                                        break;
+                                    default:
+                                        System.out.println("Invalid choice");
+                                }
+                            }
+
+                            updateLoginMovement(loggedInUser, loggedInEmpID, loggedInEmpName, "YourPhone");
+
+                            System.out.println("Do you want to continue? (Y/N)");
+                        } while (scanner.next().equalsIgnoreCase("Y"));
+
                         if (option == 1) {
-                            System.out.println("กรุณาเลือกรายการ:");
-                            System.out.println("1. View Menu");
-                            System.out.println("2. Search Product");
-                            System.out.println("3. Add Menu");
-                            System.out.println("4. Delete Menu");
-                            System.out.println("5. Edit Menu");
-                            System.out.println("6. Receipt");
-
-                            int choice = scanner.nextInt();
-
-                            switch (choice) {
-                                case 1:
-                                    p1.viewMenu();
-                                    e1.viewMenuEarrings();
-                                    r1.viewMenuRings();
-                                    break;
-                                case 2:
-                                    System.out.println("Enter productID to search:");
-                                    String productIDToSearch = scanner.next();
-
-                                    ProductSearch productSearch = new ProductSearch();
-                                    productSearch.searchProductByID(productIDToSearch, EARRINGS_FILE);
-                                    productSearch.searchProductByID(productIDToSearch, RINGS_FILE);
-                                    break;
-
-                                case 3:
-                                    System.out.println("Choose product type:");
-                                    System.out.println("1. Earrings");
-                                    System.out.println("2. Rings");
-
-                                    int productTypeChoice = scanner.nextInt();
-
-                                    if (productTypeChoice == 1) {
-                                        m1.addEarring();
-                                    } else if (productTypeChoice == 2) {
-                                        m1.addRing();
-                                    } else {
-                                        System.out.println("Invalid product type choice!");
-                                    }
-                                    break;
-                                case 4:
-                                    System.out.println("Choose product type:");
-                                    System.out.println("1. Earrings");
-                                    System.out.println("2. Rings");
-
-                                    int productTypeChoice2 = scanner.nextInt();
-
-                                    if (productTypeChoice2 == 1) {
-                                        m1.deleteEarring();
-                                    } else if (productTypeChoice2 == 2) {
-                                        m1.deleteRing();
-                                    } else {
-                                        System.out.println("Invalid product type choice!");
-                                    }
-                                    break;
-                                case 5:
-                                    System.out.println("Select product category:");
-                                    System.out.println("1. Earrings");
-                                    System.out.println("2. Rings");
-
-                                    int categoryChoice = scanner.nextInt();
-
-                                    switch (categoryChoice) {
-                                        case 1:
-                                            m1.displayAllProducts(EARRINGS_FILE);
-                                            m1.editProduct(EARRINGS_FILE);
-                                            break;
-                                        case 2:
-                                            m1.displayAllProducts(RINGS_FILE);
-                                            m1.editProduct(RINGS_FILE);
-                                            break;
-                                        default:
-                                            System.out.println("Invalid choice. Exiting...");
-                                    }
-                                    break;
-                                case 6:
-                                    System.out.println("Not implemented yet");
-                                    break;
-                                default:
-                                    System.out.println("Invalid choice");
-                            }
+                            System.out.println("Returning to Manager options...");
                         } else if (option == 2) {
-                            System.out.println("กรุณาเลือกรายการ:");
-                            System.out.println("1. View Menu");
-                            System.out.println("2. Order");
-                            System.out.println("3. Receipt");
-
-                            int choice = scanner.nextInt();
-
-                            switch (choice) {
-                                case 1:
-                                    p1.viewMenu();
-                                    e1.viewMenuEarrings();
-                                    r1.viewMenuRings();
-                                    break;
-                                case 2:
-                                    System.out.println("สั่งสินค้า");
-                                    System.out.println("Choose product type:");
-                                    System.out.println("1. Earrings");
-                                    System.out.println("2. Rings");
-
-                                    int productTypeChoice2 = scanner.nextInt();
-
-                                    if (productTypeChoice2 == 1) {
-                                        c1.orderEarring();
-                                    } else if (productTypeChoice2 == 2) {
-                                        c1.orderRing();
-                                    } else {
-                                        System.out.println("Invalid product type choice!");
-                                    }
-                                    break;
-                                case 3:
-                                    System.out.println("Not implemented yet");
-                                    break;
-                                default:
-                                    System.out.println("Invalid choice");
-                            }
+                            System.out.println("Returning to Cashier options...");
                         }
-
-                        updateLoginMovement(loggedInUser, loggedInEmpID, loggedInEmpName, "YourPhone");
-
                         break; // Exit the main loop when the user is authenticated
                     }
                 }
