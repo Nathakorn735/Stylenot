@@ -20,7 +20,6 @@ public class ProductSearch {
                 }
             }
 
-            System.out.println("ProductID " + productID + " not found in " + productFile);
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
         }
