@@ -1,101 +1,23 @@
 [
   {
-    "storedItem": 100,
-    "productID": "K04",
-    "color": "Silver",
-    "price": 75,
-    "productName": "Silver Twinkle Starlight Earrings"
-  },
-  {
-    "storedItem": 100,
-    "productID": "K05",
-    "color": "Silver",
-    "price": 70,
-    "productName": "Tinkle Butterfly Huggie Hoop Earrings"
-  },
-  {
-    "storedItem": 400,
-    "productID": "K06",
-    "color": "Silver",
-    "price": 70,
-    "productName": "Clover Huggie Hoop Earrings"
-  },
-  {
-    "storedItem": 200,
-    "productID": "K07",
-    "color": "blue",
-    "price": 15.0,
-    "productName": "yada"
-  },
-  {
-    "storedItem": 200,
-    "productID": "K08",
-    "color": "White",
-    "price": 1.0,
-    "productName": "Not"
-  },
-  {
-    "storedItem": 100,
-    "productID": "K09",
+    "storedItem": 999,
+    "productID": "R01",
     "color": "1",
     "price": 1.0,
     "productName": "1"
   },
   {
-    "storedItem": 17,
-    "productID": "K10",
-    "color": "pink",
-    "price": 1.0,
-    "productName": "Not"
-  },
-  {
-    "storedItem": 900,
-    "productID": "K11",
+    "storedItem": 999,
+    "productID": "R02",
     "color": "1",
     "price": 1.0,
-    "productName": "1"
+    "productName": "2"
   },
   {
-    "storedItem": 800,
-    "productID": "K13",
-    "color": "1",
-    "priceperSide": 1.0,
-    "productName": "1"
-  },
-  {
-    "storedItem": 1000,
-    "priceperPair": 1.0,
-    "productID": "K14",
+    "storedItem": 999,
+    "productID": "R03",
     "color": "1",
     "price": 1.0,
-    "productName": "1"
-  },
-  {
-    "storedItem": 1000,
-    "productID": "K15",
-    "color": "1",
-    "price": 1.0,
-    "productName": "1"
-  },
-  {
-    "storedItem": 100,
-    "productID": "K14",
-    "color": "1",
-    "price": 1.0,
-    "productName": "1"
-  },
-  {
-    "storedItem": 100,
-    "productID": "K15",
-    "color": "1",
-    "price": 1.0,
-    "productName": "1"
-  },
-  {
-    "storedItem": 1000,
-    "productID": "K16",
-    "color": "1",
-    "price": 1.0,
-    "productName": "1"
+    "productName": "3"
   }
 ]

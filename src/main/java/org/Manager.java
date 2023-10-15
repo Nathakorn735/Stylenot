@@ -176,7 +176,7 @@ public class Manager extends User {
             }
 
             int productCount = productsArray.size();
-            String prefix = filename.equals(EARRINGS_FILE) ? "K" : "R";
+            String prefix = filename.equals(EARRINGS_FILE) ? "E" : "R";
             return prefix + String.format("%02d", productCount + 1);
 
         } catch (Exception e) {

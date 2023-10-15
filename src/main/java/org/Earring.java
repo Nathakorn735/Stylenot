@@ -1,74 +1,60 @@
 package main.java.org;
 
-import java.io.FileReader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 public class Earring extends Product {
 
-    public Earring() {
-        // Constructor สำหรับคลาส Earring
-    }
-
     public void viewMenuEarrings() {
-        JSONArray combinedArray = loadProductData("src/resources/json/Earringsproducts.json");
-
-        System.out.println(
-                "========================================================================================================================");
-        System.out.format("| %-10s | %-40s | %-10s | %-15s | %-15s | %-10s |\n", "Product ID", "Product Name", "Color",
-                "Priceper Pair", "Priceper Side", "Stored Item");
-        System.out.println(
-                "========================================================================================================================");
-
-        for (Object obj : combinedArray) {
-            JSONObject product = (JSONObject) obj;
-            printProductDetails(product);
-        }
-    }
-
-    // เพิ่ม method สำหรับโหลดข้อมูลสินค้า
-    private JSONArray loadProductData(String filePath) {
         try {
-            return (JSONArray) new JSONParser().parse(new FileReader(filePath));
+            // อ่านข้อมูลจากไฟล์ Earringsproducts.json
+            JSONArray earringsArray = readJSONArrayFromFile("src/resources/json/Earringsproducts.json");
+
+            System.out.println("Earrings Products Menu:");
+            System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", "Product ID", "Product Name",
+                    "Color",
+                    "Price", "Stored Item");
+            System.out.println(
+                    "======================================================================================================");
+
+            displayProductList(earringsArray);
+
+            System.out.println(
+                    "======================================================================================================");
+
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("An error occurred while loading product data: " + e.getMessage());
-            return new JSONArray();
+            System.out.println("An error occurred while viewing Earrings menu: " + e.getMessage());
         }
     }
 
-    // เพิ่ม method สำหรับพิมพ์รายละเอียดสินค้า
-    private void printProductDetails(JSONObject product) {
-        String productID = (String) product.get("productID");
-        String productName = (String) product.get("productName");
-        String color = (String) product.get("color");
-
-        // Handle the casting appropriately
-        Double priceperPair = null;
-        Double priceperSide = null;
-        Long storedItem = null;
-
-        try {
-            Object priceperPairObj = product.get("priceperPair");
-            if (priceperPairObj != null) {
-                priceperPair = ((Number) priceperPairObj).doubleValue();
-            }
-
-            Object priceperSideObj = product.get("priceperSide");
-            if (priceperSideObj != null) {
-                priceperSide = ((Number) priceperSideObj).doubleValue();
-            }
-
-            Object storedItemObj = product.get("storedItem");
-            if (storedItemObj != null) {
-                storedItem = ((Number) storedItemObj).longValue();
-            }
-        } catch (ClassCastException e) {
-            throw new ClassCastException("Error casting values: " + e.getMessage());
+    // คัดลอกเมธอดนี้จาก Cashier class
+    private static void displayProductList(JSONArray jsonArray) {
+        for (Object obj : jsonArray) {
+            JSONObject product = (JSONObject) obj;
+            System.out.printf("| %-10s | %-40s | %-10s | %-15s| %-12s|%n", product.get("productID"),
+                    product.get("productName"),
+                    product.get("color"), product.get("price"),
+                    product.get("storedItem"));
         }
+    }
 
-        System.out.format("| %-10s | %-40s | %-10s | %-15s | %-15s | %-10s |\n", productID, productName, color,
-                priceperPair, priceperSide, storedItem);
+    // คัดลอกเมธอดนี้จาก Cashier class
+    private static JSONArray readJSONArrayFromFile(String filename) throws Exception {
+        JSONArray jsonArray;
+        try (FileReader fileReader = new FileReader(filename)) {
+            int data;
+            StringBuilder content = new StringBuilder();
+
+            while ((data = fileReader.read()) != -1) {
+                content.append((char) data);
+            }
+
+            if (content.length() == 0) {
+                jsonArray = new JSONArray();
+            } else {
+                jsonArray = (JSONArray) new JSONParser().parse(content.toString());
+            }
+        }
+        return jsonArray;
     }
 }

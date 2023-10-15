@@ -2,71 +2,59 @@ package main.java.org;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import java.io.FileReader;
 
 public class Rings extends Product {
+
     public void viewMenuRings() {
         try {
-            JSONArray combinedArray = getCombinedProductArray("src/resources/json/Ringsproducts.json");
+            // อ่านข้อมูลจากไฟล์ Ringsproducts.json
+            JSONArray ringsArray = readJSONArrayFromFile("src/resources/json/Ringsproducts.json");
 
-            System.out.println(
-                    "========================================================================================================================");
-            System.out.format("| %-10s | %-40s | %-10s | %-15s | %-15s | %-10s |\n", "Product ID", "Product Name",
+            System.out.println("Rings Products Menu:");
+            System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", "Product ID", "Product Name",
                     "Color",
-                    "Priceper Pair",
-                    "Priceper Side", "Stored Item");
+                    "Price", "Stored Item");
             System.out.println(
-                    "========================================================================================================================");
+                    "======================================================================================================");
 
-            for (Object obj : combinedArray) {
-                JSONObject product = (JSONObject) obj;
-                String productID = (String) product.get("productID");
-                String productName = (String) product.get("productName");
-                String color = (String) product.get("color");
+            displayProductList(ringsArray);
 
-                // Handle the casting appropriately
-                Double priceperPair = null;
-                Double priceperSide = null;
-                Long storedItem = null;
+            System.out.println(
+                    "======================================================================================================");
 
-                try {
-                    Object priceperPairObj = product.get("priceperPair");
-                    if (priceperPairObj != null) {
-                        priceperPair = ((Number) priceperPairObj).doubleValue();
-                    }
-
-                    Object priceperSideObj = product.get("priceperSide");
-                    if (priceperSideObj != null) {
-                        priceperSide = ((Number) priceperSideObj).doubleValue();
-                    }
-
-                    Object storedItemObj = product.get("storedItem");
-                    if (storedItemObj != null) {
-                        storedItem = ((Number) storedItemObj).longValue();
-                    }
-                } catch (ClassCastException e) {
-                    throw new ClassCastException("Error casting values: " + e.getMessage());
-                }
-
-                System.out.format("| %-10s | %-40s | %-10s | %-15s | %-15s | %-10s |\n", productID, productName, color,
-                        priceperPair, priceperSide, storedItem);
-            }
         } catch (Exception e) {
-            e.printStackTrace(); // Display the stack trace for debugging
-            System.out.println("An error occurred: " + e.getMessage());
+            System.out.println("An error occurred while viewing Rings menu: " + e.getMessage());
         }
     }
 
-    private JSONArray getCombinedProductArray(String filePath) throws Exception {
-        JSONArray earringsArray = (JSONArray) new JSONParser()
-                .parse(new FileReader("src/resources/json/Earringsproducts.json"));
-        JSONArray ringsArray = (JSONArray) new JSONParser().parse(new FileReader(filePath));
+    // คัดลอกเมธอดนี้จาก Earring class
+    private static void displayProductList(JSONArray jsonArray) {
+        for (Object obj : jsonArray) {
+            JSONObject product = (JSONObject) obj;
+            System.out.printf("| %-10s | %-40s | %-10s | %-15s| %-12s|%n", product.get("productID"),
+                    product.get("productName"),
+                    product.get("color"), product.get("price"),
+                    product.get("storedItem"));
+        }
+    }
 
-        JSONArray combinedArray = new JSONArray();
-        combinedArray.addAll(earringsArray);
-        combinedArray.addAll(ringsArray);
+    // คัดลอกเมธอดนี้จาก Earring class
+    private static JSONArray readJSONArrayFromFile(String filename) throws Exception {
+        JSONArray jsonArray;
+        try (FileReader fileReader = new FileReader(filename)) {
+            int data;
+            StringBuilder content = new StringBuilder();
 
-        return combinedArray;
+            while ((data = fileReader.read()) != -1) {
+                content.append((char) data);
+            }
+
+            if (content.length() == 0) {
+                jsonArray = new JSONArray();
+            } else {
+                jsonArray = (JSONArray) new JSONParser().parse(content.toString());
+            }
+        }
+        return jsonArray;
     }
 }
