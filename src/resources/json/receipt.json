@@ -1,1 +1,746 @@
-[{"datetime":"Sun Oct 15 15:19:36 ICT 2023","quantity":10,"productID":"R01","receiptId":13},{"datetime":"Sun Oct 15 15:19:43 ICT 2023","quantity":10,"productID":"R02","receiptId":14},{"date":"Sun Oct 15 15:19:44 ICT 2023","receiptId":15,"products":[{"datetime":"Sun Oct 15 15:19:36 ICT 2023","quantity":10,"productID":"R01","receiptId":13},{"datetime":"Sun Oct 15 15:19:43 ICT 2023","quantity":10,"productID":"R02","receiptId":14}]},{"date":"Sun Oct 15 15:24:05 ICT 2023","receiptId":16,"products":[{"datetime":"Sun Oct 15 15:23:55 ICT 2023","quantity":2,"productID":"E01","receiptId":16},{"datetime":"Sun Oct 15 15:24:03 ICT 2023","quantity":1,"productID":"E02","receiptId":16}]},{"datetime":"Sun Oct 15 15:28:05 ICT 2023","receiptId":17,"products":[{"datetime":"Sun Oct 15 15:27:51 ICT 2023","quantity":2,"productID":"E01","receiptId":17},{"datetime":"Sun Oct 15 15:28:04 ICT 2023","quantity":2,"productID":"E02","receiptId":17}]},{"datetime":"Sun Oct 15 15:31:06 ICT 2023","receiptId":18,"products":[{"quantity":10,"productID":"R03"},{"quantity":10,"productID":"R01"}]},{"datetime":"Sun Oct 15 15:41:27 ICT 2023","receiptId":19,"products":[{"quantity":10,"productID":"E01"}]},{"datetime":"Sun Oct 15 20:14:00 ICT 2023","receiptId":20,"products":[{"quantity":10,"productID":"E01"},{"quantity":10,"productID":"E02"}]},{"date":"2566-10-15","time":"21:15:21","receiptId":21,"products":[{"quantity":20,"productID":"E01","color":"red","price":"1.0","productName":"K"},{"quantity":20,"productID":"E02","color":"red","price":"1.0","productName":"A"}]},{"date":"2566-10-15","time":"21:17:11","receiptId":22,"products":[]},{"date":"2566-10-15","time":"21:18:12","receiptId":23,"products":[{"quantity":2,"productID":"E03","color":"red","price":"3.0","productName":"E"},{"quantity":2,"productID":"E02","color":"red","price":"1.0","productName":"A"}]},{"date":"2566-10-15","time":"21:18:45","receiptId":24,"products":[{"quantity":2,"productID":"R01","color":"Red","price":"2.0","productName":"N"},{"quantity":2,"productID":"R02","color":"Red","price":"1.0","productName":"O"}]},{"date":"2566-10-15","time":"21:19:16","receiptId":25,"products":[{"quantity":2,"productID":"E01","color":"red","price":"2.0","productName":"K"},{"quantity":2,"productID":"E02","color":"red","price":"1.0","productName":"A"},{"quantity":2,"productID":"E03","color":"red","price":"3.0","productName":"E"}]},{"date":"2566-10-15","time":"21:35:50","receiptId":26,"paymentAmount":1000.0,"products":[]},{"date":"2566-10-15","time":"21:37:51","receiptId":27,"paymentAmount":100.0,"products":[]},{"date":"2566-10-15","time":"21:40:40","receiptId":28,"paymentAmount":1999.0,"products":[]},{"date":"2566-10-15","time":"21:41:53","receiptId":29,"products":[]},{"date":"2566-10-15","time":"21:42:54","receiptId":30,"products":[]},{"date":"2566-10-15","time":"21:44:44","receiptId":31,"paymentAmount":1000.0,"products":[]},{"date":"2566-10-15","time":"21:45:56","receiptId":32,"paymentAmount":1000.0,"products":[]},{"date":"2566-10-15","time":"21:55:53","receiptId":33,"paymentAmount":1000.0,"products":[]},{"date":"2566-10-15","time":"21:56:58","receiptId":34,"paymentAmount":1000.0,"products":[]},{"date":"2566-10-15","time":"22:10:03","receiptId":35,"products":[]},{"date":"2566-10-15","time":"22:10:03","receiptId":35,"paymentAmount":1000.0,"products":[]},{"date":"2566-10-15","time":"22:18:47","receiptId":36,"products":[]},{"date":"2566-10-15","time":"22:18:47","receiptId":36,"paymentAmount":1000.0,"products":[]},{"date":"2566-10-15","time":"22:19:45","receiptId":37,"products":[]},{"date":"2566-10-15","totalAmount":0.0,"time":"22:26:03","changeAmount":1.0,"receiptId":38,"paymentAmount":1.0,"products":[]},{"date":"2566-10-15","totalAmount":0.0,"time":"22:26:03","changeAmount":1.0,"receiptId":38,"paymentAmount":3.0,"products":[]},{"date":"2566-10-15","time":"22:27:03","receiptId":39,"products":[]},{"date":"2566-10-15","totalPrice":4.0,"change":-4.0,"time":"22:35:55","receiptId":40,"products":[{"quantity":2,"productID":"E01","color":"red","totalPrice":4.0,"price":2.0,"productName":"K"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":4.0,"change":-4.0,"time":"22:35:55","receiptId":40,"paymentAmount":5.0,"products":[{"quantity":2,"productID":"E01","color":"red","totalPrice":4.0,"price":2.0,"productName":"K"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":4.0,"change":1.0,"time":"22:36:22","receiptId":41,"products":[{"quantity":2,"productID":"E01","color":"red","totalPrice":4.0,"price":2.0,"productName":"K"}],"amountReceived":5.0},{"date":"2566-10-15","totalPrice":3.0,"change":-3.0,"time":"22:39:22","receiptId":42,"products":[{"quantity":1,"productID":"E03","color":"red","totalPrice":3.0,"price":3.0,"productName":"E"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":3.0,"change":-3.0,"time":"22:39:22","receiptId":42,"paymentAmount":5.0,"products":[{"quantity":1,"productID":"E03","color":"red","totalPrice":3.0,"price":3.0,"productName":"E"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":3.0,"change":2.0,"time":"22:39:36","receiptId":43,"products":[{"quantity":1,"productID":"E03","color":"red","totalPrice":3.0,"price":3.0,"productName":"E"}],"amountReceived":5.0},{"date":"2566-10-15","totalPrice":30.0,"change":-30.0,"time":"22:40:09","receiptId":44,"products":[{"quantity":10,"productID":"R03","color":"Red","totalPrice":30.0,"price":3.0,"productName":"T"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":30.0,"change":-30.0,"time":"22:40:09","receiptId":44,"paymentAmount":50.0,"products":[{"quantity":10,"productID":"R03","color":"Red","totalPrice":30.0,"price":3.0,"productName":"T"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":30.0,"change":20.0,"time":"22:40:22","receiptId":45,"products":[{"quantity":10,"productID":"R03","color":"Red","totalPrice":30.0,"price":3.0,"productName":"T"}],"amountReceived":50.0},{"date":"2566-10-15","totalPrice":20.0,"change":-20.0,"time":"22:42:00","receiptId":46,"products":[{"quantity":10,"productID":"E01","color":"red","totalPrice":20.0,"price":2.0,"productName":"K"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":20.0,"change":-20.0,"time":"22:42:00","receiptId":46,"paymentAmount":1000.0,"products":[{"quantity":10,"productID":"E01","color":"red","totalPrice":20.0,"price":2.0,"productName":"K"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":20.0,"change":980.0,"time":"22:42:58","receiptId":47,"products":[{"quantity":10,"productID":"E01","color":"red","totalPrice":20.0,"price":2.0,"productName":"K"}],"amountReceived":1000.0},{"date":"2566-10-15","totalPrice":20.0,"change":-20.0,"time":"22:46:46","receiptId":48,"products":[{"quantity":10,"productID":"R01","color":"Red","totalPrice":20.0,"price":2.0,"productName":"N"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":40.0,"change":-40.0,"time":"22:46:54","receiptId":49,"products":[{"quantity":10,"productID":"R01","color":"Red","totalPrice":20.0,"price":2.0,"productName":"N"},{"quantity":20,"productID":"R02","color":"Red","totalPrice":20.0,"price":1.0,"productName":"O"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":40.0,"change":-40.0,"time":"22:46:54","receiptId":49,"paymentAmount":1000.0,"products":[{"quantity":10,"productID":"R01","color":"Red","totalPrice":20.0,"price":2.0,"productName":"N"},{"quantity":20,"productID":"R02","color":"Red","totalPrice":20.0,"price":1.0,"productName":"O"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":40.0,"change":-40.0,"time":"22:47:03","receiptId":50,"products":[{"quantity":10,"productID":"R01","color":"Red","totalPrice":20.0,"price":2.0,"productName":"N"},{"quantity":20,"productID":"R02","color":"Red","totalPrice":20.0,"price":1.0,"productName":"O"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":200.0,"change":-200.0,"time":"22:48:23","receiptId":51,"products":[{"quantity":100,"productID":"E01","color":"red","totalPrice":200.0,"price":2.0,"productName":"K"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":200.0,"change":-200.0,"time":"22:48:23","receiptId":51,"paymentAmount":100000.0,"products":[{"quantity":100,"productID":"E01","color":"red","totalPrice":200.0,"price":2.0,"productName":"K"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":100.0,"change":-100.0,"time":"22:49:45","receiptId":52,"products":[{"quantity":100,"productID":"R02","color":"Red","totalPrice":100.0,"price":1.0,"productName":"O"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":100.0,"change":9900.0,"time":"22:49:54","receiptId":53,"products":[{"quantity":100,"productID":"R02","color":"Red","totalPrice":100.0,"price":1.0,"productName":"O"}],"amountReceived":10000.0},{"date":"2566-10-15","totalPrice":20.0,"change":-20.0,"time":"22:51:08","receiptId":54,"products":[{"quantity":10,"productID":"E01","color":"red","totalPrice":20.0,"price":2.0,"productName":"K"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":20.0,"change":980.0,"time":"22:51:15","receiptId":55,"products":[{"quantity":10,"productID":"E01","color":"red","totalPrice":20.0,"price":2.0,"productName":"K"}],"amountReceived":1000.0},{"date":"2566-10-15","totalPrice":4.0,"change":-4.0,"time":"23:21:17","receiptId":56,"products":[{"quantity":2,"productID":"E01","color":"red","totalPrice":4.0,"price":2.0,"productName":"K"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":6.0,"change":-6.0,"time":"23:21:23","receiptId":57,"products":[{"quantity":2,"productID":"E01","color":"red","totalPrice":4.0,"price":2.0,"productName":"K"},{"quantity":2,"productID":"E02","color":"red","totalPrice":2.0,"price":1.0,"productName":"A"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":6.0,"change":4.0,"time":"23:21:39","receiptId":58,"products":[{"quantity":2,"productID":"E01","color":"red","totalPrice":4.0,"price":2.0,"productName":"K"},{"quantity":2,"productID":"E02","color":"red","totalPrice":2.0,"price":1.0,"productName":"A"}],"amountReceived":10.0},{"date":"2566-10-15","totalPrice":2.0,"change":-2.0,"time":"23:24:19","receiptId":59,"products":[{"quantity":1,"productID":"E01","color":"red","totalPrice":2.0,"price":2.0,"productName":"K"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":3.0,"change":-3.0,"time":"23:24:25","receiptId":60,"products":[{"quantity":1,"productID":"E01","color":"red","totalPrice":2.0,"price":2.0,"productName":"K"},{"quantity":1,"productID":"E02","color":"red","totalPrice":1.0,"price":1.0,"productName":"A"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":3.0,"change":2.0,"time":"23:24:34","receiptId":61,"products":[{"quantity":1,"productID":"E01","color":"red","totalPrice":2.0,"price":2.0,"productName":"K"},{"quantity":1,"productID":"E02","color":"red","totalPrice":1.0,"price":1.0,"productName":"A"}],"amountReceived":5.0},{"date":"2566-10-15","totalPrice":2.0,"change":-2.0,"time":"23:24:46","receiptId":62,"products":[{"quantity":1,"productID":"R01","color":"Red","totalPrice":2.0,"price":2.0,"productName":"N"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":4.0,"change":-4.0,"time":"23:24:51","receiptId":63,"products":[{"quantity":1,"productID":"R01","color":"Red","totalPrice":2.0,"price":2.0,"productName":"N"},{"quantity":2,"productID":"R02","color":"Red","totalPrice":2.0,"price":1.0,"productName":"O"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":13.0,"change":-13.0,"time":"23:25:02","receiptId":64,"products":[{"quantity":1,"productID":"R01","color":"Red","totalPrice":2.0,"price":2.0,"productName":"N"},{"quantity":2,"productID":"R02","color":"Red","totalPrice":2.0,"price":1.0,"productName":"O"},{"quantity":3,"productID":"R03","color":"Red","totalPrice":9.0,"price":3.0,"productName":"T"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":13.0,"change":-3.0,"time":"23:25:14","receiptId":65,"products":[{"quantity":1,"productID":"R01","color":"Red","totalPrice":2.0,"price":2.0,"productName":"N"},{"quantity":2,"productID":"R02","color":"Red","totalPrice":2.0,"price":1.0,"productName":"O"},{"quantity":3,"productID":"R03","color":"Red","totalPrice":9.0,"price":3.0,"productName":"T"}],"amountReceived":10.0},{"date":"2566-10-15","totalPrice":15.0,"change":-15.0,"time":"23:27:01","receiptId":66,"products":[{"quantity":5,"productID":"E03","color":"red","totalPrice":15.0,"price":3.0,"productName":"E"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":15.0,"change":-5.0,"time":"23:27:14","receiptId":67,"products":[{"quantity":5,"productID":"E03","color":"red","totalPrice":15.0,"price":3.0,"productName":"E"}],"amountReceived":10.0},{"date":"2566-10-15","totalPrice":2.0,"change":-2.0,"time":"23:47:48","receiptId":68,"products":[{"quantity":1,"productID":"E01","color":"red","totalPrice":2.0,"price":2.0,"productName":"K"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":2.0,"change":3.0,"time":"23:48:04","receiptId":69,"products":[{"quantity":1,"productID":"E01","color":"red","totalPrice":2.0,"price":2.0,"productName":"K"}],"amountReceived":5.0},{"date":"2566-10-15","totalPrice":3.0,"change":-3.0,"time":"23:49:13","receiptId":70,"products":[{"quantity":1,"productID":"E03","color":"red","totalPrice":3.0,"price":3.0,"productName":"E"}],"amountReceived":0.0},{"date":"2566-10-15","totalPrice":3.0,"change":0.0,"time":"23:49:28","receiptId":71,"products":[{"quantity":1,"productID":"E03","color":"red","totalPrice":3.0,"price":3.0,"productName":"E"}],"amountReceived":3.0}]
+[
+    {
+        "datetime": "Sun Oct 15 15:19:36 ICT 2023",
+        "quantity": 10,
+        "productID": "R01",
+        "receiptId": 13
+    },
+    {
+        "datetime": "Sun Oct 15 15:19:43 ICT 2023",
+        "quantity": 10,
+        "productID": "R02",
+        "receiptId": 14
+    },
+    {
+        "date": "Sun Oct 15 15:19:44 ICT 2023",
+        "receiptId": 15,
+        "products": [
+            {
+                "datetime": "Sun Oct 15 15:19:36 ICT 2023",
+                "quantity": 10,
+                "productID": "R01",
+                "receiptId": 13
+            },
+            {
+                "datetime": "Sun Oct 15 15:19:43 ICT 2023",
+                "quantity": 10,
+                "productID": "R02",
+                "receiptId": 14
+            }
+        ]
+    },
+    {
+        "date": "Sun Oct 15 15:24:05 ICT 2023",
+        "receiptId": 16,
+        "products": [
+            {
+                "datetime": "Sun Oct 15 15:23:55 ICT 2023",
+                "quantity": 2,
+                "productID": "E01",
+                "receiptId": 16
+            },
+            {
+                "datetime": "Sun Oct 15 15:24:03 ICT 2023",
+                "quantity": 1,
+                "productID": "E02",
+                "receiptId": 16
+            }
+        ]
+    },
+    {
+        "datetime": "Sun Oct 15 15:28:05 ICT 2023",
+        "receiptId": 17,
+        "products": [
+            {
+                "datetime": "Sun Oct 15 15:27:51 ICT 2023",
+                "quantity": 2,
+                "productID": "E01",
+                "receiptId": 17
+            },
+            {
+                "datetime": "Sun Oct 15 15:28:04 ICT 2023",
+                "quantity": 2,
+                "productID": "E02",
+                "receiptId": 17
+            }
+        ]
+    },
+    {
+        "datetime": "Sun Oct 15 15:31:06 ICT 2023",
+        "receiptId": 18,
+        "products": [
+            {
+                "quantity": 10,
+                "productID": "R03"
+            },
+            {
+                "quantity": 10,
+                "productID": "R01"
+            }
+        ]
+    },
+    {
+        "datetime": "Sun Oct 15 15:41:27 ICT 2023",
+        "receiptId": 19,
+        "products": [
+            {
+                "quantity": 10,
+                "productID": "E01"
+            }
+        ]
+    },
+    {
+        "datetime": "Sun Oct 15 20:14:00 ICT 2023",
+        "receiptId": 20,
+        "products": [
+            {
+                "quantity": 10,
+                "productID": "E01"
+            },
+            {
+                "quantity": 10,
+                "productID": "E02"
+            }
+        ]
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:15:21",
+        "receiptId": 21,
+        "products": [
+            {
+                "quantity": 20,
+                "productID": "E01",
+                "color": "red",
+                "price": "1.0",
+                "productName": "K"
+            },
+            {
+                "quantity": 20,
+                "productID": "E02",
+                "color": "red",
+                "price": "1.0",
+                "productName": "A"
+            }
+        ]
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:17:11",
+        "receiptId": 22,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:18:12",
+        "receiptId": 23,
+        "products": [
+            {
+                "quantity": 2,
+                "productID": "E03",
+                "color": "red",
+                "price": "3.0",
+                "productName": "E"
+            },
+            {
+                "quantity": 2,
+                "productID": "E02",
+                "color": "red",
+                "price": "1.0",
+                "productName": "A"
+            }
+        ]
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:18:45",
+        "receiptId": 24,
+        "products": [
+            {
+                "quantity": 2,
+                "productID": "R01",
+                "color": "Red",
+                "price": "2.0",
+                "productName": "N"
+            },
+            {
+                "quantity": 2,
+                "productID": "R02",
+                "color": "Red",
+                "price": "1.0",
+                "productName": "O"
+            }
+        ]
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:19:16",
+        "receiptId": 25,
+        "products": [
+            {
+                "quantity": 2,
+                "productID": "E01",
+                "color": "red",
+                "price": "2.0",
+                "productName": "K"
+            },
+            {
+                "quantity": 2,
+                "productID": "E02",
+                "color": "red",
+                "price": "1.0",
+                "productName": "A"
+            },
+            {
+                "quantity": 2,
+                "productID": "E03",
+                "color": "red",
+                "price": "3.0",
+                "productName": "E"
+            }
+        ]
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:35:50",
+        "receiptId": 26,
+        "paymentAmount": 1000.0,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:37:51",
+        "receiptId": 27,
+        "paymentAmount": 100.0,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:40:40",
+        "receiptId": 28,
+        "paymentAmount": 1999.0,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:41:53",
+        "receiptId": 29,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:42:54",
+        "receiptId": 30,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:44:44",
+        "receiptId": 31,
+        "paymentAmount": 1000.0,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:45:56",
+        "receiptId": 32,
+        "paymentAmount": 1000.0,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:55:53",
+        "receiptId": 33,
+        "paymentAmount": 1000.0,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "21:56:58",
+        "receiptId": 34,
+        "paymentAmount": 1000.0,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "22:10:03",
+        "receiptId": 35,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "22:10:03",
+        "receiptId": 35,
+        "paymentAmount": 1000.0,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "22:18:47",
+        "receiptId": 36,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "22:18:47",
+        "receiptId": 36,
+        "paymentAmount": 1000.0,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "22:19:45",
+        "receiptId": 37,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "totalAmount": 0.0,
+        "time": "22:26:03",
+        "changeAmount": 1.0,
+        "receiptId": 38,
+        "paymentAmount": 1.0,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "totalAmount": 0.0,
+        "time": "22:26:03",
+        "changeAmount": 1.0,
+        "receiptId": 38,
+        "paymentAmount": 3.0,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "time": "22:27:03",
+        "receiptId": 39,
+        "products": []
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 4.0,
+        "change": -4.0,
+        "time": "22:35:55",
+        "receiptId": 40,
+        "products": [
+            {
+                "quantity": 2,
+                "productID": "E01",
+                "color": "red",
+                "totalPrice": 4.0,
+                "price": 2.0,
+                "productName": "K"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 4.0,
+        "change": -4.0,
+        "time": "22:35:55",
+        "receiptId": 40,
+        "paymentAmount": 5.0,
+        "products": [
+            {
+                "quantity": 2,
+                "productID": "E01",
+                "color": "red",
+                "totalPrice": 4.0,
+                "price": 2.0,
+                "productName": "K"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 4.0,
+        "change": 1.0,
+        "time": "22:36:22",
+        "receiptId": 41,
+        "products": [
+            {
+                "quantity": 2,
+                "productID": "E01",
+                "color": "red",
+                "totalPrice": 4.0,
+                "price": 2.0,
+                "productName": "K"
+            }
+        ],
+        "amountReceived": 5.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 3.0,
+        "change": -3.0,
+        "time": "22:39:22",
+        "receiptId": 42,
+        "products": [
+            {
+                "quantity": 1,
+                "productID": "E03",
+                "color": "red",
+                "totalPrice": 3.0,
+                "price": 3.0,
+                "productName": "E"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 3.0,
+        "change": -3.0,
+        "time": "22:39:22",
+        "receiptId": 42,
+        "paymentAmount": 5.0,
+        "products": [
+            {
+                "quantity": 1,
+                "productID": "E03",
+                "color": "red",
+                "totalPrice": 3.0,
+                "price": 3.0,
+                "productName": "E"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 3.0,
+        "change": 2.0,
+        "time": "22:39:36",
+        "receiptId": 43,
+        "products": [
+            {
+                "quantity": 1,
+                "productID": "E03",
+                "color": "red",
+                "totalPrice": 3.0,
+                "price": 3.0,
+                "productName": "E"
+            }
+        ],
+        "amountReceived": 5.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 30.0,
+        "change": -30.0,
+        "time": "22:40:09",
+        "receiptId": 44,
+        "products": [
+            {
+                "quantity": 10,
+                "productID": "R03",
+                "color": "Red",
+                "totalPrice": 30.0,
+                "price": 3.0,
+                "productName": "T"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 30.0,
+        "change": -30.0,
+        "time": "22:40:09",
+        "receiptId": 44,
+        "paymentAmount": 50.0,
+        "products": [
+            {
+                "quantity": 10,
+                "productID": "R03",
+                "color": "Red",
+                "totalPrice": 30.0,
+                "price": 3.0,
+                "productName": "T"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 30.0,
+        "change": 20.0,
+        "time": "22:40:22",
+        "receiptId": 45,
+        "products": [
+            {
+                "quantity": 10,
+                "productID": "R03",
+                "color": "Red",
+                "totalPrice": 30.0,
+                "price": 3.0,
+                "productName": "T"
+            }
+        ],
+        "amountReceived": 50.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 20.0,
+        "change": -20.0,
+        "time": "22:42:00",
+        "receiptId": 46,
+        "products": [
+            {
+                "quantity": 10,
+                "productID": "E01",
+                "color": "red",
+                "totalPrice": 20.0,
+                "price": 2.0,
+                "productName": "K"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 20.0,
+        "change": -20.0,
+        "time": "22:42:00",
+        "receiptId": 46,
+        "paymentAmount": 1000.0,
+        "products": [
+            {
+                "quantity": 10,
+                "productID": "E01",
+                "color": "red",
+                "totalPrice": 20.0,
+                "price": 2.0,
+                "productName": "K"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 20.0,
+        "change": 980.0,
+        "time": "22:42:58",
+        "receiptId": 47,
+        "products": [
+            {
+                "quantity": 10,
+                "productID": "E01",
+                "color": "red",
+                "totalPrice": 20.0,
+                "price": 2.0,
+                "productName": "K"
+            }
+        ],
+        "amountReceived": 1000.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 20.0,
+        "change": -20.0,
+        "time": "22:46:46",
+        "receiptId": 48,
+        "products": [
+            {
+                "quantity": 10,
+                "productID": "R01",
+                "color": "Red",
+                "totalPrice": 20.0,
+                "price": 2.0,
+                "productName": "N"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 40.0,
+        "change": -40.0,
+        "time": "22:46:54",
+        "receiptId": 49,
+        "products": [
+            {
+                "quantity": 10,
+                "productID": "R01",
+                "color": "Red",
+                "totalPrice": 20.0,
+                "price": 2.0,
+                "productName": "N"
+            },
+            {
+                "quantity": 20,
+                "productID": "R02",
+                "color": "Red",
+                "totalPrice": 20.0,
+                "price": 1.0,
+                "productName": "O"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 40.0,
+        "change": -40.0,
+        "time": "22:46:54",
+        "receiptId": 49,
+        "paymentAmount": 1000.0,
+        "products": [
+            {
+                "quantity": 10,
+                "productID": "R01",
+                "color": "Red",
+                "totalPrice": 20.0,
+                "price": 2.0,
+                "productName": "N"
+            },
+            {
+                "quantity": 20,
+                "productID": "R02",
+                "color": "Red",
+                "totalPrice": 20.0,
+                "price": 1.0,
+                "productName": "O"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 40.0,
+        "change": -40.0,
+        "time": "22:47:03",
+        "receiptId": 50,
+        "products": [
+            {
+                "quantity": 10,
+                "productID": "R01",
+                "color": "Red",
+                "totalPrice": 20.0,
+                "price": 2.0,
+                "productName": "N"
+            },
+            {
+                "quantity": 20,
+                "productID": "R02",
+                "color": "Red",
+                "totalPrice": 20.0,
+                "price": 1.0,
+                "productName": "O"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 200.0,
+        "change": -200.0,
+        "time": "22:48:23",
+        "receiptId": 51,
+        "products": [
+            {
+                "quantity": 100,
+                "productID": "E01",
+                "color": "red",
+                "totalPrice": 200.0,
+                "price": 2.0,
+                "productName": "K"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 200.0,
+        "change": -200.0,
+        "time": "22:48:23",
+        "receiptId": 51,
+        "paymentAmount": 100000.0,
+        "products": [
+            {
+                "quantity": 100,
+                "productID": "E01",
+                "color": "red",
+                "totalPrice": 200.0,
+                "price": 2.0,
+                "productName": "K"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 100.0,
+        "change": -100.0,
+        "time": "22:49:45",
+        "receiptId": 52,
+        "products": [
+            {
+                "quantity": 100,
+                "productID": "R02",
+                "color": "Red",
+                "totalPrice": 100.0,
+                "price": 1.0,
+                "productName": "O"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 100.0,
+        "change": 9900.0,
+        "time": "22:49:54",
+        "receiptId": 53,
+        "products": [
+            {
+                "quantity": 100,
+                "productID": "R02",
+                "color": "Red",
+                "totalPrice": 100.0,
+                "price": 1.0,
+                "productName": "O"
+            }
+        ],
+        "amountReceived": 10000.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 20.0,
+        "change": -20.0,
+        "time": "22:51:08",
+        "receiptId": 54,
+        "products": [
+            {
+                "quantity": 10,
+                "productID": "E01",
+                "color": "red",
+                "totalPrice": 20.0,
+                "price": 2.0,
+                "productName": "K"
+            }
+        ],
+        "amountReceived": 0.0
+    },
+    {
+        "date": "2566-10-15",
+        "totalPrice": 20.0,
+        "change": 980.0,
+        "time": "22:51:15",
+        "receiptId": 55,
+        "products": [
+            {
+                "quantity": 10,
+                "productID": "E01",
+                "color": "red",
+                "totalPrice": 20.0,
+                "price": 2.0,
+                "productName": "K"
+            }
+        ],
+        "amountReceived": 1000.0
+    }
+]

@@ -79,6 +79,7 @@ public class Login {
                                 System.out.println("5. Edit Menu");
                                 System.out.println("6. Receipt");
                                 System.out.println("7. เรียงราคาสินค้าจากน้อยไปมาก");
+                                System.out.println("8. SalesReport");
 
                                 int choice = scanner.nextInt();
 
@@ -153,6 +154,10 @@ public class Login {
                                     case 7:
                                         ps1.displaySortedPrices(EARRINGS_FILE);
                                         ps1.displaySortedPrices(RINGS_FILE);
+                                        break;
+                                    case 8:
+                                        SalesReport salesReport = new SalesReport();
+                                        salesReport.showReceiptData();
                                         break;
                                     default:
                                         System.out.println("Invalid choice");
