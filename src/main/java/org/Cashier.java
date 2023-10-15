@@ -316,34 +316,6 @@ public class Cashier extends User {
         double totalPrice = calculateTotalPrice(selectedProducts);
         System.out.println("Total Price: " + totalPrice);
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Do you want to receive payment? (Type 'Y' to receive payment, 'N' to skip): ");
-        String userInput = scanner.next();
-        if (userInput.equalsIgnoreCase("Y")) {
-            receivePayment(totalPrice);
-        }
-    }
-
-    private static void receivePayment(double totalPrice) {
-        double amountReceived = getAmountReceived();
-
-        if (amountReceived >= totalPrice) {
-            double change = amountReceived - totalPrice;
-            System.out.println("Payment received successfully!");
-            System.out.println("Change: " + change);
-
-            try {
-                JSONObject receipt = readLatestReceipt();
-                receipt.put(PAYMENT_AMOUNT, amountReceived);
-                saveReceiptToFile(receipt);
-            } catch (Exception e) {
-                System.out.println("Error updating receipt: " + e.getMessage());
-            }
-
-        } else {
-            System.out.println("Insufficient payment. Please try again.");
-            receivePayment(totalPrice);
-        }
     }
 
     private static JSONObject readLatestReceipt() throws Exception {
