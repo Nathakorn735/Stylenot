@@ -318,15 +318,6 @@ public class Cashier extends User {
 
     }
 
-    private static JSONObject readLatestReceipt() throws Exception {
-        JSONArray receipts = readJSONArrayFromFile(RECEIPT_FILE);
-        if (!receipts.isEmpty()) {
-            return (JSONObject) receipts.get(receipts.size() - 1);
-        } else {
-            throw new Exception("No receipts found.");
-        }
-    }
-
     private static double getAmountReceived() {
         Scanner scanner = new Scanner(System.in);
         double amountReceived;
