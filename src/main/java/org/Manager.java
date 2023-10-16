@@ -82,7 +82,7 @@ public class Manager extends User {
         } catch (Exception e) {
             System.out.println("Error adding Earring: " + e.getMessage());
         } finally {
-            scanner.close();
+            // Do not close the scanner here to avoid closing System.in
         }
 
         // Display all products after exiting the loop
@@ -150,10 +150,13 @@ public class Manager extends User {
 
         } catch (Exception e) {
             System.out.println("Error adding Ring: " + e.getMessage());
+
         } finally {
-            scanner.close();
+            // Do not close the scanner here to avoid closing System.in
         }
-        displayAllProducts(EARRINGS_FILE);
+
+        // Display all products after exiting the loop
+        displayAllProducts(RINGS_FILE);
     }
 
     private static String generateProductID(String filename) {
