@@ -175,7 +175,7 @@ public class Login {
                                                 }
                                             } while (productTypeChoice < 1 || productTypeChoice > 2);
                                             
-
+break;
                                         case 4:
                                             do {
                                                 System.out.println(" ");
@@ -206,7 +206,7 @@ public class Login {
                                                     productTypeChoice = 0; // Set to 0 to continue the loop
                                                 }
                                             } while (productTypeChoice < 1 || productTypeChoice > 2);
-                                            
+                                            break;
                                         case 5:
 
                                             do {
@@ -240,13 +240,28 @@ public class Login {
                                                     productTypeChoice = 0; // Set to 0 to continue the loop
                                                 }
                                             } while (productTypeChoice < 1 || productTypeChoice > 2);
+                                            break;
+                                        case 6:
+                                            System.out.println("Not implemented yet");
+                                            break;
+                                        case 7:
+                                            ps1.displaySortedPrices(EARRINGS_FILE);
+                                            ps1.displaySortedPrices(RINGS_FILE);
+                                            break;
+                                        case 8:
+                                            SalesReport salesReport = new SalesReport();
+                                            salesReport.showReceiptData();
+                                            break;
+                                        default:
+                                            System.out
+                                                    .println("Invalid choice, Please select a menu item from 1 to 8.");
+                                    }
 
-                                            case 6:
-
-                                            case 7:
-                                            
-                                            case 8:
-                                        }
+                                    System.out.println("Do you want to continue? (Y/N)");
+                                    String continueChoice = scanner.next();
+                                    if (!continueChoice.equalsIgnoreCase("Y")) {
+                                        break;
+                                    }
                                 }
                             } else if (option == 2) {
                                 System.out.println("กรุณาเลือกรายการ:");
