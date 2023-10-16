@@ -123,9 +123,9 @@ public class Login {
                                                     if (!foundInEarrings && !foundInRings) {
                                                         System.out.println(
                                                                 "No matching product found for the entered productID.");
+                                                    } else {
+                                                        break; // ถ้าข้อมูลถูกต้อง ออกจากลูป
                                                     }
-
-                                                    break; // ถ้าข้อมูลถูกต้อง ออกจากลูป
                                                 } else {
                                                     System.out.println(
                                                             "Invalid productID format. Please enter a productID starting with 'E' or 'R' followed by digits.");
