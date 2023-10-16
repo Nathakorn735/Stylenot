@@ -253,9 +253,11 @@ public class Login {
                                             SalesReport salesReport = new SalesReport();
                                             salesReport.showReceiptData();
                                             break;
-                                        default:
-                                            System.out
-                                                    .println("Invalid choice, Please select a menu item from 1 to 8.");
+                                            default:
+                                            System.out.println(" ");
+                                            System.out.println("Invalid choice. Please select a menu item from 1 to 8.");
+                                            System.out.println(" ");
+                                            continue; // เริ่มลูปใหม่
                                     }
 
                                     break;
