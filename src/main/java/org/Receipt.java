@@ -6,7 +6,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -17,19 +16,37 @@ public class Receipt {
     public void Receipts() {
         char continueOption;
         do {
-            System.out.print("Enter the date (yyyy-MM-dd) or month (yyyy-MM) or year (yyyy) to show sales data: ");
-            String inputDate = scanner.nextLine();
+            String inputDate;
+
+            while (true) {
+                System.out.print("Enter the date (yyyy-MM-dd) or month (yyyy-MM) or year (yyyy) to show sales data: ");
+                inputDate = scanner.nextLine();
+
+                // ตรวจสอบว่า inputDate เป็นตัวเลขหรือมีรูปแบบที่ถูกต้อง (รับ - ได้)
+                if (inputDate.matches("\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}|\\d+")) {
+                    // ถ้าเป็นรูปแบบที่ถูกต้องให้ทำงานต่อ
+                    break;
+                } else {
+                    System.out.println("Invalid input. Please enter a valid date format (yyyy-MM-dd) or a numeric value.");
+                }
+            }
 
             try {
                 JSONArray receipts = readJSONArrayFromFile(RECEIPT_FILE);
 
+                boolean foundData = false; // เพิ่มตัวแปรนี้
                 for (Object obj : receipts) {
                     JSONObject receipt = (JSONObject) obj;
                     String receiptDate = receipt.get("year") + "-" + receipt.get("month") + "-" + receipt.get("day");
 
                     if (receiptDate.startsWith(inputDate)) {
+                        foundData = true; // ถ้ามีข้อมูลที่ตรงตามเงื่อนไข
                         displayReceiptDetails(receipt);
                     }
+                }
+
+                if (!foundData) {
+                    System.out.println("No data found for the entered date: " + inputDate);
                 }
 
             } catch (IOException | ParseException e) {
@@ -41,7 +58,6 @@ public class Receipt {
             scanner.nextLine(); // consume newline character
         } while (Character.toLowerCase(continueOption) == 'y');
     }
-
 
     private void displayReceiptDetails(JSONObject receipt) {
         System.out.println("========================");
