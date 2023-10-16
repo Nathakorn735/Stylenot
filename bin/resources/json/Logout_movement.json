@@ -1,0 +1,23 @@
+[
+  {
+    "LogoutTime": "2566-10-16 21:19:28",
+    "LogoutSequence": 3,
+    "Username": "Not",
+    "EmpID": "M735",
+    "EmpName": "Nathakorn Phikromsuk"
+  },
+  {
+    "LogoutTime": "2566-10-16 21:17:36",
+    "LogoutSequence": 2,
+    "Username": "Not",
+    "EmpID": "M735",
+    "EmpName": "Nathakorn Phikromsuk"
+  },
+  {
+    "LogoutTime": "2566-10-16 21:04:52",
+    "LogoutSequence": 1,
+    "Username": "Not",
+    "EmpID": "M735",
+    "EmpName": "Nathakorn Phikromsuk"
+  }
+]

@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 public class Login {
     private static final String LOGIN_MOVEMENT_FILE = "src/resources/json/Login_movement.json";
+    private static final String LOGOUT_MOVEMENT_FILE = "src/resources/json/Logout_movement.json";
     private static final String USERS_FILE = "src/resources/json/users.json";
     private static final String EARRINGS_FILE = "src/resources/json/Earringsproducts.json";
     private static final String RINGS_FILE = "src/resources/json/Ringsproducts.json";
@@ -51,6 +52,7 @@ public class Login {
                     String storedPassword = (String) user.get("Password");
 
                     if (inputUsername.equals(storedUsername) && inputPassword.equals(storedPassword)) {
+                        updateLoginMovement(loggedInUser, loggedInEmpID, loggedInEmpName);
                         loggedInUser = storedUsername;
                         loggedInEmpID = (String) user.get("EmpID");
                         loggedInEmpName = (String) user.get("EmpName");
@@ -200,10 +202,12 @@ public class Login {
                                 }
                             }
 
-                            updateLoginMovement(loggedInUser, loggedInEmpID, loggedInEmpName);
+                            
 
                             System.out.println("Do you want to continue? (Y/N)");
                         } while (scanner.next().equalsIgnoreCase("Y"));
+
+                        updateLogoutMovement(loggedInUser, loggedInEmpID, loggedInEmpName);
 
                         if (option == 1) {
                             System.out.println("Returning to Manager options...");
@@ -278,6 +282,39 @@ public class Login {
         }
     }
 
+    private static void updateLogoutMovement(String username, String empID, String empName) {
+        try {
+            JSONArray logoutMovementArray;
+            try (FileReader fileReader = new FileReader(LOGOUT_MOVEMENT_FILE)) {
+                if (fileReader.read() == -1) {
+                    logoutMovementArray = new JSONArray();
+                } else {
+                    logoutMovementArray = (JSONArray) new JSONParser().parse(new FileReader(LOGOUT_MOVEMENT_FILE));
+                }
+            }
+
+            JSONObject logoutMovementData = new JSONObject();
+            logoutMovementData.put("EmpID", empID);
+            logoutMovementData.put("Username", username);
+            logoutMovementData.put("EmpName", empName);
+            logoutMovementData.put("LogoutSequence", getNextLogoutSequence());
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedTime = sdf.format(new Date());
+
+            logoutMovementData.put("LogoutTime", formattedTime);
+
+            logoutMovementArray.add(0, logoutMovementData);
+
+            try (FileWriter fileWriter = new FileWriter(LOGOUT_MOVEMENT_FILE)) {
+                fileWriter.write(logoutMovementArray.toJSONString() + "\n");
+                System.out.println("Logout movement data updated.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error updating logout movement data: " + e.getMessage());
+        }
+    }
+
     private static long getNextLoginSequence() {
         try {
             JSONArray loginMovementArray;
@@ -297,4 +334,25 @@ public class Login {
             return 1;
         }
     }
+
+    private static long getNextLogoutSequence() {
+        try {
+            JSONArray logoutMovementArray;
+            try (FileReader fileReader = new FileReader(LOGOUT_MOVEMENT_FILE)) {
+                if (fileReader.read() == -1) {
+                    logoutMovementArray = new JSONArray();
+                } else {
+                    logoutMovementArray = (JSONArray) new JSONParser().parse(new FileReader(LOGOUT_MOVEMENT_FILE));
+                }
+            }
+
+            long maxSequence = logoutMovementArray.size();
+
+            return maxSequence + 1;
+        } catch (Exception e) {
+            System.out.println("Error getting next logout sequence: " + e.getMessage());
+            return 1;
+        }
+    }
 }
+
