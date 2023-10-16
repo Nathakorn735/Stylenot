@@ -103,9 +103,9 @@ public class Login {
 
                                     switch (choice) {
                                         case 1:
-                                             System.out.println(" ");
-                                             System.out.println("View Menu");
-                                             System.out.println(" ");
+                                            System.out.println(" ");
+                                            System.out.println("View Menu");
+                                            System.out.println(" ");
 
                                             p1.viewMenu();
                                             e1.viewMenuEarrings();
@@ -174,8 +174,8 @@ public class Login {
                                                     productTypeChoice = 0; // Set to 0 to continue the loop
                                                 }
                                             } while (productTypeChoice < 1 || productTypeChoice > 2);
-                                            
-break;
+
+                                            break;
                                         case 4:
                                             do {
                                                 System.out.println(" ");
@@ -222,13 +222,13 @@ break;
 
                                                     switch (productTypeChoice) {
                                                         case 1:
-                                                    m1.displayAllProducts(EARRINGS_FILE);
-                                                    m1.editProduct(EARRINGS_FILE);
-                                                    break;
+                                                            m1.displayAllProducts(EARRINGS_FILE);
+                                                            m1.editProduct(EARRINGS_FILE);
+                                                            break;
                                                         case 2:
-                                                    m1.displayAllProducts(RINGS_FILE);
-                                                    m1.editProduct(RINGS_FILE);
-                                                    break;
+                                                            m1.displayAllProducts(RINGS_FILE);
+                                                            m1.editProduct(RINGS_FILE);
+                                                            break;
                                                         default:
                                                             System.out.println(
                                                                     "Invalid choice. Please select a menu item from 1 to 2.");
@@ -242,7 +242,8 @@ break;
                                             } while (productTypeChoice < 1 || productTypeChoice > 2);
                                             break;
                                         case 6:
-                                            System.out.println("Not implemented yet");
+                                            Receipt Receipt = new Receipt();
+                                            Receipt.Receipt();
                                             break;
                                         case 7:
                                             ps1.displaySortedPrices(EARRINGS_FILE);
@@ -257,11 +258,7 @@ break;
                                                     .println("Invalid choice, Please select a menu item from 1 to 8.");
                                     }
 
-                                    System.out.println("Do you want to continue? (Y/N)");
-                                    String continueChoice = scanner.next();
-                                    if (!continueChoice.equalsIgnoreCase("Y")) {
-                                        break;
-                                    }
+                                    break;
                                 }
                             } else if (option == 2) {
                                 System.out.println("กรุณาเลือกรายการ:");
