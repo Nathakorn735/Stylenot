@@ -7,8 +7,6 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -18,64 +16,83 @@ public class SalesReport {
     private static final Scanner scanner = new Scanner(System.in);
 
     public SalesReport() {
-
     }
 
     public void showReceiptData() {
-        System.out.print("Enter the date (yyyy-MM-dd) or month (yyyy-MM) or year (yyyy) to show sales data: ");
-        String inputDate = scanner.nextLine();
+        boolean continueProcessing = true;
 
-        try {
-            JSONArray receipts = readJSONArrayFromFile(RECEIPT_FILE);
+        while (continueProcessing) {
+            String inputDate;
 
-            double totalAmount = 0.0;
-            Map<String, Integer> productQuantities = new HashMap<>();
-            Map<String, Double> productTotalPrices = new HashMap<>();
+            while (true) {
+                System.out.print("Enter the date (yyyy-MM-dd) or month (yyyy-MM) or year (yyyy) to show sales data: ");
+                inputDate = scanner.nextLine();
 
-            for (Object obj : receipts) {
-                JSONObject receipt = (JSONObject) obj;
-                String receiptDate = receipt.get("year") + "-" + receipt.get("month") + "-" + receipt.get("day");
-
-                if (receiptDate.startsWith(inputDate)) {
-                    JSONArray products = (JSONArray) receipt.get("products");
-                    for (Object productObj : products) {
-                        JSONObject product = (JSONObject) productObj;
-                        double totalPrice = Double.parseDouble(product.get("totalPrice").toString());
-                        int quantity = Integer.parseInt(product.get("quantity").toString());
-                        String productID = product.get("productID").toString();
-
-                        totalAmount += totalPrice;
-                        
-                        // เพิ่มจำนวนสินค้าใน Map
-                        productQuantities.put(productID, productQuantities.getOrDefault(productID, 0) + quantity);
-
-                        // เพิ่ม Total Price ของแต่ละสินค้า
-                        productTotalPrices.put(productID, productTotalPrices.getOrDefault(productID, 0.0) + totalPrice);
-                    }
+                // ตรวจสอบว่า inputDate เป็นตัวเลขหรือมีรูปแบบที่ถูกต้อง (รับ - ได้)
+                if (inputDate.matches("\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}|\\d+")) {
+                    // ถ้าเป็นรูปแบบที่ถูกต้องให้ทำงานต่อ
+                    break;
+                } else {
+                    System.out.println("Invalid input. Please enter a valid date format (yyyy-MM-dd) or a numeric value.");
                 }
             }
 
-            
-            // แสดง Total Quantity และ Total Price ของแต่ละสินค้า
-            System.out.println(
-                "===============================================");
-            System.out.println("Total Quantity and Total Price for each product");
-            System.out.println(
-                "===============================================");
-            for (Map.Entry<String, Integer> entry : productQuantities.entrySet()) {
-                String productID = entry.getKey();
-                int totalQuantity = entry.getValue();
-                double totalProductPrice = productTotalPrices.get(productID);
+            try {
+                JSONArray receipts = readJSONArrayFromFile(RECEIPT_FILE);
 
-                System.out.println("Product ID: " + productID + ", Total Quantity: " + totalQuantity + ", Total Price: " + totalProductPrice);
+                double totalAmount = 0.0;
+                Map<String, Integer> productQuantities = new HashMap<>();
+                Map<String, Double> productTotalPrices = new HashMap<>();
+
+                for (Object obj : receipts) {
+                    JSONObject receipt = (JSONObject) obj;
+                    String receiptDate = receipt.get("year") + "-" + receipt.get("month") + "-" + receipt.get("day");
+
+                    if (receiptDate.startsWith(inputDate)) {
+                        JSONArray products = (JSONArray) receipt.get("products");
+                        for (Object productObj : products) {
+                            JSONObject product = (JSONObject) productObj;
+                            double totalPrice = Double.parseDouble(product.get("totalPrice").toString());
+                            int quantity = Integer.parseInt(product.get("quantity").toString());
+                            String productID = product.get("productID").toString();
+
+                            totalAmount += totalPrice;
+
+                            // เพิ่มจำนวนสินค้าใน Map
+                            productQuantities.put(productID, productQuantities.getOrDefault(productID, 0) + quantity);
+
+                            // เพิ่ม Total Price ของแต่ละสินค้า
+                            productTotalPrices.put(productID, productTotalPrices.getOrDefault(productID, 0.0) + totalPrice);
+                        }
+                    }
+                }
+
+                // แสดง Total Quantity และ Total Price ของแต่ละสินค้า
+                System.out.println(
+                        "===============================================");
+                System.out.println("Total Quantity and Total Price for each product");
+                System.out.println(
+                        "===============================================");
+                for (Map.Entry<String, Integer> entry : productQuantities.entrySet()) {
+                    String productID = entry.getKey();
+                    int totalQuantity = entry.getValue();
+                    double totalProductPrice = productTotalPrices.get(productID);
+
+                    System.out.println("Product ID: " + productID + ", Total Quantity: " + totalQuantity + ", Total Price: " + totalProductPrice);
+                }
+                System.out.println(
+                        "===============================================");
+                System.out.println("Total Amount: " + totalAmount);
+                System.out.println(
+                        "===============================================");
+
+                System.out.print("Do you want to process another transaction? (y/n): ");
+                String continueOption = scanner.nextLine().trim().toLowerCase();
+                continueProcessing = continueOption.equals("y");
+
+            } catch (IOException | ParseException e) {
+                System.out.println("Error showing receipt data: " + e.getMessage());
             }
-                        System.out.println(
-                "===============================================");
-            System.out.println("Total Amount: " + totalAmount);
-                        System.out.println(
-                "===============================================");
-        } catch (IOException | ParseException e) {
-            System.out.println("Error showing receipt data: " + e.getMessage());
         }
     }
 
