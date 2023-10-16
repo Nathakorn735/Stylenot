@@ -83,10 +83,10 @@ public class SalesReport {
             dailySalesMap.put(date, dailySalesMap.getOrDefault(date, 0.0) + receiptTotal);
         }
 
-        // แสดง Product ID Summary
+        // แสดง Product ID Summary ตามวัน
         System.out.println("Product ID Summary:");
         for (Map.Entry<String, Integer> entry : productQuantityMap.entrySet()) {
-            System.out.println("  Product ID: " + entry.getKey() + ", Quantity: " + entry.getValue());
+            System.out.println("  Date: " + entry.getKey() + ", Product ID: " + entry.getValue());
         }
 
         // แสดง Total Sales ตามวัน
