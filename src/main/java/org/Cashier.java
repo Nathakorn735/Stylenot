@@ -349,10 +349,6 @@ public class Cashier extends User {
         orderProduct(selectedProducts, "Rings", RINGS_FILE);
     }
 
-    public void viewMenu() {
-        System.out.println("Viewing menu...");
-    }
-
     private static void displayProductList(JSONArray jsonArray) {
         System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", "Product ID", "Product Name",
                 "Color", "Price", "Stored Item");
@@ -371,12 +367,6 @@ public class Cashier extends User {
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader(filePath)) {
             return (JSONArray) jsonParser.parse(reader);
-        }
-    }
-
-    private static void saveJSONArrayToFile(JSONArray jsonArray, String filePath) throws IOException {
-        try (FileWriter fileWriter = new FileWriter(filePath)) {
-            fileWriter.write(jsonArray.toJSONString());
         }
     }
 
