@@ -52,18 +52,6 @@ public class ProductSearch {
     }
     
 
-    private void displayProductDetailsFromJsonArray(String filePath) {
-        try {
-            JSONArray jsonArray = readJSONArrayFromFile(filePath);
-            for (Object obj : jsonArray) {
-                JSONObject product = (JSONObject) obj;
-                displayProductRow(product);
-            }
-        } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
-        }
-    }
-
     private void displayProductRow(JSONObject product) {
         System.out.printf("| %-10s | %-40s | %-10s | %-15s | %-12s |%n",
                 product.get("productID"),
