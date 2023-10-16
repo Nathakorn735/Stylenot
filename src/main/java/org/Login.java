@@ -73,17 +73,27 @@ public class Login {
 
                         do {
                             if (option == 1) {
-                                System.out.println("กรุณาเลือกรายการ:");
-                                System.out.println("1. View Menu");
-                                System.out.println("2. Search Product");
-                                System.out.println("3. Add Menu");
-                                System.out.println("4. Delete Menu");
-                                System.out.println("5. Edit Menu");
-                                System.out.println("6. Receipt");
-                                System.out.println("7. เรียงราคาสินค้าจากน้อยไปมาก");
-                                System.out.println("8. SalesReport");
-
-                                int choice = scanner.nextInt();
+                                while (true) {
+                                    System.out.println("กรุณาเลือกรายการ:");
+                                    System.out.println("1. View Menu");
+                                    System.out.println("2. Search Product");
+                                    System.out.println("3. Add Menu");
+                                    System.out.println("4. Delete Menu");
+                                    System.out.println("5. Edit Menu");
+                                    System.out.println("6. Receipt");
+                                    System.out.println("7. เรียงราคาสินค้าจากน้อยไปมาก");
+                                    System.out.println("8. SalesReport");
+                                
+                                    int choice = 0;
+                                    try {
+                                        choice = scanner.nextInt();
+                                    } catch (Exception e) {
+                                        System.out.println(" ");
+                                        System.out.println("กรุณากรอกตัวเลขเท่านั้นครับ");
+                                        System.out.println(" ");
+                                        scanner.nextLine();  // เพื่อล้างคิวอาร์เรย์ของ Scanner จากตัวหลังค่าที่ถูกใส่เข้ามา
+                                        continue;  // เริ่มลูปใหม่
+                                    }
 
                                 switch (choice) {
                                     case 1:
@@ -92,6 +102,7 @@ public class Login {
                                         r1.viewMenuRings();
                                         break;
                                     case 2:
+                                    
                                         System.out.println("Enter productID to search:");
                                         String productIDToSearch = scanner.next();
 
@@ -112,7 +123,7 @@ public class Login {
                                         } else if (productTypeChoice == 2) {
                                             m1.addRing();
                                         } else {
-                                            System.out.println("Invalid product type choice!");
+                                            System.out.println("Invalid choice, Please select a menu item from 1 to 2.");
                                         }
                                         break;
                                     case 4:
@@ -127,7 +138,7 @@ public class Login {
                                         } else if (productTypeChoice2 == 2) {
                                             m1.deleteRing();
                                         } else {
-                                            System.out.println("Invalid product type choice!");
+                                            System.out.println("Invalid choice, Please select a menu item from 1 to 2.");
                                         }
                                         break;
                                     case 5:
@@ -147,7 +158,7 @@ public class Login {
                                                 m1.editProduct(RINGS_FILE);
                                                 break;
                                             default:
-                                                System.out.println("Invalid choice. Exiting...");
+                                                System.out.println("Invalid choice, Please select a menu item from 1 to 2.");
                                         }
                                         break;
                                     case 6:
@@ -162,7 +173,14 @@ public class Login {
                                         salesReport.showReceiptData();
                                         break;
                                     default:
-                                        System.out.println("Invalid choice");
+                                        System.out.println("Invalid choice, Please select a menu item from 1 to 8.");
+                                    }
+
+                                    System.out.println("Do you want to continue? (Y/N)");
+                                    String continueChoice = scanner.next();
+                                    if (!continueChoice.equalsIgnoreCase("Y")) {
+                                        break;
+                                    }
                                 }
                             } else if (option == 2) {
                                 System.out.println("กรุณาเลือกรายการ:");
@@ -191,14 +209,14 @@ public class Login {
                                         } else if (productTypeChoice2 == 2) {
                                             c1.orderRing();
                                         } else {
-                                            System.out.println("Invalid product type choice!");
+                                            System.out.println("Invalid choice, Please select a menu item from 1 to 2.");
                                         }
                                         break;
                                     case 3:
                                         System.out.println("Not implemented yet");
                                         break;
                                     default:
-                                        System.out.println("Invalid choice");
+                                        System.out.println("Invalid choice, Please select a menu item from 1 to 3.");
                                 }
                             }
 
@@ -210,9 +228,9 @@ public class Login {
                         updateLogoutMovement(loggedInUser, loggedInEmpID, loggedInEmpName);
 
                         if (option == 1) {
-                            System.out.println("Returning to Manager options...");
+                            System.out.println("Manager Logout...");
                         } else if (option == 2) {
-                            System.out.println("Returning to Cashier options...");
+                            System.out.println("Cashier Logout...");
                         }
                         break; // Exit the main loop when the user is authenticated
                     }
