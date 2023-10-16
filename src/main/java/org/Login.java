@@ -110,20 +110,25 @@ public class Login {
                                         case 2:
                                             do {
                                                 System.out.println(
-                                                        "Enter productID to search (must start with 'E' or 'R'):");
+                                                        "Enter productID to search (must start with 'E' or 'R' followed by digits):");
                                                 String productIDToSearch = scanner.next();
 
-                                                ProductSearch productSearch = new ProductSearch();
-                                                boolean foundInEarrings = productSearch
-                                                        .searchProductByID(productIDToSearch, EARRINGS_FILE);
-                                                boolean foundInRings = productSearch
-                                                        .searchProductByID(productIDToSearch, RINGS_FILE);
+                                                if (productIDToSearch.matches("[ER]\\d+")) {
+                                                    ProductSearch productSearch = new ProductSearch();
+                                                    boolean foundInEarrings = productSearch
+                                                            .searchProductByID(productIDToSearch, EARRINGS_FILE);
+                                                    boolean foundInRings = productSearch
+                                                            .searchProductByID(productIDToSearch, RINGS_FILE);
 
-                                                if (!foundInEarrings && !foundInRings) {
-                                                    System.out.println(
-                                                            "No matching product found for the entered productID. Please try again.");
-                                                } else {
+                                                    if (!foundInEarrings && !foundInRings) {
+                                                        System.out.println(
+                                                                "No matching product found for the entered productID.");
+                                                    }
+
                                                     break; // ถ้าข้อมูลถูกต้อง ออกจากลูป
+                                                } else {
+                                                    System.out.println(
+                                                            "Invalid productID format. Please enter a productID starting with 'E' or 'R' followed by digits.");
                                                 }
                                             } while (true);
                                             break;
