@@ -10,7 +10,11 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ProductSearch {
+
+    private String productID;
+
     public void searchProductByID(String productID, String productFile) {
+        this.productID = productID;
         try {
             JSONArray productsArray = readJSONArrayFromFile(productFile);
 
@@ -36,10 +40,17 @@ public class ProductSearch {
 
     private void displayProductDetails(JSONObject product) {
         printTableHeader();
-        displayProductDetailsFromJsonArray("src/resources/json/Ringsproducts.json");
-        displayProductDetailsFromJsonArray("src/resources/json/Earringsproducts.json");
+    
+        // Check if the product matches the searched productID
+        if (product.get("productID").equals(productID)) {
+            displayProductRow(product);
+        } else {
+            System.out.println("Product not found with ID: " + productID);
+        }
+    
         printTableFooter();
     }
+    
 
     private void displayProductDetailsFromJsonArray(String filePath) {
         try {
