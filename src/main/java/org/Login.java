@@ -162,23 +162,39 @@ public class Login {
                                                     productTypeChoice = 0; // Set to 0 to continue the loop
                                                 }
                                             } while (productTypeChoice < 1 || productTypeChoice > 2);
+                                            
 
                                         case 4:
-                                            System.out.println("Choose product type:");
-                                            System.out.println("1. Earrings");
-                                            System.out.println("2. Rings");
 
-                                            int productTypeChoice2 = scanner.nextInt();
+                                        int productTypeChoice2;
 
-                                            if (productTypeChoice2 == 1) {
-                                                m1.deleteEarring();
-                                            } else if (productTypeChoice2 == 2) {
-                                                m1.deleteRing();
-                                            } else {
-                                                System.out.println(
-                                                        "Invalid choice, Please select a menu item from 1 to 2.");
-                                            }
-                                            break;
+                                            do {
+                                                System.out.println("Choose product type:");
+                                                System.out.println("1. Earrings");
+                                                System.out.println("2. Rings");
+
+                                                if (scanner.hasNextInt()) {
+                                                    productTypeChoice2 = scanner.nextInt();
+
+                                                    switch (productTypeChoice2) {
+                                                        case 1:
+                                                            m1.deleteEarring();
+                                                            break;
+                                                        case 2:
+                                                            m1.deleteRing();
+                                                            break;
+                                                        default:
+                                                            System.out.println(
+                                                                    "Invalid choice. Please select a menu item from 1 to 2.");
+                                                            break;
+                                                    }
+                                                } else {
+                                                    System.out.println("Invalid input. Please enter a number.");
+                                                    scanner.next(); // Clear the invalid input from the scanner
+                                                    productTypeChoice2 = 0; // Set to 0 to continue the loop
+                                                }
+                                            } while (productTypeChoice2 < 1 || productTypeChoice2 > 2);
+                                            
                                         case 5:
                                             System.out.println("Select product category:");
                                             System.out.println("1. Earrings");
