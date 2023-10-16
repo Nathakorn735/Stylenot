@@ -134,20 +134,28 @@ public class Login {
                                             break;
 
                                         case 3:
-                                            System.out.println("Choose product type:");
-                                            System.out.println("1. Earrings");
-                                            System.out.println("2. Rings");
+                                            int productTypeChoice;
 
-                                            int productTypeChoice = scanner.nextInt();
+                                            do {
+                                                System.out.println("Choose product type:");
+                                                System.out.println("1. Earrings");
+                                                System.out.println("2. Rings");
 
-                                            if (productTypeChoice == 1) {
-                                                m1.addEarring();
-                                            } else if (productTypeChoice == 2) {
-                                                m1.addRing();
-                                            } else {
-                                                System.out.println(
-                                                        "Invalid choice, Please select a menu item from 1 to 2.");
-                                            }
+                                                productTypeChoice = scanner.nextInt();
+
+                                                switch (productTypeChoice) {
+                                                    case 1:
+                                                        m1.addEarring();
+                                                        break;
+                                                    case 2:
+                                                        m1.addRing();
+                                                        break;
+                                                    default:
+                                                        System.out.println(
+                                                                "Invalid choice. Please select a menu item from 1 to 2.");
+                                                        break;
+                                                }
+                                            } while (productTypeChoice < 1 || productTypeChoice > 2);
                                             break;
                                         case 4:
                                             System.out.println("Choose product type:");
