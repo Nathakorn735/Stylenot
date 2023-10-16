@@ -11,17 +11,19 @@ import java.util.Random;
 public class genPromocode {
     private static final String PROMOCODE_FILE = "src/resources/json/promotionCode.json";
 
-    public static void main(String[] args) {
+    public static String generatePromotionCode() {
         try {
-            String promotionCode = generatePromotionCode();
+            String promotionCode = genPromotionCode(); // แก้ตรงนี้เป็น generatePromotionCode()
             savePromotionCodeToFile(promotionCode);
             System.out.println("Promotion Code generated and saved successfully: " + promotionCode);
+            return promotionCode; // เพิ่มบรรทัดนี้เพื่อส่งค่า promotionCode กลับ
         } catch (IOException e) {
             System.out.println("Error generating or saving Promotion Code: " + e.getMessage());
+            return null; // เพิ่มบรรทัดนี้เพื่อส่งค่า null ในกรณีเกิดข้อผิดพลาด
         }
     }
 
-    private static String generatePromotionCode() {
+    private static String genPromotionCode() {
         // สร้างตัวเลขสุ่ม 10 ตัว
         Random random = new Random();
         StringBuilder promotionCodeBuilder = new StringBuilder();

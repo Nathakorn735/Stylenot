@@ -129,6 +129,7 @@ public class Cashier extends User {
             boolean continueOrdering = true;
             JSONArray productsArray;
 
+            String promotionCode = null;
             do {
                 productsArray = readJSONArrayFromFile(productFile);
 
@@ -185,6 +186,9 @@ public class Cashier extends User {
                             + "? (Type 'N' to exit, 'Y' to continue): ");
                     String userInput = scanner.next();
 
+                    genPromocode genpromp = new genPromocode();
+                    promotionCode = genpromp.generatePromotionCode();
+
                     if (userInput.equalsIgnoreCase("N")) {
 
                         continueOrdering = false;
@@ -195,14 +199,14 @@ public class Cashier extends User {
 
             displaySelectedProducts(selectedProducts, "Selected " + productType, productFile);
             double amountReceived = getAmountReceived(calculateTotalPrice(selectedProducts));
-            createReceipt(selectedProducts, amountReceived);
+            createReceipt(selectedProducts, amountReceived, promotionCode);
 
         } catch (Exception e) {
             System.out.println("Error ordering " + productType + ": " + e.getMessage());
         }
     }
 
-    private static void createReceipt(JSONArray selectedProducts, double amountReceived) {
+    private static void createReceipt(JSONArray selectedProducts, double amountReceived, String promotionCode) {
         try {
             int receiptId = generateReceiptId();
             JSONObject receipt = new JSONObject();
@@ -252,7 +256,7 @@ public class Cashier extends User {
 
             // แสดงข้อมูล receipt ที่ถูกสร้าง
             displayReceiptDetails(receiptId);
-
+            System.out.println("Promotion Code: " + promotionCode);
         } catch (Exception e) {
             System.out.println("Error creating receipt: " + e.getMessage());
         }
