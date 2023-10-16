@@ -184,8 +184,11 @@ public class Cashier extends User {
                     System.out.print("Do you want to order another " + productType
                             + "? (Type 'N' to exit, 'Y' to continue): ");
                     String userInput = scanner.next();
+
                     if (userInput.equalsIgnoreCase("N")) {
+
                         continueOrdering = false;
+                        break;
                     }
                 }
             } while (continueOrdering);
@@ -204,25 +207,25 @@ public class Cashier extends User {
             int receiptId = generateReceiptId();
             JSONObject receipt = new JSONObject();
             receipt.put("receiptId", receiptId);
-    
+
             // Split the date into day, month, and year
             String[] currentDateParts = getCurrentDate().split("-");
             receipt.put("day", currentDateParts[2]);
             receipt.put("month", currentDateParts[1]);
             receipt.put("year", currentDateParts[0]);
-    
+
             receipt.put("time", getCurrentTime());
-    
+
             JSONArray productsArray = new JSONArray();
             double totalPrice = 0.0;
-    
+
             for (Object obj : selectedProducts) {
                 JSONObject product = (JSONObject) obj;
-    
+
                 double price = Double.parseDouble(product.get("price").toString());
                 int quantity = Integer.parseInt(product.get("quantity").toString());
                 double totalProductPrice = price * quantity;
-    
+
                 JSONObject productDetails = new JSONObject();
                 productDetails.put("productID", product.get("productID"));
                 productDetails.put("productName", product.get("productName"));
@@ -230,48 +233,54 @@ public class Cashier extends User {
                 productDetails.put("price", price);
                 productDetails.put("quantity", quantity);
                 productDetails.put("totalPrice", totalProductPrice);
-    
+
                 productsArray.add(productDetails);
-    
+
                 totalPrice += totalProductPrice;
             }
-    
+
             receipt.put("products", productsArray);
             receipt.put("totalPrice", totalPrice);
             receipt.put("amountReceived", amountReceived);
-    
+
             double change = amountReceived - totalPrice;
             receipt.put("change", change);
-    
+
             saveReceiptToFile(receipt);
-    
+
             System.out.println("Receipt created successfully!");
-    
+
             // แสดงข้อมูล receipt ที่ถูกสร้าง
             displayReceiptDetails(receiptId);
-    
+
         } catch (Exception e) {
             System.out.println("Error creating receipt: " + e.getMessage());
         }
     }
+
     private static void displayReceiptDetails(int receiptId) {
         try {
             JSONArray receipts = readJSONArrayFromFile(RECEIPT_FILE);
             for (Object obj : receipts) {
                 JSONObject receipt = (JSONObject) obj;
                 if (Integer.parseInt(receipt.get("receiptId").toString()) == receiptId) {
-                    System.out.println("Receipt Details:");
+                    System.out.print("\033[H\033[2J");
+                    System.out.flush();
+                    System.out.println(
+                            "===================================================================================================================================");
                     System.out.println("Receipt ID: " + receipt.get("receiptId"));
-                    System.out.println("Date: " + receipt.get("day") + "-" + receipt.get("month") + "-" + receipt.get("year"));
+                    System.out.println(
+                            "Date: " + receipt.get("day") + "-" + receipt.get("month") + "-" + receipt.get("year"));
                     System.out.println("Time: " + receipt.get("time"));
-    
+                    System.out.println(
+                            "============================================================================================================================");
                     JSONArray productsArray = (JSONArray) receipt.get("products");
-                    System.out.println("Products:");
+
                     System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s | %-10s |\n",
                             "Product ID", "Product Name", "Color", "Price", "Quantity", "Total Price");
                     System.out.println(
-                            "======================================================================================================");
-    
+                            "============================================================================================================================");
+
                     for (Object productObj : productsArray) {
                         JSONObject product = (JSONObject) productObj;
                         System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s | %-10s |\n",
@@ -279,13 +288,14 @@ public class Cashier extends User {
                                 product.get("color"),
                                 product.get("price"), product.get("quantity"), product.get("totalPrice"));
                     }
-    
+
                     System.out.println(
-                            "======================================================================================================");
+                            "============================================================================================================================");
                     System.out.println("Total Price: " + receipt.get("totalPrice"));
                     System.out.println("Amount Received: " + receipt.get("amountReceived"));
                     System.out.println("Change: " + receipt.get("change"));
-    
+                    System.out.println(
+                            "============================================================================================================================");
                     break; // หลังจากแสดงข้อมูลแล้วออกจากลูป
                 }
             }
@@ -293,7 +303,6 @@ public class Cashier extends User {
             System.out.println("Error displaying receipt details: " + e.getMessage());
         }
     }
-    
 
     private static void displaySelectedProducts(JSONArray selectedProducts, String title, String productFile) {
         System.out.println(
@@ -301,41 +310,45 @@ public class Cashier extends User {
         System.out.println("                    " + title);
         System.out.println(
                 "======================================================================================================");
-        System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s | %-10s |\n"," Product ID", "Product Name", "Color", "Price", "Quantity",
+        System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s | %-10s |\n", " Product ID", "Product Name", "Color",
+                "Price", "Quantity",
                 "Total Price");
         System.out.println(
                 "======================================================================================================");
+
         if (selectedProducts.isEmpty()) {
             System.out.println("No " + title + " found.");
             return;
         }
-    
+
         for (Object obj : selectedProducts) {
             JSONObject product = (JSONObject) obj;
             double price = Double.parseDouble(product.get("price").toString());
             int quantity = Integer.parseInt(product.get("quantity").toString());
             double totalPrice = price * quantity;
-    
+
             // เปลี่ยน productID.get("productID") เป็น product.get("productID")
-            System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s | %-10s |\n", product.get("productID"), product.get("productName"),
+            System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s | %-10s |\n", product.get("productID"),
+                    product.get("productName"),
                     product.get("color"),
                     product.get("price"), quantity, totalPrice);
         }
         System.out.println(
                 "======================================================================================================");
-    }
-    
 
+    }
 
     private static double getAmountReceived(double totalPrice) {
         double amountReceived;
         int receiptId = generateReceiptId(); // ย้ายบรรทัดนี้ไปด้านบนเพื่อให้ generate receiptId ก่อนการป้อนจำนวนเงิน
-    
+
         do {
+
             try {
+                System.out.println("Total Price: " + totalPrice);
                 System.out.print("Enter the amount received from the customer: ");
                 amountReceived = Double.parseDouble(scanner.next());
-    
+
                 if (amountReceived < totalPrice) {
                     System.out.println("กรุณาจ่ายให้ครบทุกบาททุกสตางค์ครับ");
                 } else {
@@ -347,7 +360,7 @@ public class Cashier extends User {
                 System.out.println("จำนวนเงินเป็นเลขฮะ");
             }
         } while (true);
-    
+
         return amountReceived;
     }
 
