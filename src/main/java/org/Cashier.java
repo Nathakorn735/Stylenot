@@ -204,19 +204,25 @@ public class Cashier extends User {
             int receiptId = generateReceiptId();
             JSONObject receipt = new JSONObject();
             receipt.put("receiptId", receiptId);
-            receipt.put("date", getCurrentDate());
+    
+            // Split the date into day, month, and year
+            String[] currentDateParts = getCurrentDate().split("-");
+            receipt.put("day", currentDateParts[2]);
+            receipt.put("month", currentDateParts[1]);
+            receipt.put("year", currentDateParts[0]);
+    
             receipt.put("time", getCurrentTime());
-
+    
             JSONArray productsArray = new JSONArray();
             double totalPrice = 0.0;
-
+    
             for (Object obj : selectedProducts) {
                 JSONObject product = (JSONObject) obj;
-
+    
                 double price = Double.parseDouble(product.get("price").toString());
                 int quantity = Integer.parseInt(product.get("quantity").toString());
                 double totalProductPrice = price * quantity;
-
+    
                 JSONObject productDetails = new JSONObject();
                 productDetails.put("productID", product.get("productID"));
                 productDetails.put("productName", product.get("productName"));
@@ -224,27 +230,28 @@ public class Cashier extends User {
                 productDetails.put("price", price);
                 productDetails.put("quantity", quantity);
                 productDetails.put("totalPrice", totalProductPrice);
-
+    
                 productsArray.add(productDetails);
-
+    
                 totalPrice += totalProductPrice;
             }
-
+    
             receipt.put("products", productsArray);
             receipt.put("totalPrice", totalPrice);
             receipt.put("amountReceived", amountReceived);
-
+    
             double change = amountReceived - totalPrice;
             receipt.put("change", change);
-
+    
             saveReceiptToFile(receipt);
-
+    
             System.out.println("Receipt created successfully!");
-
+    
         } catch (Exception e) {
             System.out.println("Error creating receipt: " + e.getMessage());
         }
     }
+    
 
     private static void displaySelectedProducts(JSONArray selectedProducts, String title, String productFile) {
         System.out.println(
@@ -252,7 +259,7 @@ public class Cashier extends User {
         System.out.println("                    " + title);
         System.out.println(
                 "======================================================================================================");
-        System.out.format("| %-40s | %-10s | %-15s | %-10s | %-10s |\n", "Product Name", "Color", "Price", "Quantity",
+        System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s | %-10s |\n"," Product ID", "Product Name", "Color", "Price", "Quantity",
                 "Total Price");
         System.out.println(
                 "======================================================================================================");
@@ -260,51 +267,23 @@ public class Cashier extends User {
             System.out.println("No " + title + " found.");
             return;
         }
-
+    
         for (Object obj : selectedProducts) {
             JSONObject product = (JSONObject) obj;
             double price = Double.parseDouble(product.get("price").toString());
             int quantity = Integer.parseInt(product.get("quantity").toString());
             double totalPrice = price * quantity;
-
-            System.out.format("| %-40s | %-10s | %-15s | %-10s | %-10s |\n", product.get("productName"),
+    
+            // เปลี่ยน productID.get("productID") เป็น product.get("productID")
+            System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s | %-10s |\n", product.get("productID"), product.get("productName"),
                     product.get("color"),
                     product.get("price"), quantity, totalPrice);
         }
         System.out.println(
                 "======================================================================================================");
-
-        System.out.print("Do you want to print the receipt? (Type 'Y' to print, 'N' to skip): ");
-        String userInput = scanner.next();
-        if (userInput.equalsIgnoreCase("Y")) {
-            printReceipt(selectedProducts);
-        }
     }
+    
 
-    private static void printReceipt(JSONArray selectedProducts) {
-        System.out.println(
-                "======================================================================================================");
-        System.out.println("                           RECEIPT");
-        System.out.println(
-                "======================================================================================================");
-        System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", "Product ID", "Product Name",
-                "Color", "Price", "Quantity");
-        System.out.println(
-                "======================================================================================================");
-
-        for (Object obj : selectedProducts) {
-            JSONObject product = (JSONObject) obj;
-            System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s |\n", product.get("productID"),
-                    product.get("productName"), product.get("color"), product.get("price"),
-                    product.get("quantity"));
-        }
-        System.out.println(
-                "======================================================================================================");
-        System.out.println("Receipt generated");
-
-        double totalPrice = calculateTotalPrice(selectedProducts);
-        System.out.println("Total Price: " + totalPrice);
-    }
 
     private static double getAmountReceived(double totalPrice) {
         double amountReceived;
