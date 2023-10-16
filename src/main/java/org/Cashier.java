@@ -247,8 +247,50 @@ public class Cashier extends User {
     
             System.out.println("Receipt created successfully!");
     
+            // แสดงข้อมูล receipt ที่ถูกสร้าง
+            displayReceiptDetails(receiptId);
+    
         } catch (Exception e) {
             System.out.println("Error creating receipt: " + e.getMessage());
+        }
+    }
+    private static void displayReceiptDetails(int receiptId) {
+        try {
+            JSONArray receipts = readJSONArrayFromFile(RECEIPT_FILE);
+            for (Object obj : receipts) {
+                JSONObject receipt = (JSONObject) obj;
+                if (Integer.parseInt(receipt.get("receiptId").toString()) == receiptId) {
+                    System.out.println("Receipt Details:");
+                    System.out.println("Receipt ID: " + receipt.get("receiptId"));
+                    System.out.println("Date: " + receipt.get("day") + "-" + receipt.get("month") + "-" + receipt.get("year"));
+                    System.out.println("Time: " + receipt.get("time"));
+    
+                    JSONArray productsArray = (JSONArray) receipt.get("products");
+                    System.out.println("Products:");
+                    System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s | %-10s |\n",
+                            "Product ID", "Product Name", "Color", "Price", "Quantity", "Total Price");
+                    System.out.println(
+                            "======================================================================================================");
+    
+                    for (Object productObj : productsArray) {
+                        JSONObject product = (JSONObject) productObj;
+                        System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s | %-10s |\n",
+                                product.get("productID"), product.get("productName"),
+                                product.get("color"),
+                                product.get("price"), product.get("quantity"), product.get("totalPrice"));
+                    }
+    
+                    System.out.println(
+                            "======================================================================================================");
+                    System.out.println("Total Price: " + receipt.get("totalPrice"));
+                    System.out.println("Amount Received: " + receipt.get("amountReceived"));
+                    System.out.println("Change: " + receipt.get("change"));
+    
+                    break; // หลังจากแสดงข้อมูลแล้วออกจากลูป
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error displaying receipt details: " + e.getMessage());
         }
     }
     
@@ -287,22 +329,25 @@ public class Cashier extends User {
 
     private static double getAmountReceived(double totalPrice) {
         double amountReceived;
+        int receiptId = generateReceiptId(); // ย้ายบรรทัดนี้ไปด้านบนเพื่อให้ generate receiptId ก่อนการป้อนจำนวนเงิน
+    
         do {
             try {
                 System.out.print("Enter the amount received from the customer: ");
                 amountReceived = Double.parseDouble(scanner.next());
-
+    
                 if (amountReceived < totalPrice) {
-                    System.out.println(
-                            "กรุณาจ่ายให้ครบทุกบาททุกสตางค์ครับ");
+                    System.out.println("กรุณาจ่ายให้ครบทุกบาททุกสตางค์ครับ");
                 } else {
+                    // แสดงข้อมูลจาก receipt.json ที่มี receiptId ตรงกับ receiptId ของลูกค้า
+                    displayReceiptDetails(receiptId);
                     break;
                 }
             } catch (NumberFormatException e) {
                 System.out.println("จำนวนเงินเป็นเลขฮะ");
             }
         } while (true);
-
+    
         return amountReceived;
     }
 
