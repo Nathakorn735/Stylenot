@@ -141,22 +141,28 @@ public class Login {
                                                 System.out.println("1. Earrings");
                                                 System.out.println("2. Rings");
 
-                                                productTypeChoice = scanner.nextInt();
+                                                if (scanner.hasNextInt()) {
+                                                    productTypeChoice = scanner.nextInt();
 
-                                                switch (productTypeChoice) {
-                                                    case 1:
-                                                        m1.addEarring();
-                                                        break;
-                                                    case 2:
-                                                        m1.addRing();
-                                                        break;
-                                                    default:
-                                                        System.out.println(
-                                                                "Invalid choice. Please select a menu item from 1 to 2.");
-                                                        break;
+                                                    switch (productTypeChoice) {
+                                                        case 1:
+                                                            m1.addEarring();
+                                                            break;
+                                                        case 2:
+                                                            m1.addRing();
+                                                            break;
+                                                        default:
+                                                            System.out.println(
+                                                                    "Invalid choice. Please select a menu item from 1 to 2.");
+                                                            break;
+                                                    }
+                                                } else {
+                                                    System.out.println("Invalid input. Please enter a number.");
+                                                    scanner.next(); // Clear the invalid input from the scanner
+                                                    productTypeChoice = 0; // Set to 0 to continue the loop
                                                 }
                                             } while (productTypeChoice < 1 || productTypeChoice > 2);
-                                            break;
+
                                         case 4:
                                             System.out.println("Choose product type:");
                                             System.out.println("1. Earrings");
