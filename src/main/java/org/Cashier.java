@@ -15,7 +15,7 @@ public class Cashier extends User {
     private static final String EARRINGS_FILE = "src/resources/json/Earringsproducts.json";
     private static final String RINGS_FILE = "src/resources/json/Ringsproducts.json";
     private static final String RECEIPT_FILE = "src/resources/json/receipt.json";
-    private static final String PAYMENT_AMOUNT = "paymentAmount";
+    private static final int MAX_PROMO_CODE_ATTEMPTS = 3;
     private static Scanner scanner = new Scanner(System.in);
 
     public Cashier(String userId, String username, String password, String firstName, String lastName) {
@@ -344,28 +344,81 @@ public class Cashier extends User {
 
     private static double getAmountReceived(double totalPrice) {
         double amountReceived;
-        int receiptId = generateReceiptId(); // ย้ายบรรทัดนี้ไปด้านบนเพื่อให้ generate receiptId ก่อนการป้อนจำนวนเงิน
+        int receiptId = generateReceiptId();
+
+        final int MAX_ATTEMPTS = 3;
+        final int MAX_PROMO_CODE_ATTEMPTS = 3;
+
+        int promoCodeAttempts = 0;
 
         do {
-
             try {
                 System.out.println("Total Price: " + totalPrice);
-                System.out.print("Enter the amount received from the customer: ");
-                amountReceived = Double.parseDouble(scanner.next());
 
-                if (amountReceived < totalPrice) {
-                    System.out.println("กรุณาจ่ายให้ครบทุกบาททุกสตางค์ครับ");
-                } else {
-                    // แสดงข้อมูลจาก receipt.json ที่มี receiptId ตรงกับ receiptId ของลูกค้า
-                    displayReceiptDetails(receiptId);
-                    break;
+                if (promoCodeAttempts < MAX_PROMO_CODE_ATTEMPTS) {
+                    System.out.print("Do you want to use Promotion Code (Type 'N' to exit, 'Y' to continue): ");
+                    String usepromo = scanner.next();
+
+                    if (usepromo.equalsIgnoreCase("Y")) {
+                        boolean validPromoCode = false;
+
+                        for (int attempt = 1; attempt <= MAX_PROMO_CODE_ATTEMPTS; attempt++) {
+                            System.out.print("Enter Promotion Code (Attempts remaining: "
+                                    + (MAX_PROMO_CODE_ATTEMPTS - attempt + 1) + "): ");
+                            String promotionCode = scanner.next();
+
+                            if (isValidPromotionCode(promotionCode)) {
+                                validPromoCode = true;
+                                break;
+                            } else {
+                                System.out.println("Invalid promotion code. Please try again.");
+                            }
+                        }
+
+                        if (validPromoCode) {
+                            double discount = 0.2;
+                            totalPrice -= totalPrice * discount;
+                            System.out.println("Promotion Code applied! Total Price after discount: " + totalPrice);
+                        }
+                    }
+                }
+
+                while (true) {
+                    System.out.print("Enter the amount received from the customer: ");
+                    amountReceived = Double.parseDouble(scanner.next());
+
+                    if (amountReceived < totalPrice) {
+                        System.out.println(
+                                "Amount received must be equal to or greater than the total price. Please try again.");
+                    } else {
+                        displayReceiptDetails(receiptId);
+                        return amountReceived;
+                    }
                 }
             } catch (NumberFormatException e) {
-                System.out.println("จำนวนเงินเป็นเลขฮะ");
+                System.out.println("Invalid input. Please enter a valid number.");
             }
-        } while (true);
 
-        return amountReceived;
+        } while (true);
+    }
+
+    private static boolean isValidPromotionCode(String inputCode) {
+        try {
+            JSONArray promotionCodes = readJSONArrayFromFile("src/resources/json/promotionCode.json");
+            for (Object obj : promotionCodes) {
+                JSONObject promoCode = (JSONObject) obj;
+                // Check if 'code' key exists and is not null before calling toString()
+                if (promoCode.containsKey("code") && promoCode.get("code") != null) {
+                    String code = promoCode.get("code").toString();
+                    if (code.equals(inputCode)) {
+                        return true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error reading promotion codes: " + e.getMessage());
+        }
+        return false;
     }
 
     private static double calculateTotalPrice(JSONArray selectedProducts) {

@@ -15,7 +15,6 @@ public class genPromocode {
         try {
             String promotionCode = genPromotionCode(); // แก้ตรงนี้เป็น generatePromotionCode()
             savePromotionCodeToFile(promotionCode);
-            System.out.println("Promotion Code generated and saved successfully: " + promotionCode);
             return promotionCode; // เพิ่มบรรทัดนี้เพื่อส่งค่า promotionCode กลับ
         } catch (IOException e) {
             System.out.println("Error generating or saving Promotion Code: " + e.getMessage());
