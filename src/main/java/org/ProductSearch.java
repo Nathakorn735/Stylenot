@@ -13,7 +13,7 @@ public class ProductSearch {
 
     private String productID;
 
-    public void searchProductByID(String productID, String productFile) {
+    public boolean searchProductByID(String productID, String productFile) {
         this.productID = productID;
         try {
             JSONArray productsArray = readJSONArrayFromFile(productFile);
@@ -22,13 +22,14 @@ public class ProductSearch {
                 JSONObject product = (JSONObject) obj;
                 if (product.get("productID").equals(productID)) {
                     displayProductDetails(product);
-                    return;
+                    return true;
                 }
             }
 
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
         }
+        return false;
     }
 
     private JSONArray readJSONArrayFromFile(String filePath) throws Exception {
@@ -40,28 +41,15 @@ public class ProductSearch {
 
     private void displayProductDetails(JSONObject product) {
         printTableHeader();
-    
+
         // Check if the product matches the searched productID
         if (product.get("productID").equals(productID)) {
             displayProductRow(product);
         } else {
             System.out.println("Product not found with ID: " + productID);
         }
-    
-        printTableFooter();
-    }
-    
 
-    private void displayProductDetailsFromJsonArray(String filePath) {
-        try {
-            JSONArray jsonArray = readJSONArrayFromFile(filePath);
-            for (Object obj : jsonArray) {
-                JSONObject product = (JSONObject) obj;
-                displayProductRow(product);
-            }
-        } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
-        }
+        printTableFooter();
     }
 
     private void displayProductRow(JSONObject product) {
