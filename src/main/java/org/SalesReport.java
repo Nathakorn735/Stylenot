@@ -3,99 +3,91 @@ package main.java.org;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class SalesReport {
     private static final String RECEIPT_FILE = "src/resources/json/receipt.json";
+    private static final Scanner scanner = new Scanner(System.in);
 
     public SalesReport() {
 
     }
 
     public void showReceiptData() {
+        System.out.print("Enter the date (yyyy-MM-dd) or month (yyyy-MM) or year (yyyy) to show sales data: ");
+        String inputDate = scanner.nextLine();
+
         try {
-            // อ่านข้อมูลจากไฟล์ JSON
-            JSONArray receipts = readJsonFile(RECEIPT_FILE);
+            JSONArray receipts = readJSONArrayFromFile(RECEIPT_FILE);
 
-            // เรียกใช้เมธอดแสดงข้อมูล receipt
-            displayReceiptData(receipts);
-        } catch (Exception e) {
-            System.out.println("An error occurred while showing the receipt data: " + e.getMessage());
-        }
-    }
+            double totalAmount = 0.0;
+            Map<String, Integer> productQuantities = new HashMap<>();
+            Map<String, Double> productTotalPrices = new HashMap<>();
 
-    private JSONArray readJsonFile(String filePath) throws Exception {
-        JSONParser parser = new JSONParser();
-        try (FileReader reader = new FileReader(filePath)) {
-            return (JSONArray) parser.parse(reader);
-        }
-    }
+            for (Object obj : receipts) {
+                JSONObject receipt = (JSONObject) obj;
+                String receiptDate = receipt.get("year") + "-" + receipt.get("month") + "-" + receipt.get("day");
 
-    private void displayReceiptData(JSONArray receipts) {
-        double totalSales = 0;
+                if (receiptDate.startsWith(inputDate)) {
+                    JSONArray products = (JSONArray) receipt.get("products");
+                    for (Object productObj : products) {
+                        JSONObject product = (JSONObject) productObj;
+                        double totalPrice = Double.parseDouble(product.get("totalPrice").toString());
+                        int quantity = Integer.parseInt(product.get("quantity").toString());
+                        String productID = product.get("productID").toString();
 
-        // Map เพื่อเก็บยอด Quantity ของ Product ID แต่ละชิ้น
-        Map<String, Integer> productQuantityMap = new HashMap<>();
-        // Map เพื่อเก็บยอดขายตามวัน
-        Map<String, Double> dailySalesMap = new HashMap<>();
+                        totalAmount += totalPrice;
+                        
+                        // เพิ่มจำนวนสินค้าใน Map
+                        productQuantities.put(productID, productQuantities.getOrDefault(productID, 0) + quantity);
 
-        // แสดงข้อมูลทั้งหมดจาก receipts
-        for (Object receiptObj : receipts) {
-            JSONObject receipt = (JSONObject) receiptObj;
-            String date = (String) receipt.get("date");
-            System.out.println("Receipt ID: " + receipt.get("receiptId"));
-            System.out.println("Date: " + date);
-            System.out.println("Time: " + receipt.get("time"));
-            System.out.println("Total Price: " + receipt.get("totalPrice"));
-            System.out.println("Amount Received: " + receipt.get("amountReceived"));
-            System.out.println("Change: " + receipt.get("change"));
-
-            double receiptTotal = Double.parseDouble(receipt.get("totalPrice").toString());
-            totalSales += receiptTotal;
-
-            JSONArray products = (JSONArray) receipt.get("products");
-            System.out.println("Products:");
-
-            for (Object productObj : products) {
-                JSONObject product = (JSONObject) productObj;
-                String productID = (String) product.get("productID");
-                String productName = (String) product.get("productName");
-                int quantity = Integer.parseInt(product.get("quantity").toString());
-
-                // บันทึกหรือเพิ่ม Quantity ใน Map
-                productQuantityMap.put(productID, productQuantityMap.getOrDefault(productID, 0) + quantity);
-
-                System.out.println("  Product ID: " + productID);
-                System.out.println("  Product Name: " + productName);
-                System.out.println("  Quantity: " + quantity);
-                System.out.println("  Color: " + product.get("color"));
-                System.out.println("  Price: " + product.get("price"));
-                System.out.println("  Total Price: " + product.get("totalPrice"));
-                System.out.println();
+                        // เพิ่ม Total Price ของแต่ละสินค้า
+                        productTotalPrices.put(productID, productTotalPrices.getOrDefault(productID, 0.0) + totalPrice);
+                    }
+                }
             }
 
-            System.out.println("------------------------------");
+            
+            // แสดง Total Quantity และ Total Price ของแต่ละสินค้า
+            System.out.println(
+                "===============================================");
+            System.out.println("Total Quantity and Total Price for each product");
+            System.out.println(
+                "===============================================");
+            for (Map.Entry<String, Integer> entry : productQuantities.entrySet()) {
+                String productID = entry.getKey();
+                int totalQuantity = entry.getValue();
+                double totalProductPrice = productTotalPrices.get(productID);
 
-            // เพิ่มยอดขายลงใน Map ตามวัน
-            dailySalesMap.put(date, dailySalesMap.getOrDefault(date, 0.0) + receiptTotal);
+                System.out.println("Product ID: " + productID + ", Total Quantity: " + totalQuantity + ", Total Price: " + totalProductPrice);
+            }
+                        System.out.println(
+                "===============================================");
+            System.out.println("Total Amount: " + totalAmount);
+                        System.out.println(
+                "===============================================");
+        } catch (IOException | ParseException e) {
+            System.out.println("Error showing receipt data: " + e.getMessage());
         }
+    }
 
-        // แสดง Product ID Summary ตามวัน
-        System.out.println("Product ID Summary:");
-        for (Map.Entry<String, Integer> entry : productQuantityMap.entrySet()) {
-            System.out.println("  Date: " + entry.getKey() + ", Product ID: " + entry.getValue());
+    private static JSONArray readJSONArrayFromFile(String filePath) throws IOException, ParseException {
+        JSONParser jsonParser = new JSONParser();
+        try (FileReader reader = new FileReader(filePath)) {
+            return (JSONArray) jsonParser.parse(reader);
         }
+    }
 
-        // แสดง Total Sales ตามวัน
-        System.out.println("Daily Sales Summary:");
-        for (Map.Entry<String, Double> entry : dailySalesMap.entrySet()) {
-            System.out.println("  Date: " + entry.getKey() + ", Total Sales: " + entry.getValue());
-        }
-
-        System.out.println("Total Sales: " + totalSales);
-        System.out.println("End of Receipt Data");
+    public static void main(String[] args) {
+        new SalesReport().showReceiptData();
+        scanner.close();
     }
 }
