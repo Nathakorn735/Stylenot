@@ -6,35 +6,42 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Receipt {
     private static final String RECEIPT_FILE = "src/resources/json/receipt.json";
     private static final Scanner scanner = new Scanner(System.in);
 
-    public void Receipt() {
-        System.out.print("Enter the date (yyyy-MM-dd) or month (yyyy-MM) or year (yyyy) to show sales data: ");
-        String inputDate = scanner.nextLine();
+    public void Receipts() {
+        char continueOption;
+        do {
+            System.out.print("Enter the date (yyyy-MM-dd) or month (yyyy-MM) or year (yyyy) to show sales data: ");
+            String inputDate = scanner.nextLine();
 
-        try {
-            JSONArray receipts = readJSONArrayFromFile(RECEIPT_FILE);
+            try {
+                JSONArray receipts = readJSONArrayFromFile(RECEIPT_FILE);
 
-            for (Object obj : receipts) {
-                JSONObject receipt = (JSONObject) obj;
-                String receiptDate = receipt.get("year") + "-" + receipt.get("month") + "-" + receipt.get("day");
+                for (Object obj : receipts) {
+                    JSONObject receipt = (JSONObject) obj;
+                    String receiptDate = receipt.get("year") + "-" + receipt.get("month") + "-" + receipt.get("day");
 
-                if (receiptDate.startsWith(inputDate)) {
-                    displayReceiptDetails(receipt);
+                    if (receiptDate.startsWith(inputDate)) {
+                        displayReceiptDetails(receipt);
+                    }
                 }
+
+            } catch (IOException | ParseException e) {
+                System.out.println("Error showing receipt data: " + e.getMessage());
             }
 
-        } catch (IOException | ParseException e) {
-            System.out.println("Error showing receipt data: " + e.getMessage());
-        }
+            System.out.print("Do you want to show receipts for another date? (y/n): ");
+            continueOption = scanner.next().charAt(0);
+            scanner.nextLine(); // consume newline character
+        } while (Character.toLowerCase(continueOption) == 'y');
     }
+
 
     private void displayReceiptDetails(JSONObject receipt) {
         System.out.println("========================");
@@ -69,7 +76,7 @@ public class Receipt {
     }
 
     public static void main(String[] args) {
-        new Receipt().Receipt();
+        new Receipt().Receipts();
         scanner.close();
     }
 }

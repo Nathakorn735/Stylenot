@@ -243,7 +243,7 @@ public class Login {
                                             break;
                                         case 6:
                                             Receipt Receipt = new Receipt();
-                                            Receipt.Receipt();
+                                            Receipt.Receipts();
                                             break;
                                         case 7:
                                             ps1.displaySortedPrices(EARRINGS_FILE);
