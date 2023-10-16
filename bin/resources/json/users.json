@@ -5,7 +5,7 @@
     "Username": "Kaen",
     "Password": "1",
     "Salary": 300000.0,
-    "Phone": "0873961801",
+    "EmpPhone": "0873961801",
     "Age": 20
   },
   {
@@ -14,7 +14,7 @@
     "Username": "Not",
     "Password": "1",
     "Salary": 300000.0,
-    "Phone": "0980525085",
+    "EmpPhone": "0980525085",
     "Age": 21
   },
   {
@@ -23,7 +23,7 @@
     "Username": "Peter",
     "Password": "1",
     "Salary": 15000.0,
-    "Phone": "0987654321",
+    "EmpPhone": "0987654321",
     "Age": 22
   },
   {
@@ -32,7 +32,7 @@
     "Username": "Mei",
     "Password": "1",
     "Salary": 12000.0,
-    "Phone": "0981234567",
+    "EmpPhone": "0981234567",
     "Age": 20
   }
 ]

@@ -200,7 +200,7 @@ public class Login {
                                 }
                             }
 
-                            updateLoginMovement(loggedInUser, loggedInEmpID, loggedInEmpName, "YourPhone");
+                            updateLoginMovement(loggedInUser, loggedInEmpID, loggedInEmpName);
 
                             System.out.println("Do you want to continue? (Y/N)");
                         } while (scanner.next().equalsIgnoreCase("Y"));
@@ -245,7 +245,7 @@ public class Login {
         return false; // No matching credentials found
     }
 
-    private static void updateLoginMovement(String username, String empID, String empName, String phone) {
+    private static void updateLoginMovement(String username, String empID, String empName) {
         try {
             JSONArray loginMovementArray;
             try (FileReader fileReader = new FileReader(LOGIN_MOVEMENT_FILE)) {
@@ -260,7 +260,6 @@ public class Login {
             loginMovementData.put("EmpID", empID);
             loginMovementData.put("Username", username);
             loginMovementData.put("EmpName", empName);
-            loginMovementData.put("Phone", phone);
             loginMovementData.put("LoginSequence", getNextLoginSequence());
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
