@@ -180,7 +180,6 @@ public class Cashier extends User {
                     System.out.println("Product added to the order.");
 
                     // Create the receipt with a placeholder amountReceived (0.0 for now)
-                    createReceipt(selectedProducts, 0.0);
 
                     System.out.print("Do you want to order another " + productType
                             + "? (Type 'N' to exit, 'Y' to continue): ");
