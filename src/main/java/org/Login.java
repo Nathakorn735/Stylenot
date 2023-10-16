@@ -24,7 +24,7 @@ public class Login {
         String loggedInEmpID = null;
         String loggedInUser = null;
         String loggedInEmpName = null;
-
+        
         boolean isAuthenticated = false;
         int attempts = 0;
 
@@ -50,12 +50,17 @@ public class Login {
                     JSONObject user = (JSONObject) obj;
                     String storedUsername = (String) user.get("Username");
                     String storedPassword = (String) user.get("Password");
-
+        
                     if (inputUsername.equals(storedUsername) && inputPassword.equals(storedPassword)) {
-                        updateLoginMovement(loggedInUser, loggedInEmpID, loggedInEmpName);
+                        // กำหนดค่าตัวแปรหลังจากตรวจสอบสำเร็จ
                         loggedInUser = storedUsername;
                         loggedInEmpID = (String) user.get("EmpID");
                         loggedInEmpName = (String) user.get("EmpName");
+        
+                        // เรียกใช้งานฟังก์ชัน updateLoginMovement หลังจากกำหนดค่า
+                        updateLoginMovement(loggedInUser, loggedInEmpID, loggedInEmpName);
+        
+                        // แสดงข้อความต้อนรับ
                         System.out.println();
                         System.out.println("Access Granted! Welcome, " + loggedInUser + "!");
                         System.out.println("Employee ID: " + loggedInEmpID);
