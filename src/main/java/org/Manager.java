@@ -82,10 +82,10 @@ public class Manager extends User {
         } catch (Exception e) {
             System.out.println("Error adding Earring: " + e.getMessage());
         } finally {
-            // Do not close the scanner here to avoid closing System.in
+
         }
 
-        // Display all products after exiting the loop
+
         displayAllProducts(EARRINGS_FILE);
     }
 
@@ -152,10 +152,10 @@ public class Manager extends User {
             System.out.println("Error adding Ring: " + e.getMessage());
 
         } finally {
-            // Do not close the scanner here to avoid closing System.in
+            
         }
 
-        // Display all products after exiting the loop
+
         displayAllProducts(RINGS_FILE);
     }
 
@@ -173,7 +173,7 @@ public class Manager extends User {
                 if (content.length() == 0) {
                     productsArray = new JSONArray();
                 } else {
-                    // Parse the content into JSONArray
+
                     productsArray = (JSONArray) new JSONParser().parse(content.toString());
                 }
             }
@@ -325,10 +325,10 @@ public class Manager extends User {
                 for (int i = 0; i < productsArray.size(); i++) {
                     JSONObject product = (JSONObject) productsArray.get(i);
                     if (product.get("productID").equals(productID)) {
-                        // Product found, display current details
+
                         displayProductDetails(product);
 
-                        // Prompt for new data
+
                         System.out.println("Enter new product name: ");
                         String newName = scanner.nextLine();
                         product.put("productName", newName);

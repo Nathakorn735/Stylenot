@@ -81,7 +81,6 @@ public class Cashier extends User {
                     JSONObject orderedProduct = createProduct(productID, quantity, color, price, productName, quantity);
                     selectedProducts.add(orderedProduct);
 
-                    // Remove the selected quantity from the stored items
                     updateStoredItems(productID, quantity, productType);
 
                     return true;
@@ -117,7 +116,7 @@ public class Cashier extends User {
                     } else {
                         System.out.println("Error updating stored items: Insufficient quantity.");
                     }
-                    break; // Stop searching once the product is found and updated
+                    break;
                 }
             }
 
@@ -218,9 +217,6 @@ public class Cashier extends User {
                     }
 
                     System.out.println("Product added to the order.");
-
-                    // Create the receipt with a placeholder amountReceived (0.0 for now)
-
                     System.out.print("Do you want to order another " + productType
                             + "? (Type 'N' to exit, 'Y' to continue): ");
                     String userInput = scanner.next();
@@ -248,7 +244,6 @@ public class Cashier extends User {
             JSONObject receipt = new JSONObject();
             receipt.put("receiptId", receiptId);
 
-            // Split the date into day, month, and year
             String[] currentDateParts = getCurrentDate().split("-");
             receipt.put("day", currentDateParts[2]);
             receipt.put("month", currentDateParts[1]);
@@ -279,9 +274,9 @@ public class Cashier extends User {
                 totalPrice += totalProductPrice;
             }
             double discountAmount = 0.0;
-            // Check if a promotion code is applied
+
             if (promotionCode != null && isValidPromotionCode(promotionCode)) {
-                double discount = 0.2; // Adjust the discount percentage as needed
+                double discount = 0.2; 
                 discountAmount = totalPrice * discount;
                 totalPrice -= discountAmount;
                 receipt.put("discountAmount", discountAmount);
@@ -349,7 +344,7 @@ public class Cashier extends User {
 
                     System.out.println(
                             "============================================================================================================================");
-                    break; // หลังจากแสดงข้อมูลแล้วออกจากลูป
+                    break;
                 }
             }
         } catch (Exception e) {
@@ -380,7 +375,7 @@ public class Cashier extends User {
             int quantity = Integer.parseInt(product.get("quantity").toString());
             double totalPrice = price * quantity;
 
-            // เปลี่ยน productID.get("productID") เป็น product.get("productID")
+        
             System.out.format("| %-10s | %-40s | %-10s | %-15s | %-10s | %-10s |\n", product.get("productID"),
                     product.get("productName"),
                     product.get("color"),
@@ -416,7 +411,7 @@ public class Cashier extends User {
             } while (true);
         } catch (Exception e) {
             System.out.println("Error getting amount received: " + e.getMessage());
-            return 0.0; // ควรทำการ handle และรีเทิร์นค่าที่เหมาะสม
+            return 0.0; 
         }
     }
 

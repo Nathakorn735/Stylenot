@@ -52,15 +52,14 @@ public class Login {
                     String storedPassword = (String) user.get("Password");
 
                     if (inputUsername.equals(storedUsername) && inputPassword.equals(storedPassword)) {
-                        // กำหนดค่าตัวแปรหลังจากตรวจสอบสำเร็จ
+
                         loggedInUser = storedUsername;
                         loggedInEmpID = (String) user.get("EmpID");
                         loggedInEmpName = (String) user.get("EmpName");
 
-                        // เรียกใช้งานฟังก์ชัน updateLoginMovement หลังจากกำหนดค่า
+
                         updateLoginMovement(loggedInUser, loggedInEmpID, loggedInEmpName);
 
-                        // แสดงข้อความต้อนรับ
                         System.out.println();
                         System.out.println("Access Granted! Welcome, " + loggedInUser + "!");
                         System.out.println("Employee ID: " + loggedInEmpID);
@@ -97,9 +96,9 @@ public class Login {
                                         System.out.println(" ");
                                         System.out.println("กรุณากรอกตัวเลขเท่านั้นครับ");
                                         System.out.println(" ");
-                                        scanner.nextLine(); // เพื่อล้างคิวอาร์เรย์ของ Scanner
-                                                            // จากตัวหลังค่าที่ถูกใส่เข้ามา
-                                        continue; // เริ่มลูปใหม่
+                                        scanner.nextLine();
+                                                           
+                                        continue; 
                                     }
 
                                     switch (choice) {
@@ -134,7 +133,7 @@ public class Login {
                                                                 "No matching product found for the entered productID.");
                                                     }
 
-                                                    // ถามผู้ใช้ว่าต้องการค้นหาต่อหรือไม่
+
                                                     System.out.println("Do you want to search again? (Y/N): ");
                                                     String continueSearch = scanner.next();
 
@@ -177,8 +176,8 @@ public class Login {
                                                     }
                                                 } else {
                                                     System.out.println("Invalid input. Please enter a number.");
-                                                    scanner.next(); // Clear the invalid input from the scanner
-                                                    productTypeChoice = 0; // Set to 0 to continue the loop
+                                                    scanner.next(); 
+                                                    productTypeChoice = 0; 
                                                 }
                                             } while (productTypeChoice < 1 || productTypeChoice > 2);
 
@@ -209,8 +208,8 @@ public class Login {
                                                     }
                                                 } else {
                                                     System.out.println("Invalid input. Please enter a number.");
-                                                    scanner.next(); // Clear the invalid input from the scanner
-                                                    productTypeChoice = 0; // Set to 0 to continue the loop
+                                                    scanner.next(); 
+                                                    productTypeChoice = 0; 
                                                 }
                                             } while (productTypeChoice < 1 || productTypeChoice > 2);
                                             break;
@@ -243,8 +242,8 @@ public class Login {
                                                     }
                                                 } else {
                                                     System.out.println("Invalid input. Please enter a number.");
-                                                    scanner.next(); // Clear the invalid input from the scanner
-                                                    productTypeChoice = 0; // Set to 0 to continue the loop
+                                                    scanner.next(); 
+                                                    productTypeChoice = 0; 
                                                 }
                                             } while (productTypeChoice < 1 || productTypeChoice > 2);
                                             break;
@@ -273,7 +272,7 @@ public class Login {
                                                         return;
                                                 }
 
-                                                // Display the sorted prices based on user's choice
+                                                
                                                 ps1.displaySortedPrices(productFile);
 
                                                 System.out
@@ -297,7 +296,7 @@ public class Login {
                                             System.out
                                                     .println("Invalid choice. Please select a menu item from 1 to 8.");
                                             System.out.println(" ");
-                                            continue; // เริ่มลูปใหม่
+                                            continue; 
                                     }
 
                                     break;
@@ -360,7 +359,7 @@ public class Login {
                         } else if (option == 2) {
                             System.out.println("Cashier Logout...");
                         }
-                        break; // Exit the main loop when the user is authenticated
+                        break; 
                     }
                 }
             } else {
@@ -389,10 +388,10 @@ public class Login {
             String storedPassword = (String) user.get("Password");
 
             if (username.equals(storedUsername) && password.equals(storedPassword)) {
-                return true; // Matching credentials found
+                return true;
             }
         }
-        return false; // No matching credentials found
+        return false; 
     }
 
     private static void updateLoginMovement(String username, String empID, String empName) {

@@ -10,7 +10,7 @@ public class Rings extends Product {
 
     public void viewMenuRings() {
         try {
-            // อ่านข้อมูลจากไฟล์ Ringsproducts.json
+
             JSONArray ringsArray = readJSONArrayFromFile("src/resources/json/Ringsproducts.json");
 
             System.out.println("Rings Products Menu:");
@@ -25,7 +25,7 @@ public class Rings extends Product {
         }
     }
 
-    // คัดลอกเมธอดนี้จาก Earring class
+
     private static void displayProductList(JSONArray jsonArray) {
         for (Object obj : jsonArray) {
             JSONObject product = (JSONObject) obj;
@@ -36,7 +36,6 @@ public class Rings extends Product {
         }
     }
 
-    // คัดลอกเมธอดนี้จาก Earring class
     private static JSONArray readJSONArrayFromFile(String filename) throws Exception {
         JSONArray jsonArray;
         try (FileReader fileReader = new FileReader(filename)) {

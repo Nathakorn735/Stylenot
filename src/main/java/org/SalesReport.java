@@ -28,9 +28,9 @@ public class SalesReport {
                 System.out.print("Enter the date (yyyy-MM-dd) or month (yyyy-MM) or year (yyyy) to show sales data: ");
                 inputDate = scanner.nextLine();
 
-                // ตรวจสอบว่า inputDate เป็นตัวเลขหรือมีรูปแบบที่ถูกต้อง (รับ - ได้)
+
                 if (inputDate.matches("\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}|\\d+")) {
-                    // ถ้าเป็นรูปแบบที่ถูกต้องให้ทำงานต่อ
+
                     break;
                 } else {
                     System.out.println("Invalid input. Please enter a valid date format (yyyy-MM-dd) or a numeric value.");
@@ -58,16 +58,16 @@ public class SalesReport {
 
                             totalAmount += totalPrice;
 
-                            // เพิ่มจำนวนสินค้าใน Map
+
                             productQuantities.put(productID, productQuantities.getOrDefault(productID, 0) + quantity);
 
-                            // เพิ่ม Total Price ของแต่ละสินค้า
+
                             productTotalPrices.put(productID, productTotalPrices.getOrDefault(productID, 0.0) + totalPrice);
                         }
                     }
                 }
 
-                // แสดง Total Quantity และ Total Price ของแต่ละสินค้า
+
                 System.out.println(
                         "===============================================");
                 System.out.println("Total Quantity and Total Price for each product");

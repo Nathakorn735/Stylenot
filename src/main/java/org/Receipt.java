@@ -22,9 +22,9 @@ public class Receipt {
                 System.out.print("Enter the date (yyyy-MM-dd) or month (yyyy-MM) or year (yyyy) to show sales data: ");
                 inputDate = scanner.nextLine();
 
-                // ตรวจสอบว่า inputDate เป็นตัวเลขหรือมีรูปแบบที่ถูกต้อง (รับ - ได้)
+
                 if (inputDate.matches("\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}|\\d+")) {
-                    // ถ้าเป็นรูปแบบที่ถูกต้องให้ทำงานต่อ
+
                     break;
                 } else {
                     System.out.println("Invalid input. Please enter a valid date format (yyyy-MM-dd) or a numeric value.");
@@ -55,7 +55,7 @@ public class Receipt {
 
             System.out.print("Do you want to show receipts for another date? (y/n): ");
             continueOption = scanner.next().charAt(0);
-            scanner.nextLine(); // consume newline character
+            scanner.nextLine(); 
         } while (Character.toLowerCase(continueOption) == 'y');
     }
 
