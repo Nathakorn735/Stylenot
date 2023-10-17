@@ -115,7 +115,7 @@ public class ProductSearch {
 
         while (!validInput) {
             try {
-                System.out.println("How do you want to display prices?");
+                System.out.println("How do you want Sorting?");
                 System.out.println("1. Ascending order (from low to high)");
                 System.out.println("2. Descending order (from high to low)");
 

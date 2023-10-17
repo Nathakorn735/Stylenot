@@ -86,7 +86,7 @@ public class Login {
                                     System.out.println("4. Delete Menu");
                                     System.out.println("5. Edit Menu");
                                     System.out.println("6. Receipt");
-                                    System.out.println("7. เรียงราคาสินค้าจากน้อยไปมาก");
+                                    System.out.println("7. Sorting");
                                     System.out.println("8. SalesReport");
 
                                     int choice = 0;
