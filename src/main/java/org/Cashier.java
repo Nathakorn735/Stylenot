@@ -81,6 +81,9 @@ public class Cashier extends User {
                     JSONObject orderedProduct = createProduct(productID, quantity, color, price, productName, quantity);
                     selectedProducts.add(orderedProduct);
 
+                    // Remove the selected quantity from the stored items
+                    updateStoredItems(productID, quantity, productType);
+
                     return true;
                 } else {
                     System.out.println("Insufficient quantity to order for ProductID " + productID);
@@ -89,6 +92,41 @@ public class Cashier extends User {
             }
         }
         return false;
+    }
+
+    private static void updateStoredItems(String productID, int quantity, String productType) {
+        try {
+            String productFile;
+            if ("Earrings".equalsIgnoreCase(productType)) {
+                productFile = EARRINGS_FILE;
+            } else if ("Rings".equalsIgnoreCase(productType)) {
+                productFile = RINGS_FILE;
+            } else {
+                System.out.println("Invalid product type");
+                return;
+            }
+
+            JSONArray productsArray = readJSONArrayFromFile(productFile);
+
+            for (Object obj : productsArray) {
+                JSONObject product = (JSONObject) obj;
+                if (product.get("productID").equals(productID)) {
+                    int storedItem = Integer.parseInt(product.get("storedItem").toString());
+                    if (storedItem >= quantity) {
+                        product.put("storedItem", storedItem - quantity);
+                    } else {
+                        System.out.println("Error updating stored items: Insufficient quantity.");
+                    }
+                    break; // Stop searching once the product is found and updated
+                }
+            }
+
+            try (FileWriter fileWriter = new FileWriter(productFile)) {
+                fileWriter.write(productsArray.toJSONString());
+            }
+        } catch (Exception e) {
+            System.out.println("Error updating stored items: " + e.getMessage());
+        }
     }
 
     private static JSONObject getProductDetails(String productID) {
@@ -186,9 +224,6 @@ public class Cashier extends User {
                     System.out.print("Do you want to order another " + productType
                             + "? (Type 'N' to exit, 'Y' to continue): ");
                     String userInput = scanner.next();
-
-                    genPromocode genpromp = new genPromocode();
-                    promotionCode = genpromp.generatePromotionCode();
 
                     if (userInput.equalsIgnoreCase("N")) {
 
@@ -311,9 +346,7 @@ public class Cashier extends User {
                         System.out.println("Discount Amount: " + discountAmount);
                         System.out.println("Total Price after discount: " + totalPrice);
                     }
-                    if (promotionCode != null) {
-                        System.out.println("Promotion Code: " + promotionCode);
-                    }
+
                     System.out.println(
                             "============================================================================================================================");
                     break; // หลังจากแสดงข้อมูลแล้วออกจากลูป
@@ -367,34 +400,6 @@ public class Cashier extends User {
                 try {
                     System.out.println("Total Price: " + totalPrice);
 
-                    if (promoCodeAttempts < MAX_PROMO_CODE_ATTEMPTS) {
-                        System.out.print("Do you want to use Promotion Code (Type 'N' to exit, 'Y' to continue): ");
-                        String usePromo = scanner.next();
-
-                        if (usePromo.equalsIgnoreCase("Y")) {
-                            boolean validPromoCode = false;
-
-                            for (int attempt = 1; attempt <= MAX_PROMO_CODE_ATTEMPTS; attempt++) {
-                                System.out.print("Enter Promotion Code (Attempts remaining: "
-                                        + (MAX_PROMO_CODE_ATTEMPTS - attempt + 1) + "): ");
-                                String promotionCode = scanner.next();
-
-                                if (isValidPromotionCode(promotionCode)) {
-                                    validPromoCode = true;
-                                    break;
-                                } else {
-                                    System.out.println("Invalid promotion code. Please try again.");
-                                }
-                            }
-
-                            if (validPromoCode) {
-                                double discount = 0.2; // Adjust the discount percentage as needed
-                                totalPrice -= totalPrice * discount;
-                                System.out.println("Promotion Code applied! Total Price after discount: " + totalPrice);
-                            }
-                        }
-                    }
-
                     while (true) {
                         System.out.print("Enter the amount received from the customer: ");
                         amountReceived = Double.parseDouble(scanner.next());
@@ -431,31 +436,6 @@ public class Cashier extends User {
             System.out.println("Error reading promotion codes: " + e.getMessage());
         }
         return false;
-    }
-
-    private static void removeUsedPromoCode(String promotionCode) {
-        try {
-            JSONArray promotionCodes = readJSONArrayFromFile(PROMOCODE_FILE);
-            JSONArray updatedPromoCodes = new JSONArray();
-
-            for (Object obj : promotionCodes) {
-                JSONObject promoCode = (JSONObject) obj;
-                if (!promoCode.containsKey("promotionCode") || promoCode.get("promotionCode") == null) {
-                    continue;
-                }
-
-                String code = promoCode.get("promotionCode").toString();
-                if (!code.equals(promotionCode)) {
-                    updatedPromoCodes.add(promoCode);
-                }
-            }
-
-            try (FileWriter fileWriter = new FileWriter(PROMOCODE_FILE)) {
-                fileWriter.write(updatedPromoCodes.toJSONString());
-            }
-        } catch (Exception e) {
-            System.out.println("Error removing used promo code: " + e.getMessage());
-        }
     }
 
     private static double calculateTotalPrice(JSONArray selectedProducts) {
