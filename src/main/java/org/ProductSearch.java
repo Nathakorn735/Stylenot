@@ -8,10 +8,16 @@ import java.io.FileReader;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Scanner;
 
 public class ProductSearch {
 
     private String productID;
+    private Scanner scanner; // เพิ่ม Scanner
+
+    public ProductSearch() {
+        this.scanner = new Scanner(System.in); // กำหนด Scanner
+    }
 
     public boolean searchProductByID(String productID, String productFile) {
         this.productID = productID;
@@ -80,8 +86,16 @@ public class ProductSearch {
             // Convert JSONArray to a list for sorting
             List<JSONObject> productList = (List<JSONObject>) productsArray;
 
+            // Ask the user for sorting order
+            boolean ascendingOrder = getUserSortingOrder();
+
             // Sort the list based on the "price" property
             Collections.sort(productList, Comparator.comparing(product -> (Double) product.get("price")));
+
+            // If the order is descending, reverse the list
+            if (!ascendingOrder) {
+                Collections.reverse(productList);
+            }
 
             // Display the sorted prices
             printTableHeader();
@@ -93,6 +107,37 @@ public class ProductSearch {
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
         }
+    }
+
+    private boolean getUserSortingOrder() {
+        boolean validInput = false;
+        boolean ascendingOrder = true; // Default order
+
+        while (!validInput) {
+            try {
+                System.out.println("How do you want to display prices?");
+                System.out.println("1. Ascending order (from low to high)");
+                System.out.println("2. Descending order (from high to low)");
+
+                int choice = scanner.nextInt();
+
+                // Check if the choice is 1 or 2
+                if (choice == 1) {
+                    ascendingOrder = true;
+                    validInput = true;
+                } else if (choice == 2) {
+                    ascendingOrder = false;
+                    validInput = true;
+                } else {
+                    System.out.println("Invalid choice. Please enter 1 or 2.");
+                }
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number (1 or 2).");
+                scanner.next(); // Clear the buffer
+            }
+        }
+
+        return ascendingOrder;
     }
 
     private void displayProductPrice(JSONObject product) {
