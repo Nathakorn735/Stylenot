@@ -15,6 +15,7 @@ public class Cashier extends User {
     private static final String EARRINGS_FILE = "src/resources/json/Earringsproducts.json";
     private static final String RINGS_FILE = "src/resources/json/Ringsproducts.json";
     private static final String RECEIPT_FILE = "src/resources/json/receipt.json";
+    private static final String PROMOCODE_FILE = "src/resources/json/promotionCode.json";
     private static final int MAX_PROMO_CODE_ATTEMPTS = 3;
     private static Scanner scanner = new Scanner(System.in);
 
@@ -242,6 +243,14 @@ public class Cashier extends User {
 
                 totalPrice += totalProductPrice;
             }
+            double discountAmount = 0.0;
+            // Check if a promotion code is applied
+            if (promotionCode != null && isValidPromotionCode(promotionCode)) {
+                double discount = 0.2; // Adjust the discount percentage as needed
+                discountAmount = totalPrice * discount;
+                totalPrice -= discountAmount;
+                receipt.put("discountAmount", discountAmount);
+            }
 
             receipt.put("products", productsArray);
             receipt.put("totalPrice", totalPrice);
@@ -254,15 +263,15 @@ public class Cashier extends User {
 
             System.out.println("Receipt created successfully!");
 
-            // แสดงข้อมูล receipt ที่ถูกสร้าง
-            displayReceiptDetails(receiptId);
-            System.out.println("Promotion Code: " + promotionCode);
+            displayReceiptDetails(receiptId, discountAmount, totalPrice, promotionCode);
+
         } catch (Exception e) {
             System.out.println("Error creating receipt: " + e.getMessage());
         }
     }
 
-    private static void displayReceiptDetails(int receiptId) {
+    private static void displayReceiptDetails(int receiptId, double discountAmount, double totalPrice,
+            String promotionCode) {
         try {
             JSONArray receipts = readJSONArrayFromFile(RECEIPT_FILE);
             for (Object obj : receipts) {
@@ -298,6 +307,13 @@ public class Cashier extends User {
                     System.out.println("Total Price: " + receipt.get("totalPrice"));
                     System.out.println("Amount Received: " + receipt.get("amountReceived"));
                     System.out.println("Change: " + receipt.get("change"));
+                    if (discountAmount > 0) {
+                        System.out.println("Discount Amount: " + discountAmount);
+                        System.out.println("Total Price after discount: " + totalPrice);
+                    }
+                    if (promotionCode != null) {
+                        System.out.println("Promotion Code: " + promotionCode);
+                    }
                     System.out.println(
                             "============================================================================================================================");
                     break; // หลังจากแสดงข้อมูลแล้วออกจากลูป
@@ -343,73 +359,69 @@ public class Cashier extends User {
     }
 
     private static double getAmountReceived(double totalPrice) {
-        double amountReceived;
-        int receiptId = generateReceiptId();
+        try {
+            int promoCodeAttempts = 0;
+            double amountReceived = 0.0;
 
-        final int MAX_ATTEMPTS = 3;
-        final int MAX_PROMO_CODE_ATTEMPTS = 3;
+            do {
+                try {
+                    System.out.println("Total Price: " + totalPrice);
 
-        int promoCodeAttempts = 0;
+                    if (promoCodeAttempts < MAX_PROMO_CODE_ATTEMPTS) {
+                        System.out.print("Do you want to use Promotion Code (Type 'N' to exit, 'Y' to continue): ");
+                        String usePromo = scanner.next();
 
-        do {
-            try {
-                System.out.println("Total Price: " + totalPrice);
+                        if (usePromo.equalsIgnoreCase("Y")) {
+                            boolean validPromoCode = false;
 
-                if (promoCodeAttempts < MAX_PROMO_CODE_ATTEMPTS) {
-                    System.out.print("Do you want to use Promotion Code (Type 'N' to exit, 'Y' to continue): ");
-                    String usepromo = scanner.next();
+                            for (int attempt = 1; attempt <= MAX_PROMO_CODE_ATTEMPTS; attempt++) {
+                                System.out.print("Enter Promotion Code (Attempts remaining: "
+                                        + (MAX_PROMO_CODE_ATTEMPTS - attempt + 1) + "): ");
+                                String promotionCode = scanner.next();
 
-                    if (usepromo.equalsIgnoreCase("Y")) {
-                        boolean validPromoCode = false;
+                                if (isValidPromotionCode(promotionCode)) {
+                                    validPromoCode = true;
+                                    break;
+                                } else {
+                                    System.out.println("Invalid promotion code. Please try again.");
+                                }
+                            }
 
-                        for (int attempt = 1; attempt <= MAX_PROMO_CODE_ATTEMPTS; attempt++) {
-                            System.out.print("Enter Promotion Code (Attempts remaining: "
-                                    + (MAX_PROMO_CODE_ATTEMPTS - attempt + 1) + "): ");
-                            String promotionCode = scanner.next();
-
-                            if (isValidPromotionCode(promotionCode)) {
-                                validPromoCode = true;
-                                break;
-                            } else {
-                                System.out.println("Invalid promotion code. Please try again.");
+                            if (validPromoCode) {
+                                double discount = 0.2; // Adjust the discount percentage as needed
+                                totalPrice -= totalPrice * discount;
+                                System.out.println("Promotion Code applied! Total Price after discount: " + totalPrice);
                             }
                         }
-
-                        if (validPromoCode) {
-                            double discount = 0.2;
-                            totalPrice -= totalPrice * discount;
-                            System.out.println("Promotion Code applied! Total Price after discount: " + totalPrice);
-                        }
                     }
-                }
 
-                while (true) {
-                    System.out.print("Enter the amount received from the customer: ");
-                    amountReceived = Double.parseDouble(scanner.next());
+                    while (true) {
+                        System.out.print("Enter the amount received from the customer: ");
+                        amountReceived = Double.parseDouble(scanner.next());
 
-                    if (amountReceived < totalPrice) {
-                        System.out.println(
-                                "Amount received must be equal to or greater than the total price. Please try again.");
-                    } else {
-                        displayReceiptDetails(receiptId);
+                        if (promoCodeAttempts > 0) {
+                            System.out.println("Discounted Total Price: " + totalPrice);
+                        }
+
                         return amountReceived;
                     }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a valid number.");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid number.");
-            }
-
-        } while (true);
+            } while (true);
+        } catch (Exception e) {
+            System.out.println("Error getting amount received: " + e.getMessage());
+            return 0.0; // ควรทำการ handle และรีเทิร์นค่าที่เหมาะสม
+        }
     }
 
     private static boolean isValidPromotionCode(String inputCode) {
         try {
-            JSONArray promotionCodes = readJSONArrayFromFile("src/resources/json/promotionCode.json");
+            JSONArray promotionCodes = readJSONArrayFromFile(PROMOCODE_FILE);
             for (Object obj : promotionCodes) {
                 JSONObject promoCode = (JSONObject) obj;
-                // Check if 'code' key exists and is not null before calling toString()
-                if (promoCode.containsKey("code") && promoCode.get("code") != null) {
-                    String code = promoCode.get("code").toString();
+                if (promoCode.containsKey("promotionCode") && promoCode.get("promotionCode") != null) {
+                    String code = promoCode.get("promotionCode").toString();
                     if (code.equals(inputCode)) {
                         return true;
                     }
@@ -419,6 +431,31 @@ public class Cashier extends User {
             System.out.println("Error reading promotion codes: " + e.getMessage());
         }
         return false;
+    }
+
+    private static void removeUsedPromoCode(String promotionCode) {
+        try {
+            JSONArray promotionCodes = readJSONArrayFromFile(PROMOCODE_FILE);
+            JSONArray updatedPromoCodes = new JSONArray();
+
+            for (Object obj : promotionCodes) {
+                JSONObject promoCode = (JSONObject) obj;
+                if (!promoCode.containsKey("promotionCode") || promoCode.get("promotionCode") == null) {
+                    continue;
+                }
+
+                String code = promoCode.get("promotionCode").toString();
+                if (!code.equals(promotionCode)) {
+                    updatedPromoCodes.add(promoCode);
+                }
+            }
+
+            try (FileWriter fileWriter = new FileWriter(PROMOCODE_FILE)) {
+                fileWriter.write(updatedPromoCodes.toJSONString());
+            }
+        } catch (Exception e) {
+            System.out.println("Error removing used promo code: " + e.getMessage());
+        }
     }
 
     private static double calculateTotalPrice(JSONArray selectedProducts) {
