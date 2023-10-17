@@ -337,7 +337,7 @@ public class Manager extends User {
                         String newColor = scanner.nextLine();
                         product.put("color", newColor);
 
-                        System.out.println("Enter new price per side: ");
+                        System.out.println("Enter new price: ");
                         double newPrice = scanner.nextDouble();
                         product.put("price", newPrice);
 
