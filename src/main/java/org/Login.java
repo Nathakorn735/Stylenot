@@ -252,28 +252,32 @@ public class Login {
                                             Receipt.Receipts();
                                             break;
                                         case 7:
+                                            do {
+                                                System.out.println("Choose the product type:");
+                                                System.out.println("1. Earrings");
+                                                System.out.println("2. Rings");
 
-                                            System.out.println("Choose the product type:");
-                                            System.out.println("1. Earrings");
-                                            System.out.println("2. Rings");
+                                                int productType = scanner.nextInt();
 
-                                            int productType = scanner.nextInt();
+                                                String productFile;
+                                                switch (productType) {
+                                                    case 1:
+                                                        productFile = EARRINGS_FILE;
+                                                        break;
+                                                    case 2:
+                                                        productFile = RINGS_FILE;
+                                                        break;
+                                                    default:
+                                                        System.out.println("Invalid choice. Exiting...");
+                                                        return;
+                                                }
 
-                                            String productFile;
-                                            switch (productType) {
-                                                case 1:
-                                                    productFile = EARRINGS_FILE;
-                                                    break;
-                                                case 2:
-                                                    productFile = RINGS_FILE;
-                                                    break;
-                                                default:
-                                                    System.out.println("Invalid choice. Exiting...");
-                                                    return;
-                                            }
+                                                // Display the sorted prices based on user's choice
+                                                ps1.displaySortedPrices(productFile);
 
-                                            // Display the sorted prices based on user's choice
-                                            ps1.displaySortedPrices(productFile);
+                                                System.out
+                                                        .println("Do you want to choose another product type? (Y/N): ");
+                                            } while (scanner.next().equalsIgnoreCase("Y"));
 
                                             break;
                                         case 8:
