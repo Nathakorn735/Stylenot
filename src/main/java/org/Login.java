@@ -252,8 +252,29 @@ public class Login {
                                             Receipt.Receipts();
                                             break;
                                         case 7:
-                                            ps1.displaySortedPrices(EARRINGS_FILE);
-                                            ps1.displaySortedPrices(RINGS_FILE);
+
+                                            System.out.println("Choose the product type:");
+                                            System.out.println("1. Earrings");
+                                            System.out.println("2. Rings");
+
+                                            int productType = scanner.nextInt();
+
+                                            String productFile;
+                                            switch (productType) {
+                                                case 1:
+                                                    productFile = EARRINGS_FILE;
+                                                    break;
+                                                case 2:
+                                                    productFile = RINGS_FILE;
+                                                    break;
+                                                default:
+                                                    System.out.println("Invalid choice. Exiting...");
+                                                    return;
+                                            }
+
+                                            // Display the sorted prices based on user's choice
+                                            ps1.displaySortedPrices(productFile);
+
                                             break;
                                         case 8:
                                             SalesReport salesReport = new SalesReport();
