@@ -262,7 +262,7 @@ public class Manager extends User {
                 } else {
                     saveJSONArrayToFile(ringsArray, RINGS_FILE);
                     System.out.println("Ring deleted successfully!");
-                    displayAllProducts(EARRINGS_FILE);
+                    displayAllProducts(RINGS_FILE);
                 }
 
                 System.out.print("Do you want to delete another ring? (Type 'N' to exit, 'Y' to continue): ");
