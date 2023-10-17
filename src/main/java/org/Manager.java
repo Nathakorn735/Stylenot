@@ -353,7 +353,8 @@ public class Manager extends User {
                 if (found) {
                     writeProducts(fileName, productsArray);
                     System.out.println("Product updated successfully!");
-                    displayAllProducts(EARRINGS_FILE);
+
+                    displayAllProducts(fileName);
 
                 } else {
                     System.out.println("Product not found.");
