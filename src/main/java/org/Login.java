@@ -131,8 +131,14 @@ public class Login {
                                                     if (!foundInEarrings && !foundInRings) {
                                                         System.out.println(
                                                                 "No matching product found for the entered productID.");
-                                                    } else {
-                                                        break; // ถ้าข้อมูลถูกต้อง ออกจากลูป
+                                                    }
+
+                                                    // ถามผู้ใช้ว่าต้องการค้นหาต่อหรือไม่
+                                                    System.out.println("Do you want to search again? (Y/N): ");
+                                                    String continueSearch = scanner.next();
+
+                                                    if (!continueSearch.equalsIgnoreCase("Y")) {
+                                                        break;
                                                     }
                                                 } else {
                                                     System.out.println(
@@ -253,9 +259,10 @@ public class Login {
                                             SalesReport salesReport = new SalesReport();
                                             salesReport.showReceiptData();
                                             break;
-                                            default:
+                                        default:
                                             System.out.println(" ");
-                                            System.out.println("Invalid choice. Please select a menu item from 1 to 8.");
+                                            System.out
+                                                    .println("Invalid choice. Please select a menu item from 1 to 8.");
                                             System.out.println(" ");
                                             continue; // เริ่มลูปใหม่
                                     }
@@ -294,9 +301,9 @@ public class Login {
                                         }
                                         break;
                                     case 3:
-                                            Receipt Receipt = new Receipt();
-                                            Receipt.Receipts();
-                                            break;
+                                        Receipt Receipt = new Receipt();
+                                        Receipt.Receipts();
+                                        break;
                                     default:
                                         System.out.println("Invalid choice, Please select a menu item from 1 to 3.");
                                 }
