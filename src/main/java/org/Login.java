@@ -88,6 +88,7 @@ public class Login {
                                     System.out.println("6. Receipt");
                                     System.out.println("7. Sorting");
                                     System.out.println("8. SalesReport");
+                                    System.out.println("9. Logout");
 
                                     int choice = 0;
                                     try {
@@ -284,6 +285,13 @@ public class Login {
                                             SalesReport salesReport = new SalesReport();
                                             salesReport.showReceiptData();
                                             break;
+                                        case 9:
+                                            isAuthenticated = false;
+                                            loggedInUser = null;
+                                            loggedInEmpID = null;
+                                            loggedInEmpName = null;
+                                            System.out.println("Logout successful. Returning to login page.");
+                                            break;
                                         default:
                                             System.out.println(" ");
                                             System.out
@@ -299,6 +307,7 @@ public class Login {
                                 System.out.println("1. View Menu");
                                 System.out.println("2. Order");
                                 System.out.println("3. Receipt");
+                                System.out.println("4. Logout");
 
                                 int choice = scanner.nextInt();
 
@@ -328,6 +337,13 @@ public class Login {
                                     case 3:
                                         Receipt Receipt = new Receipt();
                                         Receipt.Receipts();
+                                        break;
+                                    case 4:
+                                        isAuthenticated = false;
+                                        loggedInUser = null;
+                                        loggedInEmpID = null;
+                                        loggedInEmpName = null;
+                                        System.out.println("Logout successful. Returning to login page.");
                                         break;
                                     default:
                                         System.out.println("Invalid choice, Please select a menu item from 1 to 3.");
