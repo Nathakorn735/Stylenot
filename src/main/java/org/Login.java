@@ -294,8 +294,9 @@ public class Login {
                                         }
                                         break;
                                     case 3:
-                                        System.out.println("Not implemented yet");
-                                        break;
+                                            Receipt Receipt = new Receipt();
+                                            Receipt.Receipts();
+                                            break;
                                     default:
                                         System.out.println("Invalid choice, Please select a menu item from 1 to 3.");
                                 }
