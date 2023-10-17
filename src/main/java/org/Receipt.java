@@ -34,13 +34,13 @@ public class Receipt {
             try {
                 JSONArray receipts = readJSONArrayFromFile(RECEIPT_FILE);
 
-                boolean foundData = false; // เพิ่มตัวแปรนี้
+                boolean foundData = false;
                 for (Object obj : receipts) {
                     JSONObject receipt = (JSONObject) obj;
                     String receiptDate = receipt.get("year") + "-" + receipt.get("month") + "-" + receipt.get("day");
 
                     if (receiptDate.startsWith(inputDate)) {
-                        foundData = true; // ถ้ามีข้อมูลที่ตรงตามเงื่อนไข
+                        foundData = true;
                         displayReceiptDetails(receipt);
                     }
                 }
