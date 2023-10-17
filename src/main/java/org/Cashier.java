@@ -251,9 +251,6 @@ public class Cashier extends User {
                 totalPrice -= discountAmount;
                 receipt.put("discountAmount", discountAmount);
             }
-            if (promotionCode != null) {
-                removeUsedPromoCode(promotionCode);
-            }
 
             receipt.put("products", productsArray);
             receipt.put("totalPrice", totalPrice);
